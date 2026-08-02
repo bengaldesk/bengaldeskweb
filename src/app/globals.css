@@ -201,6 +201,16 @@
   transform: scale(1.06);
 }
 
+/* Hero section accent line shimmer */
+@keyframes accent-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.hero-accent-shimmer {
+  background-size: 200% 100%;
+  animation: accent-shimmer 3s ease-in-out infinite;
+}
+
 /* Ticker pulse dot */
 @keyframes ticker-pulse {
   0%, 100% {
