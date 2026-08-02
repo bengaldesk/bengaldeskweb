@@ -1,139 +1,150 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
-import { Clock, Eye, TrendingUp, ChevronRight } from 'lucide-react'
-import { getFeatured, getTrending, type NewsItem, type NewsCategory } from '@/lib/news-data'
+import { Clock, ChevronRight } from 'lucide-react'
+import { getFeatured, getLatest, type NewsItem, type NewsCategory } from '@/lib/news-data'
 import { relativeTimeBn, toBn } from '@/lib/bn'
-import { categoryColor, NEWS_CATEGORIES } from '@/lib/news-data'
+import { categoryColor } from '@/lib/news-data'
 import { NewsImage } from './news-image'
 import { cn } from '@/lib/utils'
 
-/* ─── Helpers ─── */
-const BN_NUM = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯']
-const toBnNum = (n: number) =>
-  String(n)
-    .split('')
-    .map((d) => BN_NUM[Number(d)])
-    .join('')
+/* ══════════════════════════════════════════════════════════
+   THE-HIND-STYLE 3-COLUMN EDITORIAL HERO
+   Left sidebar · Center hero · Right sidebar
+   ══════════════════════════════════════════════════════════ */
 
-/* ─── Accent Line ─── */
-function AccentLine() {
-  return <div className="h-[3px] w-full bg-gradient-to-r from-brand via-brand/80 to-brand/30" />
+/* ─── Category pill (small, uppercase, no bg) ─── */
+function CatLabel({ category }: { category: NewsCategory }) {
+  return (
+    <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-brand">
+      <span className={cn('inline-block h-1.5 w-1.5 rounded-full', categoryColor(category))} />
+      {category}
+    </span>
+  )
 }
 
-/* ─── Main Cinematic Hero ─── */
-function CinematicHero({ item }: { item: NewsItem }) {
+/* ─── Top accent line ─── */
+function AccentLine() {
+  return <div className="h-[3px] w-full bg-gradient-to-r from-brand via-brand/70 to-brand/20" />
+}
+
+/* ─── LEFT SIDEBAR: Vertical stack of horizontal cards ─── */
+function LeftSidebarCard({ item, isFirst }: { item: NewsItem; isFirst?: boolean }) {
   return (
-    <Link href={`/#${item.id}`} className="group relative block w-full">
-      {/* Image container — tall & cinematic */}
-      <div className="relative aspect-[16/9] w-full overflow-hidden md:aspect-[21/9] lg:aspect-[21/8]">
+    <Link
+      href={`/#${item.id}`}
+      className={cn(
+        'group flex gap-3.5',
+        isFirst ? 'pt-0' : 'pt-5 border-t border-border/40'
+      )}
+    >
+      {/* Thumbnail */}
+      <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md bg-muted sm:h-[88px] sm:w-[88px]">
         <NewsImage
           src={item.image}
           alt={item.title}
-          priority
-          sizes="100vw"
-          className="transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          sizes="96px"
+          className="transition-transform duration-500 ease-out group-hover:scale-105"
         />
+      </div>
 
-        {/* Multi-stop gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
-
-        {/* Content */}
-        <div className="absolute inset-0 flex flex-col justify-end">
-          <div className="mx-auto w-full max-w-7xl px-4 pb-8 sm:px-6 md:pb-12 lg:pb-14">
-            {/* Category + Live dot */}
-            <div className="flex items-center gap-2.5">
-              <span
-                className={cn(
-                  'inline-flex items-center rounded-sm px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-white',
-                  categoryColor(item.category)
-                )}
-              >
-                {item.category}
-              </span>
-              {item.trending && (
-                <span className="flex items-center gap-1.5 text-[11px] font-semibold text-amber-400">
-                  <TrendingUp className="h-3 w-3" />
-                  ট্রেন্ডিং
-                </span>
-              )}
-            </div>
-
-            {/* Headline */}
-            <h2 className="font-display mt-3 max-w-4xl text-balance text-2xl leading-tight text-white sm:text-3xl md:text-4xl lg:text-[2.75rem] lg:leading-[1.15]">
-              {item.title}
-            </h2>
-
-            {/* Excerpt */}
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/80 sm:mt-4 sm:text-base md:text-lg">
-              {item.excerpt}
-            </p>
-
-            {/* Meta row */}
-            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-white/70 sm:mt-5 sm:text-sm">
-              <span className="font-semibold text-white/90">{item.author}</span>
-              <span className="h-1 w-1 rounded-full bg-white/40" />
-              <span className="inline-flex items-center gap-1">
-                <Clock className="h-3 w-3" />
-                {relativeTimeBn(new Date(item.publishedAt))}
-              </span>
-              <span className="h-1 w-1 rounded-full bg-white/40" />
-              <span className="inline-flex items-center gap-1">
-                <Eye className="h-3 w-3" />
-                {toBn(item.views.toLocaleString('en-US'))} ভিউ
-              </span>
-              <span className="hidden sm:inline-flex items-center gap-1">
-                <span className="h-1 w-1 rounded-full bg-white/40" />
-                {toBn(item.readTime)} মিনিট পড়ুন
-              </span>
-            </div>
-          </div>
+      {/* Text */}
+      <div className="flex min-w-0 flex-col justify-center">
+        <CatLabel category={item.category} />
+        <h3 className="mt-1.5 line-clamp-2 text-[13px] font-bold leading-snug text-foreground transition-colors group-hover:text-brand sm:text-sm">
+          {item.title}
+        </h3>
+        <div className="mt-1.5 flex items-center gap-2 text-[11px] text-muted-foreground">
+          <Clock className="h-3 w-3" />
+          {relativeTimeBn(new Date(item.publishedAt))}
         </div>
       </div>
     </Link>
   )
 }
 
-/* ─── Grid Story Card (image + overlay) ─── */
-function GridStoryCard({
-  item,
-  className,
-}: {
-  item: NewsItem
-  className?: string
-}) {
+/* ─── CENTER: Big hero article ─── */
+function CenterHero({ item }: { item: NewsItem }) {
   return (
-    <Link
-      href={`/#${item.id}`}
-      className={cn('group relative block overflow-hidden', className)}
-    >
-      <div className="relative aspect-[16/10] w-full sm:aspect-[4/3]">
+    <Link href={`/#${item.id}`} className="group block">
+      {/* Big image */}
+      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-muted md:aspect-[16/9]">
         <NewsImage
           src={item.image}
           alt={item.title}
-          sizes="(max-width: 768px) 100vw, 33vw"
+          priority
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          className="transition-transform duration-600 ease-out group-hover:scale-[1.03]"
+        />
+        {/* Subtle bottom gradient for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+
+        {/* Trending badge on image */}
+        {item.trending && (
+          <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-brand/90 px-2.5 py-1 backdrop-blur-sm">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+            </span>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-white">
+              ট্রেন্ডিং
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Text below image */}
+      <div className="mt-4">
+        <CatLabel category={item.category} />
+        <h2 className="font-display mt-2 text-balance text-xl leading-tight text-foreground transition-colors group-hover:text-brand sm:text-2xl md:text-[1.75rem] md:leading-[1.25]">
+          {item.title}
+        </h2>
+        <p className="mt-2.5 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+          {item.excerpt}
+        </p>
+        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+          <span className="font-semibold text-foreground/80">{item.author}</span>
+          <span className="h-1 w-1 rounded-full bg-border" />
+          <span className="inline-flex items-center gap-1">
+            <Clock className="h-3 w-3" />
+            {relativeTimeBn(new Date(item.publishedAt))}
+          </span>
+          <span className="hidden sm:inline">
+            <span className="h-1 w-1 rounded-full bg-border" />
+            {' '}{toBn(item.readTime)} মিনিট পড়ুন
+          </span>
+        </div>
+      </div>
+    </Link>
+  )
+}
+
+/* ─── CENTER: Secondary article (highlighted card) ─── */
+function CenterSecondary({ item }: { item: NewsItem }) {
+  return (
+    <Link href={`/#${item.id}`} className="group flex gap-4 rounded-lg bg-secondary/60 p-3.5 transition-colors hover:bg-secondary sm:gap-5 sm:p-4">
+      {/* Image */}
+      <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-md bg-muted sm:h-28 sm:w-28">
+        <NewsImage
+          src={item.image}
+          alt={item.title}
+          sizes="128px"
           className="transition-transform duration-500 ease-out group-hover:scale-105"
         />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 p-3.5 sm:p-4">
-        <span
-          className={cn(
-            'inline-block rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white',
-            categoryColor(item.category)
-          )}
-        >
-          {item.category}
-        </span>
-        <h3 className="mt-2 line-clamp-2 text-sm font-bold leading-snug text-white sm:text-[15px]">
+      {/* Text */}
+      <div className="flex min-w-0 flex-col justify-center">
+        <CatLabel category={item.category} />
+        <h3 className="mt-1.5 line-clamp-2 text-sm font-bold leading-snug text-foreground transition-colors group-hover:text-brand sm:text-[15px]">
           {item.title}
         </h3>
-        <div className="mt-2 flex items-center gap-2 text-[11px] text-white/70">
+        <p className="mt-1 hidden line-clamp-2 text-xs leading-relaxed text-muted-foreground sm:block">
+          {item.excerpt}
+        </p>
+        <div className="mt-2 flex items-center gap-2 text-[11px] text-muted-foreground">
           <Clock className="h-3 w-3" />
           {relativeTimeBn(new Date(item.publishedAt))}
-          <span className="h-1 w-1 rounded-full bg-white/30" />
+          <span className="h-1 w-1 rounded-full bg-border" />
           {item.author}
         </div>
       </div>
@@ -141,125 +152,117 @@ function GridStoryCard({
   )
 }
 
-/* ─── Numbered Story Row ─── */
-function NumberedStory({
-  item,
-  index,
-}: {
-  item: NewsItem
-  index: number
-}) {
+/* ─── RIGHT SIDEBAR: Latest posts list ─── */
+function LatestSidebarItem({ item, isFirst }: { item: NewsItem; isFirst?: boolean }) {
   return (
     <Link
       href={`/#${item.id}`}
-      className="group flex gap-3.5 border-b border-border/50 py-4 first:pt-0 last:border-0"
+      className={cn(
+        'group flex gap-3',
+        isFirst ? 'pt-0' : 'pt-4 border-t border-border/30'
+      )}
     >
-      {/* Bengali numeral */}
-      <span className="shrink-0 font-display text-2xl font-bold text-brand/25 transition-colors group-hover:text-brand/50 sm:text-3xl">
-        {toBnNum(index)}
-      </span>
-      <div className="min-w-0 flex-1">
-        <span
-          className={cn(
-            'inline-block rounded-sm px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white',
-            categoryColor(item.category)
-          )}
-        >
-          {item.category}
-        </span>
-        <h3 className="mt-1.5 line-clamp-2 text-sm font-semibold leading-snug text-foreground transition-colors group-hover:text-brand sm:text-[15px]">
+      {/* Small square thumbnail */}
+      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded bg-muted">
+        <NewsImage
+          src={item.image}
+          alt={item.title}
+          sizes="64px"
+          className="transition-transform duration-500 ease-out group-hover:scale-105"
+        />
+      </div>
+      {/* Text */}
+      <div className="flex min-w-0 flex-1 flex-col justify-center">
+        <h4 className="line-clamp-2 text-[13px] font-semibold leading-snug text-foreground transition-colors group-hover:text-brand">
           {item.title}
-        </h3>
-        <div className="mt-1.5 flex items-center gap-2 text-[11px] text-muted-foreground">
-          <Clock className="h-3 w-3" />
+        </h4>
+        <div className="mt-1 flex items-center gap-1.5 text-[10px] text-muted-foreground">
+          <Clock className="h-2.5 w-2.5" />
           {relativeTimeBn(new Date(item.publishedAt))}
-          <span className="h-1 w-1 rounded-full bg-border" />
-          <Eye className="h-3 w-3" />
-          {toBn(item.views.toLocaleString('en-US'))}
         </div>
       </div>
     </Link>
   )
 }
 
-/* ─── Section Label ─── */
-function SectionLabel({ children, className }: { children: React.ReactNode; className?: string }) {
+/* ─── Sidebar section heading ─── */
+function SidebarHeading({ children }: { children: React.ReactNode }) {
   return (
-    <div className={cn('flex items-center gap-3', className)}>
-      <div className="h-5 w-1 rounded-full bg-brand" />
-      <h3 className="text-sm font-bold uppercase tracking-widest text-foreground/70">
-        {children}
-      </h3>
-    </div>
+    <h3 className="pb-3 text-xs font-extrabold uppercase tracking-[0.15em] text-foreground border-b-2 border-brand">
+      {children}
+    </h3>
   )
 }
 
-/* ══════════════════════════════════════════════════════════
-   MAIN HERO SECTION — International Editorial Layout
-   ══════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════ */
 export function HeroSection() {
   const featured = getFeatured()
   const [hero, ...secondary] = featured
-  const gridItems = secondary.slice(0, 3)
-  const trending = getTrending(5)
+  const leftItems = secondary.slice(0, 3)
 
-  // For the numbered list: deduplicate between secondary & trending stories
-  const seen = new Set<string>()
-  const numberedItems: NewsItem[] = []
-  for (const item of [...secondary, ...trending]) {
-    if (seen.has(item.id) || numberedItems.length >= 5) continue
-    seen.add(item.id)
-    numberedItems.push(item)
-  }
+  // Secondary highlighted article: pick first non-featured, non-hero item
+  const latestAll = getLatest(20)
+  const shownIds = new Set([hero?.id, ...leftItems.map(i => i.id)].filter(Boolean))
+  const secondaryHero = latestAll.find(i => !shownIds.has(i.id))
+
+  // Right sidebar: latest items excluding everything above
+  const sidebarIds = new Set([hero?.id, ...leftItems.map(i => i.id), secondaryHero?.id].filter(Boolean))
+  const sidebarItems = latestAll.filter(i => !sidebarIds.has(i.id)).slice(0, 6)
 
   return (
     <section>
       {/* Top accent line */}
       <AccentLine />
 
-      {/* ── Cinematic Full-Width Hero ── */}
-      {hero && <CinematicHero item={hero} />}
+      {/* ── 3-Column Editorial Grid ── */}
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 md:py-8">
+        <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
 
-      {/* ── Secondary Grid ── */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="border-b border-border/60 py-6 lg:py-8">
-          <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
-            {/* Left: Image grid */}
-            <div className="lg:col-span-8">
-              <SectionLabel className="mb-4">
-                আরও খবর
-              </SectionLabel>
-              <div className="grid gap-4 sm:grid-cols-2 lg:gap-5">
-                {gridItems.map((item) => (
-                  <GridStoryCard
-                    key={item.id}
-                    item={item}
-                    className="rounded-lg"
-                  />
-                ))}
-              </div>
+          {/* ─── LEFT SIDEBAR (3 cols) ─── */}
+          <aside className="lg:col-span-3">
+            <SidebarHeading>বিশেষ খবর</SidebarHeading>
+            <div className="mt-4 flex flex-col">
+              {leftItems.map((item, i) => (
+                <LeftSidebarCard key={item.id} item={item} isFirst={i === 0} />
+              ))}
             </div>
+          </aside>
 
-            {/* Right: Numbered trending list */}
-            <div className="lg:col-span-4">
-              <SectionLabel className="mb-4">
-                সর্বাধিক পঠিত
-              </SectionLabel>
-              <div className="rounded-lg border border-border/50 bg-card/50 p-4 sm:p-5">
-                {numberedItems.map((item, i) => (
-                  <NumberedStory key={item.id} item={item} index={i + 1} />
-                ))}
-                <Link
-                  href="/"
-                  className="mt-3 flex items-center gap-1.5 text-sm font-semibold text-brand transition-colors hover:text-brand/80"
-                >
-                  সব খবর দেখুন
-                  <ChevronRight className="h-4 w-4" />
-                </Link>
+          {/* ─── CENTER HERO (6 cols) ─── */}
+          <div className="lg:col-span-6">
+            {hero && <CenterHero item={hero} />}
+
+            {/* Secondary highlighted article */}
+            {secondaryHero && (
+              <div className="mt-6">
+                <CenterSecondary item={secondaryHero} />
               </div>
-            </div>
+            )}
           </div>
+
+          {/* ─── RIGHT SIDEBAR (3 cols) ─── */}
+          <aside className="lg:col-span-3">
+            <SidebarHeading>সর্বশেষ</SidebarHeading>
+            <div className="mt-4 flex flex-col">
+              {sidebarItems.map((item, i) => (
+                <LatestSidebarItem key={item.id} item={item} isFirst={i === 0} />
+              ))}
+            </div>
+            <Link
+              href="/"
+              className="mt-4 flex items-center justify-center gap-1 rounded-md border border-brand/30 py-2 text-xs font-bold uppercase tracking-wider text-brand transition-colors hover:bg-brand hover:text-brand-foreground"
+            >
+              আরও খবর
+              <ChevronRight className="h-3.5 w-3.5" />
+            </Link>
+          </aside>
+
         </div>
+      </div>
+
+      {/* Bottom separator */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="border-b border-border/40" />
       </div>
     </section>
   )
