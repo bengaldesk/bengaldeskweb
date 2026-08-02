@@ -52,3 +52,19 @@ prompt
 server.log
 # Skills directory
 /skills/
+# === Local environment & database ===
+.env
+.env.*
+!.env.example
+*.db
+*.db-journal
+prisma/*.db
+prisma/*.db-journal
+
+# === Debug screenshots & verification artifacts ===
+screenshot-*.png
+verify-*.png
+font-*.png
+
+# === Internal work log ===
+worklog.md
