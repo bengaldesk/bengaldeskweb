@@ -39,7 +39,7 @@ export function OpinionSection() {
                 <p className="text-xs text-muted-foreground">{op.role}</p>
               </div>
             </div>
-            <h3 className="mt-4 text-balance text-lg font-bold leading-snug transition-colors group-hover:text-brand">
+            <h3 className="font-display mt-4 text-balance text-lg leading-snug transition-colors group-hover:text-brand">
               {op.title}
             </h3>
             <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">

@@ -74,7 +74,7 @@ export function NewsCard({
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6">
           <CategoryBadge category={item.category} />
-          <h2 className="mt-2.5 text-balance text-2xl font-extrabold leading-tight text-white sm:text-3xl md:text-4xl">
+          <h2 className="font-display mt-2.5 text-balance text-2xl leading-tight text-white sm:text-3xl md:text-4xl">
             {item.title}
           </h2>
           <p className="mt-2 hidden max-w-3xl text-sm text-white/80 sm:line-clamp-2 sm:text-base">

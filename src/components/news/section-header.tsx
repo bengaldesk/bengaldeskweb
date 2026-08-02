@@ -18,7 +18,7 @@ export function SectionHeader({
     <div className={cn("flex items-end justify-between gap-3", className)}>
       <div className="flex items-center gap-2.5">
         <span className="h-6 w-1.5 rounded-sm bg-brand" aria-hidden />
-        <h2 className="text-xl font-extrabold tracking-tight sm:text-2xl">
+        <h2 className="font-display text-xl tracking-tight sm:text-2xl">
           {title}
         </h2>
         {accentText && (

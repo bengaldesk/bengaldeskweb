@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Noto_Sans_Bengali } from "next/font/google";
+import { Geist, Geist_Mono, Hind_Siliguri, Noto_Serif_Bengali } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -14,10 +14,19 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const notoBn = Noto_Sans_Bengali({
-  variable: "--font-noto-bn",
+// Primary Bengali body/UI font — highly legible, widely used in Bengali news sites.
+const hindSiliguri = Hind_Siliguri({
+  variable: "--font-hind",
+  subsets: ["bengali", "latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
+// Editorial serif for headlines — adds authority & "newspaper" reliability.
+const notoSerifBn = Noto_Serif_Bengali({
+  variable: "--font-serif-bn",
   subsets: ["bengali"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -51,10 +60,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="bn" suppressHydrationWarning>
-      <body
-        className={`${notoBn.variable} ${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
-      >
+    <html
+      lang="bn"
+      suppressHydrationWarning
+      className={`${hindSiliguri.variable} ${notoSerifBn.variable} ${geistSans.variable} ${geistMono.variable}`}
+    >
+      <body className="antialiased bg-background text-foreground">
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

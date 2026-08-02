@@ -10,7 +10,7 @@ export function TrendingSidebar() {
     <aside className="rounded-xl border border-border/70 bg-card p-4 sm:p-5">
       <div className="mb-4 flex items-center gap-2 border-b border-border/70 pb-3">
         <Flame className="h-5 w-5 text-brand" />
-        <h2 className="text-lg font-extrabold tracking-tight">সর্বাধিক পঠিত</h2>
+        <h2 className="font-display text-lg tracking-tight">সর্বাধিক পঠিত</h2>
         <TrendingUp className="ml-auto h-4 w-4 text-muted-foreground" />
       </div>
       <ol className="flex flex-col">

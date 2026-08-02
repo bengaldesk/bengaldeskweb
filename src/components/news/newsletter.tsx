@@ -42,7 +42,7 @@ export function Newsletter() {
               <Mail className="h-3.5 w-3.5" />
               দৈনিক নিউজলেটার
             </div>
-            <h2 className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl">
+            <h2 className="font-display mt-3 text-2xl leading-tight sm:text-3xl">
               প্রতিদিনের গুরুত্বপূর্ণ খবর পান সরাসরি আপনার ইনবক্সে
             </h2>
             <p className="mt-2 max-w-md text-sm text-white/85">
