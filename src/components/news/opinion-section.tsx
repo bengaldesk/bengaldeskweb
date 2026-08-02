@@ -1,53 +1,52 @@
 import Link from 'next/link'
 import { OPINIONS } from '@/lib/news-data'
 import { relativeTimeBn } from '@/lib/bn'
-import { SectionHeader } from './section-header'
 import Image from 'next/image'
-import { Quote } from 'lucide-react'
 
 export function OpinionSection() {
   if (OPINIONS.length === 0) return null
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-      <SectionHeader
-        title="মতামত"
-        accentText="চিন্তা ও বিশ্লেষণ"
-        actionLabel="সব মতামত"
-        className="mb-5"
-      />
-      <div className="grid gap-5 md:grid-cols-3">
+    <section className='mx-auto max-w-7xl px-4 py-10 sm:px-6'>
+      {/* Section header */}
+      <div className='flex items-end justify-between pb-2.5 border-b-2 border-brand mb-6'>
+        <h2 className='text-[11px] font-bold uppercase tracking-[0.15em] text-foreground'>
+          মতামত
+        </h2>
+      </div>
+
+      <div className='flex flex-col'>
         {OPINIONS.map((op) => (
           <Link
             key={op.id}
             href={`/#${op.id}`}
-            className="group relative flex flex-col overflow-hidden rounded-xl border border-border/70 bg-card p-5 transition-colors hover:border-brand/40"
+            className='group flex gap-4 border-b border-border/40 py-5 first:pt-0 last:border-0'
           >
-            <Quote className="absolute right-4 top-4 h-8 w-8 text-brand/15" />
-            <div className="flex items-center gap-3">
-              <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-muted">
-                <Image
-                  src={op.avatar}
-                  alt={op.author}
-                  fill
-                  sizes="48px"
-                  className="object-cover"
-                />
-              </div>
-              <div>
-                <p className="font-bold leading-tight">{op.author}</p>
-                <p className="text-xs text-muted-foreground">{op.role}</p>
-              </div>
+            {/* Avatar */}
+            <div className='relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-muted'>
+              <Image
+                src={op.avatar}
+                alt={op.author}
+                fill
+                sizes='48px'
+                className='object-cover'
+              />
             </div>
-            <h3 className="font-display mt-4 text-balance text-lg leading-snug transition-colors group-hover:text-brand">
-              {op.title}
-            </h3>
-            <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">
-              {op.excerpt}
-            </p>
-            <p className="mt-3 text-[11px] text-muted-foreground">
-              {relativeTimeBn(new Date(op.publishedAt))}
-            </p>
+            <div className='flex min-w-0 flex-col justify-center'>
+              <div className='flex items-baseline gap-2'>
+                <span className='font-bold text-sm'>{op.author}</span>
+                <span className='text-[11px] text-muted-foreground'>{op.role}</span>
+              </div>
+              <h3 className='font-display mt-1 line-clamp-2 text-base leading-snug transition-colors group-hover:text-brand'>
+                {op.title}
+              </h3>
+              <p className='mt-1 line-clamp-2 text-sm text-muted-foreground'>
+                {op.excerpt}
+              </p>
+              <span className='mt-1 text-[11px] text-muted-foreground'>
+                {relativeTimeBn(new Date(op.publishedAt))}
+              </span>
+            </div>
           </Link>
         ))}
       </div>

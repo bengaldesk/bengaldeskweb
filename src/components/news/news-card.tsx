@@ -58,7 +58,7 @@ export function NewsCard({
       <Link
         href={href}
         className={cn(
-          "group relative block overflow-hidden rounded-xl bg-muted news-shadow",
+          "group relative block overflow-hidden rounded-none bg-muted",
           className
         )}
       >
@@ -97,33 +97,31 @@ export function NewsCard({
   }
 
   if (variant === "feature") {
+    // Flat: image on top (no rounded corners), category + title + excerpt + meta below
     return (
       <Link
         href={href}
-        className={cn(
-          "group flex flex-col overflow-hidden rounded-lg border border-border/70 bg-card transition-colors hover:border-brand/40",
-          className
-        )}
+        className={cn("group block", className)}
       >
-        <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
+        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-none bg-muted">
           <NewsImage
             src={item.image}
             alt={item.title}
-            sizes="(max-width: 640px) 50vw, 33vw"
+            sizes="(max-width: 640px) 100vw, 50vw"
             className="img-zoom"
           />
           <div className="absolute left-2 top-2">
             <CategoryBadge category={item.category} />
           </div>
         </div>
-        <div className="flex flex-1 flex-col p-3 sm:p-4">
+        <div className='mt-3'>
           <h3 className="text-balance text-base font-bold leading-snug tracking-tight transition-colors group-hover:text-brand sm:text-lg">
             <span className="line-clamp-2">{item.title}</span>
           </h3>
           <p className="mt-1.5 line-clamp-2 text-sm text-muted-foreground">
             {item.excerpt}
           </p>
-          <div className="mt-auto pt-3">
+          <div className="mt-2">
             <Meta item={item} />
           </div>
         </div>
@@ -132,15 +130,16 @@ export function NewsCard({
   }
 
   if (variant === "horizontal") {
+    // No hover background — just text color change on hover
     return (
       <Link
         href={href}
         className={cn(
-          "group flex gap-3 rounded-lg p-2 transition-colors hover:bg-muted/60",
+          "group flex gap-3 py-2 transition-colors",
           className
         )}
       >
-        <div className="relative aspect-square h-20 w-20 shrink-0 overflow-hidden rounded-md bg-muted sm:h-24 sm:w-24">
+        <div className="relative aspect-square h-20 w-20 shrink-0 overflow-hidden rounded-none bg-muted sm:h-24 sm:w-24">
           <NewsImage
             src={item.image}
             alt={item.title}
@@ -166,7 +165,7 @@ export function NewsCard({
       <Link
         href={href}
         className={cn(
-          "group relative block overflow-hidden rounded-lg bg-muted",
+          "group relative block overflow-hidden rounded-none bg-muted",
           className
         )}
       >
@@ -198,7 +197,7 @@ export function NewsCard({
     <Link
       href={href}
       className={cn(
-        "group flex flex-col gap-1.5 border-b border-border/70 py-3 last:border-0",
+        "group flex flex-col gap-1.5 border-b border-border/40 py-3 last:border-0",
         className
       )}
     >

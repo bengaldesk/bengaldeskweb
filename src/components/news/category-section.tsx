@@ -1,7 +1,8 @@
+import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { getByCategory, type NewsCategory } from '@/lib/news-data'
-import { NewsCard } from './news-card'
-import { SectionHeader } from './section-header'
+import { getByCategory, categoryColor, type NewsCategory } from '@/lib/news-data'
+import { relativeTimeBn } from '@/lib/bn'
+import { NewsImage } from './news-image'
 
 export function CategorySection({
   category,
@@ -16,24 +17,74 @@ export function CategorySection({
   const [lead, ...rest] = items
 
   return (
-    <section className={cn('mx-auto max-w-7xl px-4 py-6 sm:px-6', className)}>
-      <SectionHeader title={category} className="mb-5" />
-      <div className="grid gap-5 lg:grid-cols-12">
-        {/* Lead story */}
-        <div className="lg:col-span-6">
-          <NewsCard item={lead} variant="feature" className="h-full" />
+    <section className={cn('mx-auto max-w-7xl px-4 py-10 sm:px-6', className)}>
+      {/* Section header — The Hind style */}
+      <div className='flex items-end justify-between pb-2.5 border-b-2 border-brand mb-6'>
+        <h2 className='text-[11px] font-bold uppercase tracking-[0.15em] text-foreground'>
+          {category}
+        </h2>
+      </div>
+
+      {/* Lead story — big image + text below */}
+      <Link
+        href={`/#${lead.id}`}
+        className='group block mb-6'
+      >
+        <div className='relative aspect-[16/10] w-full overflow-hidden rounded-none bg-muted'>
+          <NewsImage
+            src={lead.image}
+            alt={lead.title}
+            sizes='(max-width: 1024px) 100vw, 100vw'
+            className='img-zoom'
+          />
         </div>
-        {/* List of the rest */}
-        <div className="grid gap-0 lg:col-span-6 lg:grid-cols-2">
-          {rest.map((item) => (
-            <NewsCard
-              key={item.id}
-              item={item}
-              variant="horizontal"
-              className="border-b border-border/60 last:border-0 sm:[&:nth-last-child(-n+1)]:border-0 lg:[&:nth-child(odd)]:border-r lg:[&:nth-child(odd)]:border-border/60 lg:[&:nth-child(odd)]:pr-4 lg:[&:nth-child(even)]:pl-4"
-            />
-          ))}
+        <div className='mt-3'>
+          <span className='flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider'>
+            <span className={cn('inline-block h-1.5 w-1.5 rounded-full', categoryColor(lead.category))} />
+            <span className='text-muted-foreground'>{lead.category}</span>
+          </span>
+          <h3 className='font-display mt-1.5 text-xl leading-snug tracking-tight transition-colors group-hover:text-brand sm:text-2xl'>
+            {lead.title}
+          </h3>
+          <p className='mt-1.5 line-clamp-2 text-sm text-muted-foreground'>
+            {lead.excerpt}
+          </p>
+          <span className='mt-1 inline-block text-[11px] text-muted-foreground'>
+            {relativeTimeBn(new Date(lead.publishedAt))}
+          </span>
         </div>
+      </Link>
+
+      {/* Remaining items — horizontal cards with border-b separators */}
+      <div>
+        {rest.map((item) => (
+          <Link
+            key={item.id}
+            href={`/#${item.id}`}
+            className='group flex gap-4 border-b border-border/40 py-4 first:pt-0 last:border-0'
+          >
+            <div className='relative aspect-square h-20 w-20 shrink-0 overflow-hidden rounded-none bg-muted sm:h-24 sm:w-24'>
+              <NewsImage
+                src={item.image}
+                alt={item.title}
+                sizes='96px'
+                className='img-zoom'
+              />
+            </div>
+            <div className='flex min-w-0 flex-col justify-center'>
+              <span className='flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider'>
+                <span className={cn('inline-block h-1.5 w-1.5 rounded-full', categoryColor(item.category))} />
+                <span className='text-muted-foreground'>{item.category}</span>
+              </span>
+              <h3 className='mt-1 line-clamp-2 text-sm font-semibold leading-snug transition-colors group-hover:text-brand sm:text-[15px]'>
+                {item.title}
+              </h3>
+              <span className='mt-1 text-[11px] text-muted-foreground'>
+                {relativeTimeBn(new Date(item.publishedAt))}
+              </span>
+            </div>
+          </Link>
+        ))}
       </div>
     </section>
   )

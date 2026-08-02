@@ -164,8 +164,8 @@
   .text-balance {
     text-wrap: balance;
   }
+  /* news-shadow intentionally left empty — no shadows in editorial style */
   .news-shadow {
-    box-shadow: 0 1px 2px oklch(0 0 0 / 0.06), 0 8px 24px -12px oklch(0 0 0 / 0.12);
   }
   .scrollbar-thin {
     scrollbar-width: thin;
@@ -198,7 +198,7 @@
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .group:hover .img-zoom {
-  transform: scale(1.06);
+  transform: scale(1.03);
 }
 
 /* Hero section accent line shimmer */
