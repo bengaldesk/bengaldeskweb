@@ -10,7 +10,7 @@ export function BreakingNewsTicker() {
   const duration = Math.max(28, BREAKING_NEWS.length * 6)
 
   return (
-    <div className="border-b border-border/70 bg-background">
+    <div className="hidden border-b border-border/70 bg-background sm:block">
       <div className="mx-auto flex max-w-7xl items-stretch px-4 sm:px-6">
         <div className="flex shrink-0 items-center gap-1.5 bg-brand px-3 py-2 text-white">
           <Zap className="h-4 w-4 ticker-dot" />

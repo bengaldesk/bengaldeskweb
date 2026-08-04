@@ -8,7 +8,7 @@ export function TrendingSidebar() {
   return (
     <div>
       <div className='mb-3 pb-2.5 border-b-2 border-brand'>
-        <h2 className='text-[11px] font-bold uppercase tracking-[0.15em] text-foreground'>
+        <h2 className='text-xl font-bold text-foreground'>
           সর্বাধিক পঠিত
         </h2>
       </div>
@@ -16,7 +16,7 @@ export function TrendingSidebar() {
         {items.map((item, i) => (
           <li key={item.id}>
             <Link
-              href={`/#${item.id}`}
+              href={`/news/${item.id}`}
               className='group flex gap-3 border-b border-border/40 py-3 last:border-0'
             >
               <span className='text-2xl font-extrabold leading-none text-brand/25 transition-colors group-hover:text-brand'>

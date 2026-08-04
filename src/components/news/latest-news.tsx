@@ -14,7 +14,7 @@ export function LatestNews() {
     <section className='mx-auto max-w-7xl px-4 py-8 sm:px-6'>
       {/* Section header — inline The Hind style */}
       <div className='flex items-end justify-between pb-2.5 border-b-2 border-brand mb-5'>
-        <h2 className='text-[11px] font-bold uppercase tracking-[0.15em] text-foreground'>
+        <h2 className='text-xl font-bold text-foreground'>
           সর্বশেষ খবর
         </h2>
       </div>
@@ -24,7 +24,7 @@ export function LatestNews() {
         {latest.map((item) => (
           <Link
             key={item.id}
-            href={`/#${item.id}`}
+            href={`/news/${item.id}`}
             className='group flex gap-3 border-b border-border/40 py-4 first:pt-0 lg:border-b-0 lg:border-r lg:border-border/40 lg:py-0 lg:px-4 lg:first:pl-0 lg:last:pr-0'
           >
             {/* Square thumbnail */}

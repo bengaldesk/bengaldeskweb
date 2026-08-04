@@ -30,6 +30,9 @@ const notoSerifBn = Noto_Serif_Bengali({
   display: "swap",
 });
 
+const BRAND_ICON_URL =
+  "https://res.cloudinary.com/dtdmwcs4r/image/upload/v1768092478/LOGO-white_backgraound_tbasop.png";
+
 export const metadata: Metadata = {
   title: "বার্তা | সর্বশেষ খবর, বিশ্লেষণ ও আরও অনেক কিছু",
   description:
@@ -46,11 +49,17 @@ export const metadata: Metadata = {
     "Bengali News",
   ],
   authors: [{ name: "বার্তা ডেস্ক" }],
+  icons: {
+    icon: BRAND_ICON_URL,
+    shortcut: BRAND_ICON_URL,
+    apple: BRAND_ICON_URL,
+  },
   openGraph: {
     title: "বার্তা | সর্বশেষ খবর",
     description: "বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদের নির্ভরযোগ্য উৎস।",
     siteName: "বার্তা",
     type: "website",
+    images: [{ url: BRAND_ICON_URL }],
   },
 };
 

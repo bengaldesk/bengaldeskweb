@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { Menu, Search, Radio } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -12,19 +13,21 @@ import {
   SheetClose,
 } from '@/components/ui/sheet'
 import { NEWS_CATEGORIES } from '@/lib/news-data'
+import { cn } from '@/lib/utils'
 
-function Logo() {
+const LOGO_URL = 'https://res.cloudinary.com/dtdmwcs4r/image/upload/v1784526258/Bengaldesklogo_vgd6pt.png'
+
+function Logo({ className }: { className?: string }) {
   return (
-    <Link href="/" className="flex items-baseline gap-1.5" aria-label="বার্তা হোম">
-      <span className="relative">
-        <span className="text-3xl font-extrabold tracking-tight text-brand sm:text-4xl">
-          বার্তা
-        </span>
-        <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-brand" />
-      </span>
-      <span className="hidden text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground sm:inline">
-        News
-      </span>
+    <Link href="/" className={cn('inline-flex items-center', className)} aria-label="বার্তা হোম">
+      <Image
+        src={LOGO_URL}
+        alt="বার্তা লোগো"
+        width={220}
+        height={64}
+        priority
+        className="h-auto w-[150px] object-contain transition-[filter] dark:brightness-0 dark:invert sm:w-[176px]"
+      />
     </Link>
   )
 }
@@ -34,7 +37,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6">
+      <div className="relative mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6">
         {/* Mobile menu */}
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
@@ -49,7 +52,13 @@ export function Header() {
           </SheetTrigger>
           <SheetContent side="left" className="w-[300px] p-0">
             <div className="flex h-16 items-center border-b px-5">
-              <span className="text-2xl font-extrabold text-brand">বার্তা</span>
+              <Image
+                src={LOGO_URL}
+                alt="বার্তা লোগো"
+                width={190}
+                height={56}
+                className="h-auto w-[132px] object-contain transition-[filter] dark:brightness-0 dark:invert sm:w-[150px]"
+              />
             </div>
             <nav className="flex flex-col p-2">
               <Link
@@ -75,7 +84,7 @@ export function Header() {
           </SheetContent>
         </Sheet>
 
-        <Logo />
+        <Logo className="absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0" />
 
         {/* Desktop nav */}
         <nav className="ml-4 hidden flex-1 items-center gap-0.5 lg:flex">

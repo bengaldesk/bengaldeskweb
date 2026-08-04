@@ -16,7 +16,7 @@ export function SectionHeader({
   return (
     <div className={cn('', className)}>
       <div className='flex items-end justify-between pb-2.5 border-b-2 border-brand'>
-        <h2 className='text-[11px] font-bold uppercase tracking-[0.15em] text-foreground'>
+        <h2 className='text-xl font-bold text-foreground'>
           {title}
         </h2>
         {onAction && (

@@ -51,7 +51,7 @@ export function NewsCard({
   className?: string;
   priority?: boolean;
 }) {
-  const href = `/#${item.id}`;
+  const href = `/news/${item.id}`;
 
   if (variant === "hero") {
     return (

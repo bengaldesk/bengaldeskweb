@@ -13,7 +13,7 @@ export function VideoSection() {
     <section className='mx-auto max-w-7xl px-4 py-10 sm:px-6'>
       {/* Section header */}
       <div className='flex items-end justify-between pb-2.5 border-b-2 border-brand mb-6'>
-        <h2 className='text-[11px] font-bold uppercase tracking-[0.15em] text-foreground'>
+        <h2 className='text-xl font-bold text-foreground'>
           ভিডিও
         </h2>
       </div>

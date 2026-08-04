@@ -1,15 +1,18 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { Facebook, Twitter, Youtube, Instagram, MapPin, Phone, Mail } from 'lucide-react'
 import { NEWS_CATEGORIES } from '@/lib/news-data'
 
 const QUICK_LINKS = [
   { label: 'প্রচ্ছদ', href: '/' },
-  { label: 'আমাদের সম্পর্কে', href: '/' },
-  { label: 'যোগাযোগ', href: '/' },
-  { label: 'বিজ্ঞাপন', href: '/' },
-  { label: 'কর্মসংস্থান', href: '/' },
-  { label: 'গোপনীয়তা নীতি', href: '/' },
+  { label: 'আমাদের সম্পর্কে', href: '/about' },
+  { label: 'যোগাযোগ', href: '/contact' },
+  { label: 'বিজ্ঞাপন', href: '#' },
+  { label: 'কর্মসংস্থান', href: '#' },
+  { label: 'গোপনীয়তা নীতি', href: '/privacy' },
 ]
+
+const LOGO_URL = 'https://res.cloudinary.com/dtdmwcs4r/image/upload/v1784526258/Bengaldesklogo_vgd6pt.png'
 
 const SOCIALS = [
   { icon: Facebook, label: 'Facebook', href: '#' },
@@ -25,13 +28,14 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div>
-            <Link href="/" className="flex items-baseline gap-1.5">
-              <span className="text-3xl font-extrabold tracking-tight text-brand">
-                বার্তা
-              </span>
-              <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                News
-              </span>
+            <Link href="/" className="inline-flex items-center">
+              <Image
+                src={LOGO_URL}
+                alt="বার্তা লোগো"
+                width={220}
+                height={64}
+                className="h-auto w-[158px] object-contain transition-[filter] dark:brightness-0 dark:invert"
+              />
             </Link>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদ, বিশ্লেষণ ও বিশেষ প্রতিবেদনের
@@ -120,13 +124,13 @@ export function Footer() {
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row">
           <p>© {new Date().getFullYear()} বার্তা নিউজ। সর্বস্বত্ব সংরক্ষিত।</p>
           <div className="flex items-center gap-4">
-            <Link href="/" className="hover:text-brand">
+            <Link href="/terms" className="hover:text-brand">
               ব্যবহারের শর্তাবলী
             </Link>
-            <Link href="/" className="hover:text-brand">
+            <Link href="/cookies" className="hover:text-brand">
               কুকিজ নীতি
             </Link>
-            <Link href="/" className="hover:text-brand">
+            <Link href="#" className="hover:text-brand">
               RSS
             </Link>
           </div>

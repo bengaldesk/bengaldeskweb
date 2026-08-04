@@ -6,6 +6,7 @@ import { getFeatured, getLatest, type NewsItem, type NewsCategory } from '@/lib/
 import { relativeTimeBn, toBn } from '@/lib/bn'
 import { categoryColor } from '@/lib/news-data'
 import { NewsImage } from './news-image'
+import { AdBox } from './ad-box'
 import { cn } from '@/lib/utils'
 
 /* ══════════════════════════════════════════════════════════
@@ -32,7 +33,7 @@ function AccentLine() {
 function LeftSidebarCard({ item, isFirst }: { item: NewsItem; isFirst?: boolean }) {
   return (
     <Link
-      href={`/#${item.id}`}
+      href={`/news/${item.id}`}
       className={cn(
         'group flex gap-3.5',
         isFirst ? 'pt-0' : 'pt-5 border-t border-border/40'
@@ -66,7 +67,7 @@ function LeftSidebarCard({ item, isFirst }: { item: NewsItem; isFirst?: boolean 
 /* ─── CENTER: Big hero article ─── */
 function CenterHero({ item }: { item: NewsItem }) {
   return (
-    <Link href={`/#${item.id}`} className="group block">
+    <Link href={`/news/${item.id}`} className="group block">
       {/* Big image */}
       <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-muted md:aspect-[16/9]">
         <NewsImage
@@ -122,7 +123,7 @@ function CenterHero({ item }: { item: NewsItem }) {
 /* ─── CENTER: Secondary article (highlighted card) ─── */
 function CenterSecondary({ item }: { item: NewsItem }) {
   return (
-    <Link href={`/#${item.id}`} className="group flex gap-4 rounded-lg bg-secondary/60 p-3.5 transition-colors hover:bg-secondary sm:gap-5 sm:p-4">
+    <Link href={`/news/${item.id}`} className="group flex gap-4 rounded-lg bg-secondary/60 p-3.5 transition-colors hover:bg-secondary sm:gap-5 sm:p-4">
       {/* Image */}
       <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-md bg-muted sm:h-28 sm:w-28">
         <NewsImage
@@ -156,7 +157,7 @@ function CenterSecondary({ item }: { item: NewsItem }) {
 function LatestSidebarItem({ item, isFirst }: { item: NewsItem; isFirst?: boolean }) {
   return (
     <Link
-      href={`/#${item.id}`}
+      href={`/news/${item.id}`}
       className={cn(
         'group flex gap-3',
         isFirst ? 'pt-0' : 'pt-4 border-t border-border/30'
@@ -196,18 +197,23 @@ function SidebarHeading({ children }: { children: React.ReactNode }) {
 
 /* ══════════════════════════════════════════════════════════ */
 export function HeroSection() {
-  const featured = getFeatured()
-  const [hero, ...secondary] = featured
-  const leftItems = secondary.slice(0, 3)
-
-  // Secondary highlighted article: pick first non-featured, non-hero item
   const latestAll = getLatest(20)
-  const shownIds = new Set([hero?.id, ...leftItems.map(i => i.id)].filter(Boolean))
-  const secondaryHero = latestAll.find(i => !shownIds.has(i.id))
+  const [hero, ...latestRest] = latestAll
+
+  const featured = getFeatured().filter((item) => item.id !== hero?.id)
+  const leftItems = featured.slice(0, 3)
+
+  // Secondary highlighted article: pick first latest item not shown in hero/left.
+  const shownIds = new Set([hero?.id, ...leftItems.map((i) => i.id)].filter(Boolean))
+  const secondaryHero = latestRest.find((i) => !shownIds.has(i.id))
 
   // Right sidebar: latest items excluding everything above
-  const sidebarIds = new Set([hero?.id, ...leftItems.map(i => i.id), secondaryHero?.id].filter(Boolean))
-  const sidebarItems = latestAll.filter(i => !sidebarIds.has(i.id)).slice(0, 6)
+  const sidebarIds = new Set([
+    hero?.id,
+    ...leftItems.map((i) => i.id),
+    secondaryHero?.id,
+  ].filter(Boolean))
+  const sidebarItems = latestRest.filter((i) => !sidebarIds.has(i.id)).slice(0, 6)
 
   return (
     <section>
@@ -220,7 +226,7 @@ export function HeroSection() {
 
           {/* ─── LEFT SIDEBAR (3 cols) ─── */}
           <aside className="lg:col-span-3">
-            <SidebarHeading>বিশেষ খবর</SidebarHeading>
+            <SidebarHeading>সদ্য পাওয়া</SidebarHeading>
             <div className="mt-4 flex flex-col">
               {leftItems.map((item, i) => (
                 <LeftSidebarCard key={item.id} item={item} isFirst={i === 0} />
@@ -255,6 +261,8 @@ export function HeroSection() {
               আরও খবর
               <ChevronRight className="h-3.5 w-3.5" />
             </Link>
+
+            <AdBox format="rectangle" className="mt-8" />
           </aside>
 
         </div>

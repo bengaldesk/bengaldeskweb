@@ -20,14 +20,14 @@ export function CategorySection({
     <section className={cn('mx-auto max-w-7xl px-4 py-10 sm:px-6', className)}>
       {/* Section header — The Hind style */}
       <div className='flex items-end justify-between pb-2.5 border-b-2 border-brand mb-6'>
-        <h2 className='text-[11px] font-bold uppercase tracking-[0.15em] text-foreground'>
+        <h2 className='text-xl font-bold text-foreground'>
           {category}
         </h2>
       </div>
 
       {/* Lead story — big image + text below */}
       <Link
-        href={`/#${lead.id}`}
+        href={`/news/${lead.id}`}
         className='group block mb-6'
       >
         <div className='relative aspect-[16/10] w-full overflow-hidden rounded-none bg-muted'>
@@ -60,7 +60,7 @@ export function CategorySection({
         {rest.map((item) => (
           <Link
             key={item.id}
-            href={`/#${item.id}`}
+            href={`/news/${item.id}`}
             className='group flex gap-4 border-b border-border/40 py-4 first:pt-0 last:border-0'
           >
             <div className='relative aspect-square h-20 w-20 shrink-0 overflow-hidden rounded-none bg-muted sm:h-24 sm:w-24'>
