@@ -12,7 +12,7 @@ import {
   SheetTrigger,
   SheetClose,
 } from '@/components/ui/sheet'
-import { NEWS_CATEGORIES } from '@/lib/news-data'
+import { NEWS_CATEGORIES, getCategorySlug } from '@/lib/news-data'
 import { cn } from '@/lib/utils'
 
 const LOGO_URL = 'https://res.cloudinary.com/dtdmwcs4r/image/upload/v1784526258/Bengaldesklogo_vgd6pt.png'
@@ -72,7 +72,7 @@ export function Header() {
               {NEWS_CATEGORIES.map((c) => (
                 <SheetClose asChild key={c.label}>
                   <Link
-                    href="/"
+                    href={getCategorySlug(c.label)}
                     className="flex items-center gap-2.5 rounded-md px-3 py-2.5 font-medium text-foreground/90 hover:bg-muted"
                   >
                     <span className={`h-2 w-2 rounded-full ${c.color}`} />
@@ -97,7 +97,7 @@ export function Header() {
           {NEWS_CATEGORIES.map((c) => (
             <Link
               key={c.label}
-              href="/"
+              href={getCategorySlug(c.label)}
               className="rounded-md px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-muted hover:text-foreground"
             >
               {c.label}

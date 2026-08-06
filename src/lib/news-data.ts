@@ -75,6 +75,31 @@ const img = (seed: string, w = 800, h = 500) =>
 const hoursAgo = (h: number) => new Date(Date.now() - h * 3600 * 1000).toISOString();
 const minsAgo = (m: number) => new Date(Date.now() - m * 60 * 1000).toISOString();
 
+export const CATEGORY_SLUG_MAP: Record<NewsCategory, string> = {
+  "জাতীয়": "national",
+  "আন্তর্জাতিক": "international",
+  "রাজনীতি": "politics",
+  "খেলা": "sports",
+  "বিনোদন": "entertainment",
+  "প্রযুক্তি": "technology",
+  "স্বাস্থ্য": "health",
+  "লাইফস্টাইল": "lifestyle",
+  "অর্থনীতি": "economy",
+  "মতামত": "opinion",
+};
+
+export const SLUG_CATEGORY_MAP = Object.fromEntries(
+  Object.entries(CATEGORY_SLUG_MAP).map(([bn, en]) => [en, bn])
+) as Record<string, NewsCategory>;
+
+export const getCategorySlug = (cat: NewsCategory) =>
+  `/category/${CATEGORY_SLUG_MAP[cat]}`;
+
+export const getCategoryBySlug = (slug: string): NewsCategory | undefined =>
+  SLUG_CATEGORY_MAP[slug];
+
+export const ALL_CATEGORY_SLUGS = Object.values(CATEGORY_SLUG_MAP);
+
 export const NEWS_CATEGORIES: { label: NewsCategory; color: string }[] = [
   { label: "জাতীয়", color: "bg-red-600" },
   { label: "আন্তর্জাতিক", color: "bg-amber-600" },

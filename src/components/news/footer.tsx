@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Facebook, Twitter, Youtube, Instagram, MapPin, Phone, Mail } from 'lucide-react'
-import { NEWS_CATEGORIES } from '@/lib/news-data'
+import { NEWS_CATEGORIES, getCategorySlug } from '@/lib/news-data'
 
 const QUICK_LINKS = [
   { label: 'প্রচ্ছদ', href: '/' },
@@ -64,7 +64,7 @@ export function Footer() {
               {NEWS_CATEGORIES.map((c) => (
                 <li key={c.label}>
                   <Link
-                    href="/"
+                    href={getCategorySlug(c.label)}
                     className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-brand"
                   >
                     <span className={`h-1.5 w-1.5 rounded-full ${c.color}`} />
