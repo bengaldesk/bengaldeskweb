@@ -19,27 +19,27 @@ export function AdBox({ className, slot, format = 'horizontal' }: AdBoxProps) {
   return (
     <div
       className={cn(
-        'mx-auto my-8 flex items-center justify-center overflow-hidden rounded-sm bg-muted/50 border border-border/60 transition-colors hover:bg-muted/80',
+        'mx-auto flex items-center justify-center overflow-hidden rounded-lg bg-[#1E3A5F] transition-all hover:brightness-110',
         format === 'horizontal' && 'aspect-[3/1] w-full max-w-[728px] md:aspect-[8/1]',
         format === 'vertical' && 'aspect-[1/2] w-full max-w-[300px]',
         format === 'rectangle' && 'aspect-square w-full max-w-[300px]',
         className
       )}
     >
-      <div className="flex flex-col items-center gap-3 p-4 text-center">
-        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/40 mb-1">
+      <div className='flex flex-col items-center gap-2 p-4 text-center'>
+        <span className='text-[10px] font-bold uppercase tracking-[0.25em] text-white/40'>
           বিজ্ঞাপন
         </span>
-        
+
         <Image
           src={LOGO_URL}
-          alt="বার্তা"
+          alt='বার্তা'
           width={120}
           height={40}
-          className="h-auto w-24 opacity-20 grayscale brightness-0 dark:invert"
+          className='h-auto w-28 brightness-0 invert'
         />
-        
-        <div className="text-[11px] font-mono tracking-tighter text-muted-foreground/30 uppercase">
+
+        <div className='text-[11px] font-mono tracking-tighter text-white/25 uppercase'>
           {sizeLabel}
         </div>
       </div>
