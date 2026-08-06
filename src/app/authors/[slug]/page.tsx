@@ -21,8 +21,9 @@ export function generateStaticParams() {
   return getAuthors().map((author) => ({ slug: author.slug }))
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const author = getAuthorBySlug(params.slug)
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const author = getAuthorBySlug(slug)
 
   if (!author) {
     return { title: 'লেখক পাওয়া যায়নি | বার্তা' }
@@ -39,14 +40,15 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   }
 }
 
-export default function AuthorPage({ params }: { params: { slug: string } }) {
-  const author = getAuthorBySlug(params.slug)
+export default async function AuthorPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const author = getAuthorBySlug(slug)
   if (!author) notFound()
 
-  const newsItems = getNewsByAuthorSlug(params.slug)
+  const newsItems = getNewsByAuthorSlug(slug)
 
   return (
-    <div className='min-h-screen bg-background text-foreground'>
+    <div className='min-h-screen flex flex-col bg-page-bg text-foreground'>
       <Header />
 
       <main className='mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10'>

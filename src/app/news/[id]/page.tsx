@@ -2,8 +2,11 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, Clock, Eye } from 'lucide-react'
+import { TopBar } from '@/components/news/top-bar'
 import { Header } from '@/components/news/header'
+import { BreakingNewsTicker } from '@/components/news/breaking-ticker'
 import { Footer } from '@/components/news/footer'
+import { BottomNav } from '@/components/news/bottom-nav'
 import { NewsImage } from '@/components/news/news-image'
 import { CommentsSection } from '@/components/news/comments-section'
 import { AdBox } from '@/components/news/ad-box'
@@ -27,8 +30,9 @@ export function generateStaticParams() {
   return getLatest().map((item) => ({ id: item.id }))
 }
 
-export function generateMetadata({ params }: { params: { id: string } }): Metadata {
-  const article = getNewsById(params.id)
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
+  const article = getNewsById(id)
 
   if (!article) {
     return {
@@ -48,8 +52,9 @@ export function generateMetadata({ params }: { params: { id: string } }): Metada
   }
 }
 
-export default function NewsDetailsPage({ params }: { params: { id: string } }) {
-  const article = getNewsById(params.id)
+export default async function NewsDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const article = getNewsById(id)
   if (!article) notFound()
 
   const body = getNewsBody(article.id)
@@ -60,10 +65,12 @@ export default function NewsDetailsPage({ params }: { params: { id: string } }) 
     .slice(0, 4)
 
   return (
-    <div className='min-h-screen bg-background text-foreground'>
+    <div className='min-h-screen flex flex-col bg-page-bg text-foreground'>
+      <TopBar />
       <Header />
+      <BreakingNewsTicker />
 
-      <main className='mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10'>
+      <main className='flex-1 pb-safe mx-auto w-full max-w-4xl px-4 py-8 sm:px-6 sm:py-10'>
         <Link
           href='/'
           className='mb-6 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-brand'
@@ -216,6 +223,7 @@ export default function NewsDetailsPage({ params }: { params: { id: string } }) 
       </main>
 
       <Footer />
+      <BottomNav />
     </div>
   )
 }
