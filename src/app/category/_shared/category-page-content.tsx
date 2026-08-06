@@ -11,22 +11,31 @@ import { Header } from '@/components/news/header'
 import { BreakingNewsTicker } from '@/components/news/breaking-ticker'
 import { Newsletter } from '@/components/news/newsletter'
 import { Footer } from '@/components/news/footer'
+import { BottomNav } from '@/components/news/bottom-nav'
 import { Home, ChevronRight, Clock, Eye } from 'lucide-react'
 import { relativeTimeBn, toBn } from '@/lib/bn'
+import { NewsImage } from '@/components/news/news-image'
+import { cn } from '@/lib/utils'
 
 export function CategoryPageContent({ category }: { category: NewsCategory }) {
   const allNews = getByCategory(category)
   const color = categoryColor(category)
   const otherCategories = NEWS_CATEGORIES.filter((c) => c.label !== category)
 
+  // Featured lead story + rest
+  const [lead, ...rest] = allNews.length > 0
+    ? [allNews[0], ...allNews.slice(1)]
+    : [null, ...allNews]
+
   return (
-    <div className='flex min-h-screen flex-col bg-background'>
+    <div className='flex min-h-screen flex-col bg-page-bg'>
       <TopBar />
       <Header />
       <BreakingNewsTicker />
 
-      <nav aria-label='Breadcrumb' className='mx-auto max-w-7xl px-4 pt-4 sm:px-6'>
-        <ol className='flex items-center gap-1.5 text-sm text-muted-foreground'>
+      {/* Breadcrumb */}
+      <nav aria-label='Breadcrumb' className='bg-card'>
+        <ol className='mx-auto flex max-w-7xl items-center gap-1.5 px-4 py-3 text-sm text-muted-foreground sm:px-6'>
           <li>
             <Link href='/' className='inline-flex items-center gap-1 transition-colors hover:text-brand'>
               <Home className='h-3.5 w-3.5' />
@@ -38,7 +47,8 @@ export function CategoryPageContent({ category }: { category: NewsCategory }) {
         </ol>
       </nav>
 
-      <div className='border-b border-border'>
+      {/* Category tabs */}
+      <div className='border-b border-border bg-card'>
         <div className='mx-auto max-w-7xl px-4 sm:px-6'>
           <div className='scrollbar-hide -mx-4 flex items-center gap-1 overflow-x-auto px-4 sm:mx-0 sm:px-0'>
             {NEWS_CATEGORIES.map((c) => {
@@ -47,7 +57,12 @@ export function CategoryPageContent({ category }: { category: NewsCategory }) {
                 <Link
                   key={c.label}
                   href={`/category/${CATEGORY_SLUG_MAP[c.label]}`}
-                  className={`shrink-0 rounded-md px-3 py-2.5 text-sm font-medium transition-colors ${isActive ? `${c.color} text-white` : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}
+                  className={cn(
+                    'shrink-0 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors',
+                    isActive
+                      ? `${c.color} text-white`
+                      : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                  )}
                 >
                   {c.label}
                 </Link>
@@ -57,64 +72,114 @@ export function CategoryPageContent({ category }: { category: NewsCategory }) {
         </div>
       </div>
 
-      <main className='flex-1'>
+      <main className='flex-1 pb-safe'>
         <h1 className='sr-only'>{category} — বার্তা</h1>
 
         <div className='mx-auto max-w-7xl px-4 pt-6 sm:px-6'>
-          <div className='flex items-center gap-3 pb-3 border-b-2 border-brand'>
-            <span className={`inline-block h-4 w-1.5 rounded-full ${color}`} />
-            <h2 className='text-2xl font-bold text-foreground sm:text-3xl'>{category}</h2>
-            <span className='text-sm text-muted-foreground'>({toBn(String(allNews.length))} টি সংবাদ)</span>
+          {/* Category title */}
+          <div className='section-header'>
+            <h2 className='flex items-center gap-3'>
+              <span className={cn('inline-block h-4 w-1.5 rounded-full', color)} />
+              {category}
+              <span className='text-sm font-normal text-muted-foreground'>({toBn(String(allNews.length))} টি সংবাদ)</span>
+            </h2>
           </div>
-        </div>
 
-        <div className='mx-auto max-w-7xl px-4 pt-6 sm:px-6'>
-          {allNews.length > 0 ? (
-            <div className='divide-y divide-border/40'>
-              {allNews.map((item) => (
-                <Link key={item.id} href={`/news/${item.id}`} className='group flex gap-3 border-b border-border/40 py-3 transition-colors'>
-                  <div className='relative aspect-square h-20 w-20 shrink-0 overflow-hidden bg-muted sm:h-24 sm:w-24'>
-                    <img src={item.image} alt={item.title} className='h-full w-full object-cover' />
+          {/* Featured lead story */}
+          {lead && (
+            <Link
+              href={`/news/${lead.id}`}
+              className='group mt-4 block rounded-lg overflow-hidden bg-card news-card-hover'
+            >
+              <div className='relative aspect-[16/9] w-full overflow-hidden bg-muted sm:aspect-[16/10]'>
+                <NewsImage
+                  src={lead.image}
+                  alt={lead.title}
+                  sizes='(max-width: 1280px) 100vw, 1200px'
+                  className='img-zoom'
+                />
+                <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent' />
+                <div className='absolute inset-x-0 bottom-0 p-4 sm:p-5'>
+                  <h3 className='line-clamp-2 text-lg font-bold leading-snug text-white sm:text-xl'>
+                    {lead.title}
+                  </h3>
+                  <p className='mt-1 line-clamp-2 text-sm text-white/80'>{lead.excerpt}</p>
+                  <div className='mt-2 flex items-center gap-3 text-[11px] text-white/70'>
+                    <span className='inline-flex items-center gap-1'><Clock className='h-3 w-3' />{relativeTimeBn(new Date(lead.publishedAt))}</span>
+                    <span className='inline-flex items-center gap-1'><Eye className='h-3 w-3' />{toBn(lead.views.toLocaleString('en-US'))}</span>
                   </div>
-                  <div className='flex min-w-0 flex-col justify-center'>
-                    <h3 className='line-clamp-2 text-sm font-semibold leading-snug transition-colors group-hover:text-brand sm:text-[15px]'>{item.title}</h3>
-                    <div className='mt-1 flex flex-wrap items-center gap-x-3 text-[11px] text-muted-foreground'>
-                      <span className='inline-flex items-center gap-1'><Clock className='h-3 w-3' />{relativeTimeBn(new Date(item.publishedAt))}</span>
-                      <span className='inline-flex items-center gap-1'><Eye className='h-3 w-3' />{toBn(item.views.toLocaleString('en-US'))}</span>
+                </div>
+              </div>
+            </Link>
+          )}
+
+          {/* Rest of the news — 2-col grid on mobile, 3-col on desktop */}
+          {rest.length > 0 && (
+            <div className='mt-5 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3'>
+              {rest.map((item) => (
+                <Link
+                  key={item.id}
+                  href={`/news/${item.id}`}
+                  className='group block rounded-lg overflow-hidden bg-card news-card-hover'
+                >
+                  <div className='relative aspect-[16/10] w-full overflow-hidden bg-muted'>
+                    <NewsImage
+                      src={item.image}
+                      alt={item.title}
+                      sizes='(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 400px'
+                      className='img-zoom'
+                    />
+                  </div>
+                  <div className='p-3'>
+                    <h3 className='line-clamp-2 text-[13px] font-semibold leading-snug text-foreground transition-colors group-hover:text-brand sm:text-sm'>
+                      {item.title}
+                    </h3>
+                    <div className='mt-1.5 flex items-center gap-2 text-[10px] text-muted-foreground'>
+                      <span className='inline-flex items-center gap-1'><Clock className='h-2.5 w-2.5' />{relativeTimeBn(new Date(item.publishedAt))}</span>
                     </div>
                   </div>
                 </Link>
               ))}
             </div>
-          ) : (
-            <div className='py-12 text-center text-muted-foreground'>
-              <p className='text-lg'>এই বিভাগে এখনো কোনো খবর প্রকাশিত হয়নি</p>
-              <Link href='/' className='mt-2 inline-block text-sm font-medium text-brand hover:underline'>প্রচ্ছদে ফিরে যান</Link>
+          )}
+
+          {/* Empty state */}
+          {allNews.length === 0 && (
+            <div className='py-16 text-center'>
+              <p className='text-lg text-muted-foreground'>এই বিভাগে এখনো কোনো খবর প্রকাশিত হয়নি</p>
+              <Link href='/' className='mt-2 inline-block text-sm font-medium text-brand hover:underline'>
+                প্রচ্ছদে ফিরে যান
+              </Link>
             </div>
           )}
-        </div>
 
-        <div className='mx-auto max-w-7xl px-4 pb-12 pt-8'>
-          <div className='mb-3 pb-2.5 border-b-2 border-brand'>
-            <h2 className='text-xl font-bold text-foreground'>অন্যান্য বিভাগ</h2>
+          {/* Other categories */}
+          <div className='mt-10'>
+            <div className='section-header'>
+              <h2>অন্যান্য বিভাগ</h2>
+            </div>
+            <div className='flex flex-wrap gap-2'>
+              {otherCategories.map((c) => (
+                <Link
+                  key={c.label}
+                  href={`/category/${CATEGORY_SLUG_MAP[c.label]}`}
+                  className={cn(
+                    'inline-flex items-center rounded-full px-3.5 py-1.5 text-xs font-medium text-white transition-opacity hover:opacity-90',
+                    c.color
+                  )}
+                >
+                  {c.label}
+                </Link>
+              ))}
+            </div>
           </div>
-          <div className='flex flex-wrap gap-2'>
-            {otherCategories.map((c) => (
-              <Link
-                key={c.label}
-                href={`/category/${CATEGORY_SLUG_MAP[c.label]}`}
-                className={`inline-flex items-center rounded-full px-3 py-1.5 text-xs font-medium text-white transition-opacity hover:opacity-90 ${c.color}`}
-              >
-                {c.label}
-              </Link>
-            ))}
-          </div>
-        </div>
 
-        <Newsletter />
+          <Newsletter />
+        </div>
       </main>
 
       <Footer />
+      <BottomNav />
     </div>
   )
 }

@@ -5,6 +5,7 @@ import { CheckCircle2, BarChart3 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { getActivePoll, getPastPolls } from '@/lib/poll-data'
 import { formatBnDate, toBn } from '@/lib/bn'
+import { SectionHeader } from './section-header'
 
 type VoteStore = Record<string, Record<string, number>>
 type UserVoteStore = Record<string, string>
@@ -82,10 +83,8 @@ export function PollSection() {
   }
 
   return (
-    <section className='mx-auto max-w-7xl px-4 py-10 sm:px-6'>
-      <div className='flex items-end justify-between border-b-2 border-brand pb-2.5'>
-        <h2 className='text-xl font-bold text-foreground'>অনলাইন পোল</h2>
-      </div>
+    <section className='py-6 sm:py-8'>
+      <SectionHeader title='অনলাইন পোল' />
 
       <div className='mt-6 grid gap-6 lg:grid-cols-12'>
         <div className='rounded-xl border border-border/60 bg-secondary/25 p-5 lg:col-span-7'>

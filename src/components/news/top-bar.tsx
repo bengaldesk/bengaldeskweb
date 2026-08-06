@@ -21,39 +21,39 @@ export function TopBar() {
   }, [])
 
   return (
-    <div className="border-b border-border/60 bg-secondary/50">
-      <div className="mx-auto flex h-9 max-w-7xl items-center justify-between gap-3 px-4 text-xs sm:px-6">
-        <div className="flex min-w-0 items-center gap-3 text-muted-foreground">
+    <div className='border-b border-border/60 bg-card'>
+      <div className='mx-auto flex h-8 max-w-7xl items-center justify-between gap-3 px-4 text-[11px] sm:h-9 sm:px-6 sm:text-xs'>
+        {/* Left — date & location */}
+        <div className='flex min-w-0 items-center gap-2.5 text-muted-foreground'>
           {now && (
-            <span className="truncate font-medium">
+            <span className='truncate font-medium'>
               {formatBnDate(now, { withWeekday: true })}
             </span>
           )}
-          <span className="hidden items-center gap-1 sm:inline-flex">
-            <MapPin className="h-3.5 w-3.5 text-brand" />
+          <span className='hidden items-center gap-1 sm:inline-flex'>
+            <MapPin className='h-3 w-3 text-brand' />
             ঢাকা
           </span>
-          <span className="hidden items-center gap-1 md:inline-flex">
-            <CloudSun className="h-3.5 w-3.5 text-amber-500" />
+          <span className='hidden items-center gap-1 md:inline-flex'>
+            <CloudSun className='h-3.5 w-3.5 text-amber-500' />
             ৩২°সে
           </span>
         </div>
 
-        <div className="flex items-center gap-1">
-          <span className="mr-1 hidden text-muted-foreground sm:inline">
-            ফলো করুন:
-          </span>
+        {/* Right — socials & theme toggle (hidden on mobile) */}
+        <div className='hidden items-center gap-1 sm:flex'>
+          <span className='mr-1 text-muted-foreground'>ফলো করুন:</span>
           {SOCIALS.map(({ icon: Icon, label, href }) => (
             <a
               key={label}
               href={href}
               aria-label={label}
-              className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-brand hover:text-white"
+              className='inline-flex h-7 w-7 items-center justify-center rounded-full text-muted-foreground transition-all hover:bg-brand hover:text-white hover:scale-105'
             >
-              <Icon className="h-[15px] w-[15px]" />
+              <Icon className='h-[14px] w-[14px]' />
             </a>
           ))}
-          <span className="mx-1 h-4 w-px bg-border" />
+          <span className='mx-1 h-4 w-px bg-border' />
           <ThemeToggle />
         </div>
       </div>

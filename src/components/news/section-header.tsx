@@ -1,35 +1,23 @@
+import Link from 'next/link'
+import { ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { ArrowRight } from 'lucide-react'
 
-export function SectionHeader({
-  title,
-  className,
-  actionLabel = 'সব খবর',
-  onAction,
-}: {
+interface SectionHeaderProps {
   title: string
-  accentText?: string
+  href?: string
   className?: string
-  actionLabel?: string
-  onAction?: () => void
-}) {
+}
+
+export function SectionHeader({ title, href, className }: SectionHeaderProps) {
   return (
-    <div className={cn('', className)}>
-      <div className='flex items-end justify-between pb-2.5 border-b-2 border-brand'>
-        <h2 className='text-xl font-bold text-foreground'>
-          {title}
-        </h2>
-        {onAction && (
-          <button
-            type='button'
-            onClick={onAction}
-            className='group inline-flex shrink-0 items-center gap-1 text-[11px] uppercase tracking-wider font-medium text-muted-foreground hover:text-brand transition-colors'
-          >
-            {actionLabel}
-            <ArrowRight className='h-3 w-3 transition-transform group-hover:translate-x-0.5' />
-          </button>
-        )}
-      </div>
+    <div className={cn('section-header', className)}>
+      <h2>{title}</h2>
+      {href && (
+        <Link href={href} className='read-more inline-flex items-center gap-1'>
+          আরও পড়ুন
+          <ChevronRight className='h-3 w-3' />
+        </Link>
+      )}
     </div>
   )
 }

@@ -12,6 +12,7 @@ import {
 } from '@/lib/news-data'
 import { relativeTimeBn } from '@/lib/bn'
 import { cn } from '@/lib/utils'
+import { SectionHeader } from './section-header'
 
 const ALL_AREAS = 'সব এলাকা'
 
@@ -36,10 +37,8 @@ export function AreaNewsSearch() {
   }, [selectedArea, keyword])
 
   return (
-    <section className='mx-auto max-w-7xl px-4 py-10 sm:px-6'>
-      <div className='mb-6 flex items-end justify-between border-b-2 border-brand pb-2.5'>
-        <h2 className='text-xl font-bold text-foreground'>এলাকাভিত্তিক নিউজ অনুসন্ধান</h2>
-      </div>
+    <section className='py-6 sm:py-8'>
+      <SectionHeader title='এলাকাভিত্তিক নিউজ অনুসন্ধান' />
 
       <div className='rounded-xl border border-border/60 bg-secondary/25 p-4 sm:p-5'>
         <div className='grid gap-3 md:grid-cols-[220px_1fr]'>

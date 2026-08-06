@@ -31,20 +31,20 @@ export function Newsletter() {
   }
 
   return (
-    <section className='mx-auto max-w-7xl px-4 py-10 sm:px-6'>
-      <div className='bg-brand px-6 py-10 text-white sm:px-12'>
+    <section className='py-6 sm:py-8'>
+      <div className='rounded-xl bg-brand px-5 py-8 text-white sm:px-10 sm:py-10'>
         <div className='grid items-center gap-6 md:grid-cols-2'>
           <div>
             <div className='inline-flex items-center gap-2 text-xs font-semibold'>
               <Mail className='h-3.5 w-3.5' />
               দৈনিক নিউজলেটার
             </div>
-            <h2 className='font-display mt-3 text-2xl leading-tight sm:text-3xl'>
+            <h2 className='font-display mt-3 text-xl leading-tight sm:text-2xl'>
               প্রতিদিনের গুরুত্বপূর্ণ খবর পান সরাসরি আপনার ইনবক্সে
             </h2>
             <p className='mt-2 max-w-md text-sm text-white/85'>
-              দেশ ও বিশ্বের শীর্ষ সংবাদ, বিশ্লেষণ ও বিশেষ প্রতিবেদনের নির্বাচিত
-              সারসংক্ষেপ পান প্রতি সকালে।
+              দেশ ও বিশ্বের শীর্ষ সংবাদ, বিশ্লেষণ ও বিশেষ প্রতিবেদনের
+              নির্বাচিত সারসংক্ষেপ পান প্রতি সকালে।
             </p>
           </div>
           <form onSubmit={onSubmit} className='w-full'>
@@ -55,13 +55,13 @@ export function Newsletter() {
                 placeholder='আপনার ইমেল ঠিকানা'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className='h-12 border-white/30 bg-white/95 text-foreground placeholder:text-muted-foreground'
+                className='h-11 rounded-lg border-white/30 bg-white/95 text-foreground placeholder:text-muted-foreground'
                 aria-label='ইমেল ঠিকানা'
               />
               <Button
                 type='submit'
                 size='lg'
-                className='h-12 shrink-0 bg-foreground text-background hover:bg-foreground/90'
+                className='h-11 shrink-0 rounded-lg bg-foreground text-background hover:bg-foreground/90'
               >
                 {done ? (
                   <>
@@ -76,7 +76,7 @@ export function Newsletter() {
                 )}
               </Button>
             </div>
-            <p className='mt-2 text-xs text-white/75'>
+            <p className='mt-2 text-[11px] text-white/70'>
               সাবস্ক্রাইব করে আপনি আমাদের গোপনীয়তা নীতিতে সম্মত হচ্ছেন।
             </p>
           </form>

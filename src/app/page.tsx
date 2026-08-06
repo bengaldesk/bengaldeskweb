@@ -11,32 +11,52 @@ import { Newsletter } from '@/components/news/newsletter'
 import { PollSection } from '@/components/news/poll-section'
 import { Footer } from '@/components/news/footer'
 import { AdBox } from '@/components/news/ad-box'
+import { MostReadSidebar } from '@/components/news/most-read-sidebar'
+import { BottomNav } from '@/components/news/bottom-nav'
 
 export default function Home() {
   return (
-    <div className='flex min-h-screen flex-col bg-background'>
+    <div className='flex min-h-screen flex-col bg-page-bg'>
       <TopBar />
       <Header />
       <BreakingNewsTicker />
 
-      <main className='flex-1'>
+      <main className='flex-1 pb-safe'>
         <h1 className='sr-only'>বার্তা — বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদ</h1>
         <HeroSection />
-        <AdBox className="my-10" />
-        <LatestNews />
-        <AreaNewsSearch />
-        <CategorySection category='রাজনীতি' />
-        <AdBox className="my-10" />
-        <CategorySection category='খেলা' />
-        <CategorySection category='প্রযুক্তি' />
-        <AdBox className="my-10" />
-        <VideoSection />
-         <OpinionSection />
-        <PollSection />
-        <Newsletter />
+        <AdBox className='my-6' />
+
+        {/* Content + Sidebar layout (desktop) */}
+        <div className='mx-auto max-w-7xl px-4 sm:px-6'>
+          <div className='lg:grid lg:grid-cols-12 lg:gap-8'>
+            {/* Main content area */}
+            <div className='lg:col-span-8 xl:col-span-9'>
+              <LatestNews />
+              <AreaNewsSearch />
+              <CategorySection category='রাজনীতি' />
+              <AdBox className='my-6' />
+              <CategorySection category='খেলা' />
+              <CategorySection category='প্রযুক্তি' />
+              <AdBox className='my-6' />
+              <VideoSection />
+              <OpinionSection />
+              <PollSection />
+              <Newsletter />
+            </div>
+
+            {/* Right sidebar (desktop only) */}
+            <aside className='mt-8 hidden lg:col-span-4 lg:mt-0 xl:col-span-3 lg:block'>
+              <div className='sticky top-20 space-y-6'>
+                <MostReadSidebar />
+                <AdBox format='rectangle' />
+              </div>
+            </aside>
+          </div>
+        </div>
       </main>
 
       <Footer />
+      <BottomNav />
     </div>
   )
 }

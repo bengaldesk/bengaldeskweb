@@ -3,6 +3,7 @@ import { getLatest, getFeatured, categoryColor, type NewsCategory } from '@/lib/
 import { relativeTimeBn } from '@/lib/bn'
 import { NewsImage } from './news-image'
 import { cn } from '@/lib/utils'
+import { SectionHeader } from './section-header'
 
 export function LatestNews() {
   const featuredIds = new Set(getFeatured().map((n) => n.id))
@@ -11,24 +12,21 @@ export function LatestNews() {
     .slice(0, 6)
 
   return (
-    <section className='mx-auto max-w-7xl px-4 py-8 sm:px-6'>
-      {/* Section header — inline The Hind style */}
-      <div className='flex items-end justify-between pb-2.5 border-b-2 border-brand mb-5'>
-        <h2 className='text-xl font-bold text-foreground'>
-          সর্বশেষ খবর
-        </h2>
-      </div>
+    <section className='py-6 sm:py-8'>
+      <SectionHeader title='সর্বশেষ খবর' href='/' />
 
-      {/* 3-column grid of horizontal cards */}
-      <div className='grid grid-cols-1 gap-0 sm:grid-cols-2 lg:grid-cols-3'>
-        {latest.map((item) => (
+      {/* Mobile: list view with thumbnails */}
+      <div className='lg:hidden'>
+        {latest.map((item, i) => (
           <Link
             key={item.id}
             href={`/news/${item.id}`}
-            className='group flex gap-3 border-b border-border/40 py-4 first:pt-0 lg:border-b-0 lg:border-r lg:border-border/40 lg:py-0 lg:px-4 lg:first:pl-0 lg:last:pr-0'
+            className={cn(
+              'group flex gap-3',
+              i === 0 ? 'pt-0' : 'pt-3 border-t border-border/40'
+            )}
           >
-            {/* Square thumbnail */}
-            <div className='relative h-20 w-20 shrink-0 overflow-hidden rounded-none bg-muted sm:h-[80px] sm:w-[80px]'>
+            <div className='relative h-20 w-20 shrink-0 overflow-hidden rounded-md bg-muted'>
               <NewsImage
                 src={item.image}
                 alt={item.title}
@@ -37,15 +35,46 @@ export function LatestNews() {
               />
             </div>
             <div className='flex min-w-0 flex-col justify-center'>
-              {/* Category dot + label */}
               <span className='flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider'>
                 <span className={cn('inline-block h-1.5 w-1.5 rounded-full', categoryColor(item.category))} />
                 <span className='text-muted-foreground'>{item.category}</span>
               </span>
-              <h3 className='mt-1 line-clamp-2 text-sm font-semibold leading-snug transition-colors group-hover:text-brand'>
+              <h3 className='mt-1 line-clamp-2 text-[14px] font-semibold leading-snug transition-colors group-hover:text-brand'>
                 {item.title}
               </h3>
               <span className='mt-1 text-[11px] text-muted-foreground'>
+                {relativeTimeBn(new Date(item.publishedAt))}
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {/* Desktop: 3-column grid */}
+      <div className='hidden lg:grid lg:grid-cols-3 lg:gap-5'>
+        {latest.map((item) => (
+          <Link
+            key={item.id}
+            href={`/news/${item.id}`}
+            className='group block rounded-lg overflow-hidden bg-card news-card-hover'
+          >
+            <div className='relative aspect-[16/10] w-full overflow-hidden bg-muted'>
+              <NewsImage
+                src={item.image}
+                alt={item.title}
+                sizes='(max-width: 1280px) 33vw, 400px'
+                className='img-zoom'
+              />
+            </div>
+            <div className='p-3.5'>
+              <span className='flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider'>
+                <span className={cn('inline-block h-1.5 w-1.5 rounded-full', categoryColor(item.category))} />
+                <span className='text-muted-foreground'>{item.category}</span>
+              </span>
+              <h3 className='mt-1.5 line-clamp-2 text-[15px] font-semibold leading-snug transition-colors group-hover:text-brand'>
+                {item.title}
+              </h3>
+              <span className='mt-1.5 inline-block text-[11px] text-muted-foreground'>
                 {relativeTimeBn(new Date(item.publishedAt))}
               </span>
             </div>

@@ -14,19 +14,20 @@ import {
 } from '@/components/ui/sheet'
 import { NEWS_CATEGORIES, getCategorySlug } from '@/lib/news-data'
 import { cn } from '@/lib/utils'
+import { usePathname } from 'next/navigation'
 
 const LOGO_URL = 'https://res.cloudinary.com/dtdmwcs4r/image/upload/v1784526258/Bengaldesklogo_vgd6pt.png'
 
 function Logo({ className }: { className?: string }) {
   return (
-    <Link href="/" className={cn('inline-flex items-center', className)} aria-label="বার্তা হোম">
+    <Link href='/' className={cn('inline-flex items-center', className)} aria-label='বার্তা হোম'>
       <Image
         src={LOGO_URL}
-        alt="বার্তা লোগো"
+        alt='বার্তা লোগো'
         width={220}
         height={64}
         priority
-        className="h-auto w-[150px] object-contain transition-[filter] dark:brightness-0 dark:invert sm:w-[176px]"
+        className='h-auto w-[130px] object-contain sm:w-[160px]'
       />
     </Link>
   )
@@ -34,48 +35,55 @@ function Logo({ className }: { className?: string }) {
 
 export function Header() {
   const [open, setOpen] = React.useState(false)
+  const [searchOpen, setSearchOpen] = React.useState(false)
+  const pathname = usePathname()
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur-md">
-      <div className="relative mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6">
+    <header className='sticky top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur-md'>
+      <div className='mx-auto flex h-14 max-w-7xl items-center gap-2 px-4 sm:h-16 sm:px-6'>
         {/* Mobile menu */}
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
             <Button
-              variant="ghost"
-              size="icon"
-              className="lg:hidden"
-              aria-label="মেনু খুলুন"
+              variant='ghost'
+              size='icon'
+              className='h-10 w-10 lg:hidden'
+              aria-label='মেনু খুলুন'
             >
-              <Menu className="h-5 w-5" />
+              <Menu className='h-5 w-5' />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[300px] p-0">
-            <div className="flex h-16 items-center border-b px-5">
+          <SheetContent side='left' className='w-[280px] p-0'>
+            <div className='flex h-14 items-center border-b px-4'>
               <Image
                 src={LOGO_URL}
-                alt="বার্তা লোগো"
-                width={190}
-                height={56}
-                className="h-auto w-[132px] object-contain transition-[filter] dark:brightness-0 dark:invert sm:w-[150px]"
+                alt='বার্তা লোগো'
+                width={180}
+                height={52}
+                className='h-auto w-[130px] object-contain'
               />
             </div>
-            <nav className="flex flex-col p-2">
+            <nav className='flex flex-col p-2'>
               <Link
-                href="/"
-                className="flex items-center gap-2 rounded-md px-3 py-2.5 font-semibold text-foreground hover:bg-muted"
+                href='/'
+                className='flex items-center gap-2.5 rounded-md px-3 py-2.5 font-semibold text-foreground hover:bg-muted'
                 onClick={() => setOpen(false)}
               >
-                <Radio className="h-4 w-4 text-brand" />
+                <Radio className='h-4 w-4 text-brand' />
                 প্রচ্ছদ
               </Link>
               {NEWS_CATEGORIES.map((c) => (
                 <SheetClose asChild key={c.label}>
                   <Link
                     href={getCategorySlug(c.label)}
-                    className="flex items-center gap-2.5 rounded-md px-3 py-2.5 font-medium text-foreground/90 hover:bg-muted"
+                    className={cn(
+                      'flex items-center gap-2.5 rounded-md px-3 py-2.5 font-medium transition-colors hover:bg-muted',
+                      pathname === getCategorySlug(c.label)
+                        ? 'bg-brand/10 text-brand font-semibold'
+                        : 'text-foreground/90'
+                    )}
                   >
-                    <span className={`h-2 w-2 rounded-full ${c.color}`} />
+                    <span className={cn('h-2 w-2 rounded-full', c.color)} />
                     {c.label}
                   </Link>
                 </SheetClose>
@@ -84,47 +92,79 @@ export function Header() {
           </SheetContent>
         </Sheet>
 
-        <Logo className="absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0" />
+        {/* Logo — centered on mobile, left on desktop */}
+        <Logo className='absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0' />
 
-        {/* Desktop nav */}
-        <nav className="ml-4 hidden flex-1 items-center gap-0.5 lg:flex">
+        {/* Desktop nav — with hover underline */}
+        <nav className='ml-4 hidden items-center gap-0 lg:flex'>
           <Link
-            href="/"
-            className="rounded-md px-3 py-2 text-sm font-semibold text-brand hover:bg-brand/10"
+            href='/'
+            className={cn(
+              'nav-link-hover px-3 py-4 text-sm font-semibold transition-colors',
+              pathname === '/' ? 'text-brand' : 'text-foreground/80 hover:text-foreground'
+            )}
           >
             প্রচ্ছদ
           </Link>
-          {NEWS_CATEGORIES.map((c) => (
-            <Link
-              key={c.label}
-              href={getCategorySlug(c.label)}
-              className="rounded-md px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-muted hover:text-foreground"
-            >
-              {c.label}
-            </Link>
-          ))}
+          {NEWS_CATEGORIES.slice(0, 8).map((c) => {
+            const href = getCategorySlug(c.label)
+            return (
+              <Link
+                key={c.label}
+                href={href}
+                className={cn(
+                  'nav-link-hover px-3 py-4 text-sm font-medium transition-colors',
+                  pathname === href
+                    ? 'text-brand font-semibold'
+                    : 'text-foreground/80 hover:text-foreground'
+                )}
+              >
+                {c.label}
+              </Link>
+            )
+          })}
         </nav>
 
-        <div className="ml-auto flex items-center gap-2">
-          <div className="relative hidden sm:block">
-            <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        {/* Search — mobile icon, desktop input */}
+        <div className='ml-auto flex items-center gap-1'>
+          {/* Desktop search */}
+          <div className='relative hidden sm:block'>
+            <Search className='pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
             <Input
-              type="search"
-              placeholder="খবর খুঁজুন..."
-              className="h-9 w-44 pl-8 md:w-56"
-              aria-label="খবর খুঁজুন"
+              type='search'
+              placeholder='খবর খুঁজুন...'
+              className='h-9 w-44 rounded-full border-border/60 bg-muted/50 pl-8 pr-3 text-sm transition-all focus-visible:w-56 focus-visible:bg-background focus-visible:border-brand/40 md:w-52'
+              aria-label='খবর খুঁজুন'
             />
           </div>
+          {/* Mobile search button */}
           <Button
-            variant="ghost"
-            size="icon"
-            className="sm:hidden"
-            aria-label="খুঁজুন"
+            variant='ghost'
+            size='icon'
+            className='h-10 w-10 sm:hidden'
+            aria-label='খুঁজুন'
+            onClick={() => setSearchOpen(!searchOpen)}
           >
-            <Search className="h-5 w-5" />
+            <Search className='h-5 w-5' />
           </Button>
         </div>
       </div>
+
+      {/* Mobile search dropdown */}
+      {searchOpen && (
+        <div className='border-b border-border/70 bg-background px-4 py-3 sm:hidden'>
+          <div className='relative'>
+            <Search className='pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
+            <Input
+              type='search'
+              placeholder='শিরোনাম দিয়ে খুঁজুন...'
+              className='h-10 rounded-full border-border/60 bg-muted/50 pl-9 pr-4 text-sm'
+              autoFocus
+              aria-label='খবর খুঁজুন'
+            />
+          </div>
+        </div>
+      )}
     </header>
   )
 }
