@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { tiroBangla, hindSiliguri } from "@/lib/fonts";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
 const BRAND_ICON_URL =
   "https://res.cloudinary.com/dtdmwcs4r/image/upload/v1768092478/LOGO-white_backgraound_tbasop.png";
@@ -51,7 +46,7 @@ export default function RootLayout({
     <html
       lang="bn"
       suppressHydrationWarning
-      className={`${geistSans.variable}`}
+      className={`${tiroBangla.variable} ${hindSiliguri.variable}`}
     >
       <body className="antialiased bg-background text-foreground">
         <ThemeProvider
