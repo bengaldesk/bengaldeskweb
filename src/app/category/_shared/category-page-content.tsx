@@ -12,7 +12,8 @@ import { BreakingNewsTicker } from '@/components/news/breaking-ticker'
 import { Newsletter } from '@/components/news/newsletter'
 import { Footer } from '@/components/news/footer'
 import { BottomNav } from '@/components/news/bottom-nav'
-import { Home, ChevronRight, Clock, Eye } from 'lucide-react'
+import { LeadStoryCard } from '@/components/news/lead-story-card'
+import { Home, ChevronRight, Clock } from 'lucide-react'
 import { relativeTimeBn, toBn } from '@/lib/bn'
 import { NewsImage } from '@/components/news/news-image'
 import { cn } from '@/lib/utils'
@@ -87,36 +88,18 @@ export function CategoryPageContent({ category }: { category: NewsCategory }) {
 
           {/* Featured lead story */}
           {lead && (
-            <Link
-              href={`/news/${lead.id}`}
-              className='group mt-4 block rounded-lg overflow-hidden bg-card news-card-hover'
-            >
-              <div className='relative aspect-[16/9] w-full overflow-hidden bg-muted sm:aspect-[16/10]'>
-                <NewsImage
-                  src={lead.image}
-                  alt={lead.title}
-                  sizes='(max-width: 1280px) 100vw, 1200px'
-                  className='img-zoom'
-                />
-                <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent' />
-                <div className='absolute inset-x-0 bottom-0 p-4 sm:p-5'>
-                  <h3 className='line-clamp-2 text-lg font-bold leading-snug text-white sm:text-xl'>
-                    {lead.title}
-                  </h3>
-                  <p className='mt-1 line-clamp-2 text-sm text-white/80'>{lead.excerpt}</p>
-                  <div className='mt-2 flex items-center gap-3 text-[11px] text-white/70'>
-                    <span className='inline-flex items-center gap-1'><Clock className='h-3 w-3' />{relativeTimeBn(new Date(lead.publishedAt))}</span>
-                    <span className='inline-flex items-center gap-1'><Eye className='h-3 w-3' />{toBn(lead.views.toLocaleString('en-US'))}</span>
-                  </div>
-                </div>
-              </div>
-            </Link>
+            <div className='mt-4'>
+              <LeadStoryCard
+                item={lead}
+                subItems={rest.slice(0, 5)}
+              />
+            </div>
           )}
 
           {/* Rest of the news — 2-col grid on mobile, 3-col on desktop */}
-          {rest.length > 0 && (
+          {rest.length > 5 && (
             <div className='mt-5 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3'>
-              {rest.map((item) => (
+              {rest.slice(5).map((item) => (
                 <Link
                   key={item.id}
                   href={`/news/${item.id}`}
