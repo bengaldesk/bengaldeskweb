@@ -20,8 +20,8 @@ interface RelatedArticlesProps {
 }
 
 /**
- * RelatedArticles — editorial-style section with decorative rule.
- * 3-card grid with clean typography.
+ * RelatedArticles — editorial-style 3-card grid.
+ * Clean, professional cards with subtle hover effects.
  */
 export function RelatedArticles({
   articles,
@@ -31,14 +31,15 @@ export function RelatedArticles({
   if (articles.length === 0) return null
 
   return (
-    <section className={cn('related-articles-section mt-10', className)}>
-      {/* Editorial section header with decorative rule */}
-      <div className='mb-6 flex items-center gap-4'>
-        <h2 className='font-display shrink-0 text-xl text-foreground'>{heading}</h2>
-        <div className='h-px flex-1 bg-border/50' />
-      </div>
+    <section className={cn('related-articles-section', className)}>
+      {heading && (
+        <div className='mb-6 flex items-center gap-4'>
+          <h2 className='font-display shrink-0 text-xl text-foreground'>{heading}</h2>
+          <div className='h-px flex-1 bg-border/50' />
+        </div>
+      )}
 
-      <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+      <div className='grid gap-5 sm:grid-cols-2 lg:grid-cols-3'>
         {articles.map((item) => (
           <RelatedCard key={item.id} item={item} />
         ))}
@@ -54,7 +55,7 @@ function RelatedCard({ item }: { item: RelatedArticle }) {
   return (
     <Link
       href={`/news/${item.id}`}
-      className='group flex flex-col overflow-hidden rounded-lg border border-border/30 bg-card transition-all duration-200 hover:border-border hover:shadow-sm news-card-hover'
+      className='group flex flex-col overflow-hidden rounded-xl border border-border/40 bg-card transition-all duration-200 hover:border-border hover:shadow-md'
     >
       {/* Image */}
       <div className='relative aspect-[16/10] w-full overflow-hidden bg-muted'>
@@ -67,7 +68,7 @@ function RelatedCard({ item }: { item: RelatedArticle }) {
         {/* Category badge */}
         <span
           className={cn(
-            'absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white',
+            'absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm',
             catColor
           )}
         >

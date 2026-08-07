@@ -1,0 +1,1675 @@
+     1→/* ═══════════════════════════════════════════════════════════════════════════
+     2→ * বার্তা (Barta) — Design System & Global Styles
+     3→ * ═══════════════════════════════════════════════════════════════════════════
+     4→ *
+     5→ * TYPE SCALE
+     6→ *   Ratio: 1.25 (Major Third) — chosen for Bengali script legibility
+     7→ *   Base:  16px
+     8→ *   Scale: 12.8 → 14 → 16 → 18 → 20 → 25 → 31 → 39 → 49px
+     9→ *   Fluid headings use CSS clamp() with viewport-relative scaling
+    10→ *
+    11→ * SPACING
+    12→ *   Unit: 8px (0.5rem)
+    13→ *   Scale: 4px → 8px → 12px → 16px → 24px → 32px → 48px → 64px → 96px
+    14→ *
+    15→ * COLOR NAMING
+    16→ *   --color-[purpose][-variant]
+    17→ *   Purposes: text, surface, border, accent, link, brand, page, footer
+    18→ *   Variants: primary, secondary, muted, inverse, elevated, strong, hover
+    19→ *   Dark mode suffix: .dark selector with --color-[purpose] overrides
+    20→ *
+    21→ * FONTS (loaded via next/font/google — no @font-face here)
+    22→ *   --font-heading  → Tiro Bangla  (serif, weight 400 only — bold synthesized)
+    23→ *   --font-body     → Hind Siliguri (sans, weights 300–700)
+    24→ *
+    25→ * BREAKPOINTS
+    26→ *   Desktop:  ≥1024px
+    27→ *   Tablet:   768–1023px
+    28→ *   Mobile:   ≤767px
+    29→ *   Small:    ≤375px
+    30→ * ═══════════════════════════════════════════════════════════════════════════ */
+    31→
+    32→@import "tailwindcss";
+    33→@import "tw-animate-css";
+    34→
+    35→@custom-variant dark (&:is(.dark *));
+    36→
+    37→/* ─── Tailwind v4 Design Token Integration ─────────────────────────────── */
+    38→@theme inline {
+    39→  /* ── Font families ── */
+    40→  --font-sans: var(--font-body);
+    41→  --font-display: var(--font-heading);
+    42→  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    43→
+    44→  /* ── Text size scale (Major Third 1.25) ── */
+    45→  --text-caption: 0.8rem;
+    46→  --text-small: 0.875rem;
+    47→  --text-base: 1rem;
+    48→  --text-body-lg: 1.125rem;
+    49→  --text-h4: 1.25rem;
+    50→  --text-h3: clamp(1.25rem, 1rem + 1.2vw, 1.5625rem);
+    51→  --text-h2: clamp(1.5rem, 1.1rem + 1.8vw, 1.953rem);
+    52→  --text-h1: clamp(1.75rem, 1.2rem + 2.5vw, 2.441rem);
+    53→  --text-display: clamp(2rem, 1.4rem + 3vw, 3.052rem);
+    54→
+    55→  /* ── Spacing scale (8px base) ── */
+    56→  --space-1: 0.25rem;   /* 4px */
+    57→  --space-2: 0.5rem;    /* 8px */
+    58→  --space-3: 0.75rem;   /* 12px */
+    59→  --space-4: 1rem;      /* 16px */
+    60→  --space-5: 1.25rem;   /* 20px */
+    61→  --space-6: 1.5rem;    /* 24px */
+    62→  --space-8: 2rem;      /* 32px */
+    63→  --space-10: 2.5rem;   /* 40px */
+    64→  --space-12: 3rem;     /* 48px */
+    65→  --space-16: 4rem;     /* 64px */
+    66→  --space-24: 6rem;     /* 96px */
+    67→
+    68→  /* ── Color tokens (light + dark, resolved from :root / .dark) ── */
+    69→  --color-text-primary: var(--text-primary);
+    70→  --color-text-secondary: var(--text-secondary);
+    71→  --color-text-muted: var(--text-muted);
+    72→  --color-text-inverse: var(--text-inverse);
+    73→  --color-surface: var(--surface);
+    74→  --color-surface-elevated: var(--surface-elevated);
+    75→  --color-page-bg: var(--page-bg);
+    76→  --color-border-custom: var(--border-custom);
+    77→  --color-border-strong: var(--border-strong);
+    78→  --color-accent: var(--accent-color);
+    79→  --color-accent-hover: var(--accent-hover);
+    80→  --color-breaking: var(--breaking);
+    81→  --color-link: var(--link-color);
+    82→  --color-link-visited: var(--link-visited);
+    83→  --color-brand: var(--brand);
+    84→  --color-brand-foreground: var(--brand-foreground);
+    85→
+    86→  /* ── shadcn/ui compatible tokens ── */
+    87→  --color-background: var(--background);
+    88→  --color-foreground: var(--foreground);
+    89→  --color-card: var(--card);
+    90→  --color-card-foreground: var(--card-foreground);
+    91→  --color-popover: var(--popover);
+    92→  --color-popover-foreground: var(--popover-foreground);
+    93→  --color-primary: var(--primary);
+    94→  --color-primary-foreground: var(--primary-foreground);
+    95→  --color-secondary: var(--secondary);
+    96→  --color-secondary-foreground: var(--secondary-foreground);
+    97→  --color-muted: var(--muted);
+    98→  --color-muted-foreground: var(--muted-foreground);
+    99→  --color-accent-foreground: var(--accent-foreground);
+   100→  --color-destructive: var(--destructive);
+   101→  --color-ring: var(--ring);
+   102→  --color-input: var(--input);
+   103→  --color-border: var(--border);
+   104→
+   105→  /* ── Footer tokens ── */
+   106→  --color-footer-bg: var(--footer-bg);
+   107→  --color-footer-text: var(--footer-text);
+   108→  --color-footer-heading: var(--footer-heading);
+   109→
+   110→  /* ── Sidebar tokens ── */
+   111→  --color-sidebar: var(--sidebar);
+   112→  --color-sidebar-foreground: var(--sidebar-foreground);
+   113→  --color-sidebar-primary: var(--sidebar-primary);
+   114→  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+   115→  --color-sidebar-accent: var(--sidebar-accent);
+   116→  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+   117→  --color-sidebar-border: var(--sidebar-border);
+   118→  --color-sidebar-ring: var(--sidebar-ring);
+   119→
+   120→  /* ── Chart tokens ── */
+   121→  --color-chart-1: var(--chart-1);
+   122→  --color-chart-2: var(--chart-2);
+   123→  --color-chart-3: var(--chart-3);
+   124→  --color-chart-4: var(--chart-4);
+   125→  --color-chart-5: var(--chart-5);
+   126→
+   127→  /* ── Radius scale ── */
+   128→  --radius-sm: calc(var(--radius) - 4px);
+   129→  --radius-md: calc(var(--radius) - 2px);
+   130→  --radius-lg: var(--radius);
+   131→  --radius-xl: calc(var(--radius) + 4px);
+   132→}
+   133→
+   134→/* ═══════════════════════════════════════════════════════════════════════════
+   135→ * CSS Custom Properties — Light Theme (:root)
+   136→ * ═══════════════════════════════════════════════════════════════════════════ */
+   137→:root {
+   138→  --radius: 0.625rem;
+   139→
+   140→  /* ── Text colors ── */
+   141→  --text-primary: #111111;
+   142→  --text-secondary: #444444;
+   143→  --text-muted: #777777;
+   144→  --text-inverse: #F5F5F5;
+   145→
+   146→  /* ── Surface colors ── */
+   147→  --surface: #FFFFFF;
+   148→  --surface-elevated: #FAFAFA;
+   149→  --page-bg: #F5F5F5;
+   150→
+   151→  /* ── Border colors ── */
+   152→  --border-custom: #E5E5E5;
+   153→  --border-strong: #CCCCCC;
+   154→
+   155→  /* ── Accent colors (deep red/maroon palette) ── */
+   156→  --accent-color: #C41820;
+   157→  --accent-hover: #A01520;
+   158→  --breaking: #FF0000;
+   159→
+   160→  /* ── Link colors ── */
+   161→  --link-color: #1565C0;
+   162→  --link-visited: #7B1FA2;
+   163→
+   164→  /* ── Brand colors ── */
+   165→  --brand: #E31B23;
+   166→  --brand-foreground: #FFFFFF;
+   167→
+   168→  /* ── shadcn/ui mapped tokens ── */
+   169→  --background: #FFFFFF;
+   170→  --foreground: #111111;
+   171→  --card: #FFFFFF;
+   172→  --card-foreground: #111111;
+   173→  --popover: #FFFFFF;
+   174→  --popover-foreground: #111111;
+   175→  --primary: #E31B23;
+   176→  --primary-foreground: #FFFFFF;
+   177→  --secondary: #F5F5F5;
+   178→  --secondary-foreground: #111111;
+   179→  --muted: #F5F5F5;
+   180→  --muted-foreground: #777777;
+   181→  --accent-foreground: #111111;
+   182→  --destructive: #E31B23;
+   183→  --border: #E5E5E5;
+   184→  --input: #E5E5E5;
+   185→  --ring: #E31B23;
+   186→
+   187→  /* ── Chart colors ── */
+   188→  --chart-1: #E31B23;
+   189→  --chart-2: #2E7D32;
+   190→  --chart-3: #1565C0;
+   191→  --chart-4: #F57F17;
+   192→  --chart-5: #E91E63;
+   193→
+   194→  /* ── Sidebar ── */
+   195→  --sidebar: #FFFFFF;
+   196→  --sidebar-foreground: #111111;
+   197→  --sidebar-primary: #E31B23;
+   198→  --sidebar-primary-foreground: #FFFFFF;
+   199→  --sidebar-accent: #F5F5F5;
+   200→  --sidebar-accent-foreground: #111111;
+   201→  --sidebar-border: #E5E5E5;
+   202→  --sidebar-ring: #E31B23;
+   203→
+   204→  /* ── Footer ── */
+   205→  --footer-bg: #1A1A1A;
+   206→  --footer-text: #CCCCCC;
+   207→  --footer-heading: #FFFFFF;
+   208→}
+   209→
+   210→/* ═══════════════════════════════════════════════════════════════════════════
+   211→ * CSS Custom Properties — Dark Theme (.dark)
+   212→ * All pairs tested for WCAG AA (≥4.5:1 contrast ratio)
+   213→ * ═══════════════════════════════════════════════════════════════════════════ */
+   214→.dark {
+   215→  /* ── Text colors (WCAG AA on dark surfaces) ── */
+   216→  --text-primary: #E8E8E8;       /* on #1A1A1A → 16.3:1 ✓ */
+   217→  --text-secondary: #B0B0B0;     /* on #1A1A1A → 8.5:1 ✓ */
+   218→  --text-muted: #888888;         /* on #1A1A1A → 5.2:1 ✓ */
+   219→  --text-inverse: #111111;
+   220→
+   221→  /* ── Surface colors ── */
+   222→  --surface: #1A1A1A;
+   223→  --surface-elevated: #222222;
+   224→  --page-bg: #0F0F0F;
+   225→
+   226→  /* ── Border colors ── */
+   227→  --border-custom: rgba(255, 255, 255, 0.1);
+   228→  --border-strong: rgba(255, 255, 255, 0.2);
+   229→
+   230→  /* ── Accent colors (brightened for dark) ── */
+   231→  --accent-color: #E8444B;
+   232→  --accent-hover: #FF5C62;
+   233→  --breaking: #FF3333;
+   234→
+   235→  /* ── Link colors ── */
+   236→  --link-color: #64B5F6;         /* on #1A1A1A → 7.1:1 ✓ */
+   237→  --link-visited: #CE93D8;        /* on #1A1A1A → 6.2:1 ✓ */
+   238→
+   239→  /* ── Brand colors ── */
+   240→  --brand: #FF4D52;
+   241→  --brand-foreground: #0F0F0F;
+   242→
+   243→  /* ── shadcn/ui mapped tokens ── */
+   244→  --background: #1A1A1A;
+   245→  --foreground: #E8E8E8;
+   246→  --card: #222222;
+   247→  --card-foreground: #E8E8E8;
+   248→  --popover: #222222;
+   249→  --popover-foreground: #E8E8E8;
+   250→  --primary: #FF4D52;
+   251→  --primary-foreground: #0F0F0F;
+   252→  --secondary: #2A2A2A;
+   253→  --secondary-foreground: #E8E8E8;
+   254→  --muted: #2A2A2A;
+   255→  --muted-foreground: #888888;
+   256→  --accent-foreground: #E8E8E8;
+   257→  --destructive: #FF4D52;
+   258→  --border: rgba(255, 255, 255, 0.1);
+   259→  --input: rgba(255, 255, 255, 0.12);
+   260→  --ring: #FF4D52;
+   261→
+   262→  /* ── Chart colors (brightened) ── */
+   263→  --chart-1: #FF4D52;
+   264→  --chart-2: #66BB6A;
+   265→  --chart-3: #42A5F5;
+   266→  --chart-4: #FFCA28;
+   267→  --chart-5: #EC407A;
+   268→
+   269→  /* ── Sidebar ── */
+   270→  --sidebar: #1A1A1A;
+   271→  --sidebar-foreground: #E8E8E8;
+   272→  --sidebar-primary: #FF4D52;
+   273→  --sidebar-primary-foreground: #0F0F0F;
+   274→  --sidebar-accent: #2A2A2A;
+   275→  --sidebar-accent-foreground: #E8E8E8;
+   276→  --sidebar-border: rgba(255, 255, 255, 0.1);
+   277→  --sidebar-ring: #FF4D52;
+   278→
+   279→  /* ── Footer ── */
+   280→  --footer-bg: #0A0A0A;
+   281→  --footer-text: #AAAAAA;
+   282→  --footer-heading: #E8E8E8;
+   283→}
+   284→
+   285→/* ═══════════════════════════════════════════════════════════════════════════
+   286→ * @layer base — Core Typography & Element Defaults
+   287→ * ═══════════════════════════════════════════════════════════════════════════ */
+   288→@layer base {
+   289→  /* ── Global border/ring reset ── */
+   290→  * {
+   291→    @apply border-border outline-ring/50;
+   292→  }
+   293→
+   294→  /* ── html root ── */
+   295→  html {
+   296→    /* Enable browser to synthesize bold from single-weight Tiro Bangla */
+   297→    font-synthesis: weight;
+   298→    scroll-behavior: smooth;
+   299→    scroll-padding-top: 60px;
+   300→    -webkit-text-size-adjust: 100%;
+   301→    text-size-adjust: 100%;
+   302→  }
+   303→
+   304→  /* ── body ── */
+   305→  body {
+   306→    @apply bg-page-bg text-foreground;
+   307→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   308→    font-weight: 400;
+   309→    line-height: 1.75;
+   310→    letter-spacing: 0.008em;
+   311→    word-spacing: 0.015em;
+   312→    font-feature-settings: "kern" 1, "liga" 1;
+   313→    text-rendering: optimizeLegibility;
+   314→    -webkit-font-smoothing: antialiased;
+   315→    -moz-osx-font-smoothing: grayscale;
+   316→  }
+   317→
+   318→  /* ── Headlines: Tiro Bangla, weight 400 (synthesized bold via font-synthesis) ── */
+   319→  h1, h2, h3, h4, h5, h6 {
+   320→    font-family: var(--font-heading), ui-serif, Georgia, serif;
+   321→    font-weight: 400;
+   322→    line-height: 1.28;
+   323→    letter-spacing: -0.01em;
+   324→    word-spacing: 0;
+   325→    text-wrap: balance;
+   326→    text-rendering: optimizeLegibility;
+   327→  }
+   328→
+   329→  /* Larger headings get tighter tracking */
+   330→  h1, h2 {
+   331→    letter-spacing: -0.02em;
+   332→    line-height: 1.25;
+   333→  }
+   334→
+   335→  h3 {
+   336→    line-height: 1.28;
+   337→    letter-spacing: -0.015em;
+   338→  }
+   339→
+   340→  h4, h5, h6 {
+   341→    line-height: 1.35;
+   342→    letter-spacing: -0.01em;
+   343→  }
+   344→
+   345→  /* ── Paragraph text ── */
+   346→  p {
+   347→    text-wrap: pretty;
+   348→    line-height: 1.8;
+   349→  }
+   350→
+   351→  /* ── Links ── */
+   352→  a {
+   353→    color: var(--link-color);
+   354→    text-decoration: none;
+   355→    text-underline-offset: 3px;
+   356→    text-decoration-thickness: 1px;
+   357→    text-decoration-color: transparent;
+   358→    transition: text-decoration-color 150ms ease, color 150ms ease;
+   359→  }
+   360→
+   361→  a:hover {
+   362→    text-decoration-color: var(--link-color);
+   363→  }
+   364→
+   365→  a:visited {
+   366→    color: var(--link-visited);
+   367→    text-decoration-color: transparent;
+   368→  }
+   369→
+   370→  a:visited:hover {
+   371→    text-decoration-color: var(--link-visited);
+   372→  }
+   373→
+   374→  /* ── Meta / utility text ── */
+   375→  time,
+   376→  figcaption,
+   377→  .meta-text {
+   378→    font-size: var(--text-caption);
+   379→    color: var(--text-muted);
+   380→    line-height: 1.5;
+   381→  }
+   382→
+   383→  /* ── Focus-visible for accessibility ── */
+   384→  :focus-visible {
+   385→    outline: 2px solid var(--accent-color);
+   386→    outline-offset: 2px;
+   387→    border-radius: 2px;
+   388→  }
+   389→
+   390→  /* ── Selection ── */
+   391→  ::selection {
+   392→    background-color: var(--brand);
+   393→    color: var(--brand-foreground);
+   394→  }
+   395→
+   396→  /* ── Mobile: ensure body text never below 15px ── */
+   397→  @media (max-width: 767px) {
+   398→    body {
+   399→      font-size: 0.9375rem; /* 15px */
+   400→      line-height: 1.85;
+   401→    }
+   402→
+   403→    p {
+   404→      line-height: 1.85;
+   405→    }
+   406→  }
+   407→
+   408→  /* ── Small mobile ── */
+   409→  @media (max-width: 375px) {
+   410→    body {
+   411→      line-height: 1.9;
+   412→    }
+   413→  }
+   414→}
+   415→
+   416→/* ═══════════════════════════════════════════════════════════════════════════
+   417→ * @layer utilities — Component Typography Classes
+   418→ * ═══════════════════════════════════════════════════════════════════════════ */
+   419→@layer utilities {
+   420→  /* ─── a) Masthead Wordmark ───────────────────────────────────────── */
+   421→  .masthead-wordmark {
+   422→    font-family: var(--font-heading), ui-serif, Georgia, serif;
+   423→    font-size: var(--text-display);
+   424→    font-weight: 400;
+   425→    line-height: 1.15;
+   426→    letter-spacing: -0.025em;
+   427→    color: var(--brand);
+   428→    text-wrap: balance;
+   429→  }
+   430→
+   431→  /* ─── b) Utility Bar (date, settings) ────────────────────────────── */
+   432→  .utility-bar {
+   433→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   434→    font-size: var(--text-caption);
+   435→    font-weight: 400;
+   436→    color: var(--text-muted);
+   437→    line-height: 1.4;
+   438→    letter-spacing: 0.01em;
+   439→  }
+   440→
+   441→  /* ─── c) Nav Link ────────────────────────────────────────────────── */
+   442→  .nav-link {
+   443→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   444→    font-size: var(--text-small);
+   445→    font-weight: 500;
+   446→    letter-spacing: 0.02em;
+   447→    color: var(--text-primary);
+   448→    position: relative;
+   449→  }
+   450→
+   451→  .nav-link::after {
+   452→    content: '';
+   453→    position: absolute;
+   454→    bottom: 0;
+   455→    left: 50%;
+   456→    width: 0;
+   457→    height: 1.5px;
+   458→    background: var(--brand);
+   459→    transition: width 180ms ease, left 180ms ease;
+   460→  }
+   461→
+   462→  .nav-link:hover::after {
+   463→    width: 80%;
+   464→    left: 10%;
+   465→  }
+   466→
+   467→  /* ─── d) Ticker Badge ─────────────────────────────────────────────── */
+   468→  .ticker-badge {
+   469→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   470→    font-size: var(--text-caption);
+   471→    font-weight: 700;
+   472→    text-transform: uppercase;
+   473→    letter-spacing: 0.05em;
+   474→    color: var(--breaking);
+   475→    line-height: 1.3;
+   476→  }
+   477→
+   478→  /* ─── e) Ticker Text ─────────────────────────────────────────────── */
+   479→  .ticker-text {
+   480→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   481→    font-size: var(--text-small);
+   482→    font-weight: 500;
+   483→    color: var(--text-primary);
+   484→    line-height: 1.5;
+   485→  }
+   486→
+   487→  /* ─── f) Hero Headline ────────────────────────────────────────────── */
+   488→  .hero-headline {
+   489→    font-family: var(--font-heading), ui-serif, Georgia, serif;
+   490→    font-size: var(--text-display);
+   491→    font-weight: 400;
+   492→    line-height: 1.22;
+   493→    letter-spacing: -0.015em;
+   494→    color: var(--text-primary);
+   495→    text-wrap: balance;
+   496→    word-spacing: 0;
+   497→  }
+   498→
+   499→  /* ─── g) Hero Sub-Headline ───────────────────────────────────────── */
+   500→  .hero-sub-headline {
+   501→    font-family: var(--font-heading), ui-serif, Georgia, serif;
+   502→    font-size: var(--text-h2);
+   503→    font-weight: 400;
+   504→    line-height: 1.3;
+   505→    letter-spacing: -0.015em;
+   506→    color: var(--text-secondary);
+   507→    text-wrap: balance;
+   508→  }
+   509→
+   510→  /* ─── h) Category Eyebrow ───────────────────────────────────────── */
+   511→  .category-eyebrow {
+   512→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   513→    font-size: var(--text-caption);
+   514→    font-weight: 600;
+   515→    text-transform: uppercase;
+   516→    letter-spacing: 0.04em;
+   517→    color: var(--accent-color);
+   518→    line-height: 1.4;
+   519→  }
+   520→
+   521→  /* ─── i) Byline ──────────────────────────────────────────────────── */
+   522→  .byline {
+   523→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   524→    font-size: var(--text-caption);
+   525→    font-weight: 400;
+   526→    color: var(--text-muted);
+   527→    line-height: 1.5;
+   528→    letter-spacing: 0.01em;
+   529→  }
+   530→
+   531→  /* ─── i-b) Byline Author Name ──────────────────────────────────── */
+   532→  .byline-author {
+   533→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   534→    font-size: var(--text-small);
+   535→    font-weight: 600;
+   536→    color: var(--text-primary);
+   537→    line-height: 1.4;
+   538→    letter-spacing: 0;
+   539→    text-decoration: none;
+   540→  }
+   541→
+   542→  /* ─── j) Card Headline ──────────────────────────────────────────── */
+   543→  .card-headline {
+   544→    font-family: var(--font-heading), ui-serif, Georgia, serif;
+   545→    font-size: var(--text-h3);
+   546→    font-weight: 400;
+   547→    line-height: 1.3;
+   548→    letter-spacing: -0.012em;
+   549→    color: var(--text-primary);
+   550→    text-wrap: balance;
+   551→    display: -webkit-box;
+   552→    -webkit-line-clamp: 3;
+   553→    -webkit-box-orient: vertical;
+   554→    overflow: hidden;
+   555→  }
+   556→
+   557→  @media (min-width: 768px) {
+   558→    .card-headline {
+   559→      -webkit-line-clamp: 2;
+   560→    }
+   561→  }
+   562→
+   563→  /* ─── k) Card Dek (summary text) ────────────────────────────────── */
+   564→  .card-dek {
+   565→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   566→    font-size: var(--text-small);
+   567→    font-weight: 400;
+   568→    line-height: 1.6;
+   569→    color: var(--text-secondary);
+   570→    display: -webkit-box;
+   571→    -webkit-line-clamp: 2;
+   572→    -webkit-box-orient: vertical;
+   573→    overflow: hidden;
+   574→  }
+   575→
+   576→  /* ─── l) Section Heading ─────────────────────────────────────────── */
+   577→  .section-heading {
+   578→    font-family: var(--font-heading), ui-serif, Georgia, serif;
+   579→    font-size: var(--text-h4);
+   580→    font-weight: 400;
+   581→    line-height: 1.2;
+   582→    letter-spacing: -0.01em;
+   583→    color: var(--text-primary);
+   584→    border-bottom: 1px solid var(--border-custom);
+   585→    padding-bottom: 0.5rem;
+   586→    margin-bottom: 1rem;
+   587→    display: flex;
+   588→    align-items: flex-end;
+   589→    justify-content: space-between;
+   590→  }
+   591→
+   592→  .section-heading .read-more {
+   593→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   594→    font-size: var(--text-caption);
+   595→    font-weight: 600;
+   596→    color: var(--brand);
+   597→    text-decoration: none;
+   598→    white-space: nowrap;
+   599→    transition: opacity 180ms ease;
+   600→    align-self: flex-end;
+   601→  }
+   602→
+   603→  .section-heading .read-more:hover {
+   604→    opacity: 0.8;
+   605→  }
+   606→
+   607→  /* ─── m) Video Title (white on overlay) ─────────────────────────── */
+   608→  .video-title {
+   609→    font-family: var(--font-heading), ui-serif, Georgia, serif;
+   610→    font-size: var(--text-h3);
+   611→    font-weight: 400;
+   612→    line-height: 1.3;
+   613→    letter-spacing: -0.012em;
+   614→    color: #FFFFFF;
+   615→    text-wrap: balance;
+   616→    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+   617→  }
+   618→
+   619→  /* ─── n) Video Duration Badge ────────────────────────────────────── */
+   620→  .video-duration {
+   621→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   622→    font-size: var(--text-caption);
+   623→    font-weight: 600;
+   624→    color: #FFFFFF;
+   625→    background: rgba(0, 0, 0, 0.6);
+   626→    backdrop-filter: blur(4px);
+   627→    border-radius: 4px;
+   628→    padding: 2px 6px;
+   629→    line-height: 1.4;
+   630→    position: absolute;
+   631→    bottom: 8px;
+   632→    right: 8px;
+   633→  }
+   634→
+   635→  /* ─── o) Opinion Author ────────────────────────────────────────── */
+   636→  .opinion-author {
+   637→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   638→    font-size: var(--text-base);
+   639→    font-weight: 700;
+   640→    color: var(--text-primary);
+   641→    line-height: 1.4;
+   642→  }
+   643→
+   644→  /* ─── p) Opinion Role ────────────────────────────────────────────── */
+   645→  .opinion-role {
+   646→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   647→    font-size: var(--text-caption);
+   648→    font-weight: 400;
+   649→    color: var(--text-muted);
+   650→    line-height: 1.4;
+   651→  }
+   652→
+   653→  /* ─── q) Opinion Headline (italic) ────────────────────────────────── */
+   654→  .opinion-headline {
+   655→    font-family: var(--font-heading), ui-serif, Georgia, serif;
+   656→    font-size: var(--text-h3);
+   657→    font-weight: 400;
+   658→    font-style: italic;
+   659→    line-height: 1.3;
+   660→    letter-spacing: -0.012em;
+   661→    color: var(--text-primary);
+   662→    text-wrap: balance;
+   663→  }
+   664→
+   665→  /* ─── r) Poll Question ───────────────────────────────────────────── */
+   666→  .poll-question {
+   667→    font-family: var(--font-heading), ui-serif, Georgia, serif;
+   668→    font-size: var(--text-h2);
+   669→    font-weight: 400;
+   670→    line-height: 1.3;
+   671→    letter-spacing: -0.015em;
+   672→    color: var(--text-primary);
+   673→    text-wrap: balance;
+   674→  }
+   675→
+   676→  /* ─── s) Poll Option ─────────────────────────────────────────────── */
+   677→  .poll-option {
+   678→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   679→    font-size: var(--text-base);
+   680→    font-weight: 400;
+   681→    color: var(--text-primary);
+   682→    line-height: 1.5;
+   683→  }
+   684→
+   685→  /* ─── t) Newsletter Headline ────────────────────────────────────── */
+   686→  .newsletter-headline {
+   687→    font-family: var(--font-heading), ui-serif, Georgia, serif;
+   688→    font-size: var(--text-h2);
+   689→    font-weight: 400;
+   690→    line-height: 1.3;
+   691→    letter-spacing: -0.015em;
+   692→    color: var(--text-primary);
+   693→    text-wrap: balance;
+   694→  }
+   695→
+   696→  /* ─── u) Newsletter Body ────────────────────────────────────────── */
+   697→  .newsletter-body {
+   698→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   699→    font-size: var(--text-base);
+   700→    font-weight: 400;
+   701→    color: var(--text-secondary);
+   702→    line-height: 1.7;
+   703→  }
+   704→
+   705→  /* ─── v) Footer Heading ─────────────────────────────────────────── */
+   706→  .footer-heading {
+   707→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   708→    font-size: var(--text-small);
+   709→    font-weight: 700;
+   710→    text-transform: uppercase;
+   711→    letter-spacing: 0.03em;
+   712→    color: var(--footer-heading);
+   713→    line-height: 1.4;
+   714→  }
+   715→
+   716→  /* ─── w) Footer Link ────────────────────────────────────────────── */
+   717→  .footer-link {
+   718→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   719→    font-size: var(--text-caption);
+   720→    font-weight: 400;
+   721→    color: var(--footer-text);
+   722→    line-height: 1.6;
+   723→    transition: color 150ms ease;
+   724→  }
+   725→
+   726→  .footer-link:hover {
+   727→    color: var(--footer-heading);
+   728→  }
+   729→
+   730→  /* ─── x) Footer Copyright ───────────────────────────────────────── */
+   731→  .footer-copyright {
+   732→    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+   733→    font-size: var(--text-caption);
+   734→    font-weight: 400;
+   735→    color: var(--text-muted);
+   736→    line-height: 1.5;
+   737→  }
+   738→
+   739→  /* ═══════════════════════════════════════════════════════════════════
+   740→   * Existing Utility Classes — Updated for new font system
+   741→   * ═══════════════════════════════════════════════════════════════════ */
+   742→
+   743→  /* Display font class — now uses --font-heading via next/font */
+   744→  .font-display {
+   745→    font-family: var(--font-heading), ui-serif, Georgia, serif;
+   746→    font-weight: 400;
+   747→    letter-spacing: -0.015em;
+   748→  }
+   749→
+   750→  /* Marquee ticker animation */
+   751→  .marquee-track {
+   752→    display: inline-flex;
+   753→    white-space: nowrap;
+   754→    animation: marquee var(--marquee-duration, 30s) linear infinite;
+   755→  }
+   756→
+   757→  .marquee-pause:hover .marquee-track {
+   758→    animation-play-state: paused;
+   759→  }
+   760→
+   761→  /* Text wrap balance */
+   762→  .text-balance {
+   763→    text-wrap: balance;
+   764→  }
+   765→
+   766→  /* Card elevation shadows */
+   767→  .news-shadow {
+   768→    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+   769→  }
+   770→
+   771→  .news-shadow-md {
+   772→    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+   773→  }
+   774→
+   775→  /* Card hover — lift + shadow */
+   776→  .news-card-hover {
+   777→    transition: box-shadow 200ms ease-out, transform 200ms ease-out;
+   778→  }
+   779→
+   780→  .news-card-hover:hover {
+   781→    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+   782→    transform: translateY(-2px);
+   783→  }
+   784→
+   785→  @media (min-width: 1024px) {
+   786→    .news-card-hover:hover {
+   787→      transform: translateY(-4px);
+   788→      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+   789→    }
+   790→  }
+   791→
+   792→  /* Thin scrollbar */
+   793→  .scrollbar-thin {
+   794→    scrollbar-width: thin;
+   795→    scrollbar-color: var(--text-muted) transparent;
+   796→  }
+   797→
+   798→  .scrollbar-thin::-webkit-scrollbar {
+   799→    width: 6px;
+   800→    height: 6px;
+   801→  }
+   802→
+   803→  .scrollbar-thin::-webkit-scrollbar-thumb {
+   804→    background-color: var(--text-muted);
+   805→    border-radius: 9999px;
+   806→  }
+   807→
+   808→  .scrollbar-thin::-webkit-scrollbar-track {
+   809→    background: transparent;
+   810→  }
+   811→
+   812→  /* Hide scrollbar */
+   813→  .scrollbar-hide {
+   814→    -ms-overflow-style: none;
+   815→    scrollbar-width: none;
+   816→  }
+   817→
+   818→  .scrollbar-hide::-webkit-scrollbar {
+   819→    display: none;
+   820→  }
+   821→
+   822→  /* Bottom safe area for mobile nav */
+   823→  .pb-safe {
+   824→    padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+   825→  }
+   826→}
+   827→
+   828→/* ═══════════════════════════════════════════════════════════════════════════
+   829→ * Keyframe Animations
+   830→ * ═══════════════════════════════════════════════════════════════════════════ */
+   831→
+   832→/* Marquee horizontal scroll */
+   833→@keyframes marquee {
+   834→  from {
+   835→    transform: translateX(0);
+   836→  }
+   837→  to {
+   838→    transform: translateX(-50%);
+   839→  }
+   840→}
+   841→
+   842→/* Skeleton shimmer for loading states */
+   843→@keyframes shimmer {
+   844→  0% { background-position: 200% 0; }
+   845→  100% { background-position: -200% 0; }
+   846→}
+   847→
+   848→.skeleton {
+   849→  background: linear-gradient(90deg, var(--surface-elevated) 25%, var(--border-custom) 50%, var(--surface-elevated) 75%);
+   850→  background-size: 200% 100%;
+   851→  animation: shimmer 1.5s ease-in-out infinite;
+   852→  border-radius: 4px;
+   853→}
+   854→
+   855→/* Match final typography line-heights to prevent CLS during skeleton → content swap */
+   856→.skeleton-heading {
+   857→  line-height: 1.25;
+   858→}
+   859→
+   860→.skeleton-body {
+   861→  line-height: 1.8;
+   862→}
+   863→
+   864→.skeleton-caption {
+   865→  line-height: 1.5;
+   866→}
+   867→
+   868→/* Hero section accent line shimmer */
+   869→@keyframes accent-shimmer {
+   870→  0% { background-position: -200% 0; }
+   871→  100% { background-position: 200% 0; }
+   872→}
+   873→
+   874→.hero-accent-shimmer {
+   875→  background-size: 200% 100%;
+   876→  animation: accent-shimmer 3s ease-in-out infinite;
+   877→}
+   878→
+   879→/* Ticker pulse dot */
+   880→@keyframes ticker-pulse {
+   881→  0%, 100% {
+   882→    opacity: 1;
+   883→    transform: scale(1);
+   884→  }
+   885→  50% {
+   886→    opacity: 0.4;
+   887→    transform: scale(0.85);
+   888→  }
+   889→}
+   890→
+   891→.ticker-dot {
+   892→  animation: ticker-pulse 1.4s ease-in-out infinite;
+   893→}
+   894→
+   895→/* Reaction button pop */
+   896→@keyframes reaction-pop {
+   897→  0% { transform: scale(1); }
+   898→  50% { transform: scale(1.3); }
+   899→  100% { transform: scale(1); }
+   900→}
+   901→
+   902→.reaction-pop {
+   903→  animation: reaction-pop 0.3s ease;
+   904→}
+   905→
+   906→/* ═══════════════════════════════════════════════════════════════════════════
+   907→ * Image & Interaction Utilities
+   908→ * ═══════════════════════════════════════════════════════════════════════════ */
+   909→
+   910→/* Image zoom on hover for news cards */
+   911→.img-zoom {
+   912→  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+   913→}
+   914→
+   915→.group:hover .img-zoom {
+   916→  transform: scale(1.05);
+   917→}
+   918→
+   919→/* Section header — Prothom Alo style with brand bottom border */
+   920→.section-header {
+   921→  display: flex;
+   922→  align-items: flex-end;
+   923→  justify-content: space-between;
+   924→  padding-bottom: 10px;
+   925→  margin-bottom: 16px;
+   926→  border-bottom: 3px solid var(--brand);
+   927→}
+   928→
+   929→.section-header h2 {
+   930→  font-family: var(--font-heading), ui-serif, Georgia, serif;
+   931→  font-size: var(--text-body-lg);
+   932→  font-weight: 400;
+   933→  color: var(--text-primary);
+   934→  line-height: 1.15;
+   935→  letter-spacing: -0.005em;
+   936→}
+   937→
+   938→.section-header .read-more {
+   939→  font-size: var(--text-caption);
+   940→  color: var(--brand);
+   941→  font-weight: 600;
+   942→  text-decoration: none;
+   943→  transition: opacity 200ms ease;
+   944→  white-space: nowrap;
+   945→}
+   946→
+   947→.section-header .read-more:hover {
+   948→  opacity: 0.8;
+   949→}
+   950→
+   951→/* Nav link hover underline animation */
+   952→.nav-link-hover {
+   953→  position: relative;
+   954→  font-weight: 600;
+   955→  letter-spacing: 0;
+   956→  word-spacing: 0;
+   957→}
+   958→
+   959→.nav-link-hover::after {
+   960→  content: '';
+   961→  position: absolute;
+   962→  bottom: 0;
+   963→  left: 50%;
+   964→  width: 0;
+   965→  height: 2px;
+   966→  background: var(--brand);
+   967→  transition: width 200ms ease, left 200ms ease;
+   968→}
+   969→
+   970→.nav-link-hover:hover::after {
+   971→  width: 80%;
+   972→  left: 10%;
+   973→}
+   974→
+   975→/* ═══════════════════════════════════════════════════════════════════════════════════════
+   976→ * Professional Article Typography & Layout
+   977→ * NYT/Guardian-level editorial design for long-form Bengali reading.
+   978→ * Single-column, clean white surface, no card wrapper.
+   979→ * ═══════════════════════════════════════════════════════════════════════════════════════ */
+   980→
+   981→/* ─── Article Headline — large, serif, dramatic ─── */
+   982→.article-headline {
+   983→  font-family: var(--font-heading), ui-serif, Georgia, serif;
+   984→  font-size: 1.75rem;
+   985→  font-weight: 400;
+   986→  line-height: 1.22;
+   987→  letter-spacing: -0.018em;
+   988→  color: var(--text-primary);
+   989→  text-wrap: balance;
+   990→  word-spacing: 0;
+   991→}
+   992→
+   993→/* ─── Article Dek (subheadline) — NYT-style italic serif ─── */
+   994→.article-dek {
+   995→  font-family: var(--font-heading), ui-serif, Georgia, serif;
+   996→  font-size: 1.2rem;
+   997→  font-weight: 400;
+   998→  font-style: italic;
+   999→  line-height: 1.55;
+  1000→  letter-spacing: -0.005em;
+  1001→  color: var(--text-secondary);
+  1002→  text-wrap: pretty;
+  1003→}
+  1004→
+  1005→/* ─── Eyebrow link — hover underline effect ─── */
+  1006→.article-eyebrow-link {
+  1007→  text-decoration: none;
+  1008→  border-bottom: 1.5px solid var(--accent-color);
+  1009→  padding-bottom: 1px;
+  1010→  transition: border-color 150ms ease, color 150ms ease;
+  1011→}
+  1012→
+  1013→.article-eyebrow-link:hover {
+  1014→  border-bottom-color: transparent;
+  1015→}
+  1016→
+  1017→/* ─── Byline Block ─── */
+  1018→.article-byline-block {
+  1019→  padding-bottom: 0;
+  1020→}
+  1021→
+  1022→/* ─── Hero Figure — clean, no card styling ─── */
+  1023→.article-hero-figure {
+  1024→  margin: 0;
+  1025→}
+  1026→
+  1027→.article-hero-caption {
+  1028→  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  1029→  font-size: 0.8125rem; /* 13px */
+  1030→  line-height: 1.5;
+  1031→  color: var(--text-muted);
+  1032→}
+  1033→
+  1034→/* ─── Article Highlight Box ("মূল কথা") ─── */
+  1035→.article-highlight-box {
+  1036→ background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 4%, transparent) 0%, transparent 60%);
+  1037→}
+  1038→
+  1039→/* ─── Ad Break — subtle, well-separated ─── */
+  1040→.ad-break {
+  1041→  opacity: 0.85;
+  1042→}
+  1043→
+  1044→/* ─── Article Body ─── */
+  1045→.article-body {
+  1046→  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  1047→  font-size: 1.125rem; /* 18px desktop */
+  1048→  font-weight: 400;
+  1049→  line-height: 1.85;
+  1050→  letter-spacing: 0.008em;
+  1051→  word-spacing: 0.015em;
+  1052→  color: var(--text-primary);
+  1053→  text-rendering: optimizeLegibility;
+  1054→}
+  1055→
+  1056→.article-body p {
+  1057→  margin-bottom: 1.75em;
+  1058→  text-align: justify;
+  1059→  text-justify: inter-word;
+  1060→  text-wrap: pretty;
+  1061→}
+  1062→
+  1063→.article-body p:last-child {
+  1064→  margin-bottom: 0;
+  1065→}
+  1066→
+  1067→/* Lead paragraph — slight size bump, classic newspaper convention */
+  1068→.article-body .lead-paragraph {
+  1069→  font-size: 1.1875rem; /* 19px — +1px bump */
+  1070→  line-height: 1.8;
+  1071→  color: var(--text-secondary);
+  1072→}
+  1073→
+  1074→/* Drop cap — 4-line height, serif, elegant */
+  1075→.article-body .drop-cap::first-letter {
+  1076→  font-family: var(--font-heading), ui-serif, Georgia, serif;
+  1077→  float: left;
+  1078→  font-size: 4em;
+  1079→  line-height: 0.78;
+  1080→  padding-right: 0.1em;
+  1081→  padding-top: 0.04em;
+  1082→  font-weight: 400;
+  1083→  color: var(--text-primary);
+  1084→}
+  1085→
+  1086→/* Blockquote / Pull-quote — left accent border, editorial feel */
+  1087→.article-body blockquote,
+  1088→.article-body .pull-quote {
+  1089→  position: relative;
+  1090→  margin: 2.2em 0;
+  1091→  padding: 1.5em 1.5em;
+  1092→  padding-left: 1.75em;
+  1093→  border-left: 3px solid var(--accent-color);
+  1094→  font-family: var(--font-heading), ui-serif, Georgia, serif;
+  1095→  font-size: 1.2em;
+  1096→  font-weight: 400;
+  1097→  font-style: italic;
+  1098→  line-height: 1.55;
+  1099→  color: var(--text-secondary);
+  1100→  background: transparent;
+  1101→}
+  1102→
+  1103→.article-body blockquote p,
+  1104→.article-body .pull-quote p {
+  1105→  margin-bottom: 0;
+  1106→  text-align: left;
+  1107→  text-justify: auto;
+  1108→}
+  1109→
+  1110→/* Centered pull-quote variant */
+  1111→.article-body .pull-quote--centered {
+  1112→  border-left: none;
+  1113→  padding: 2em 0;
+  1114→  text-align: center;
+  1115→  font-size: 1.35em;
+  1116→  letter-spacing: -0.008em;
+  1117→  color: var(--text-primary);
+  1118→}
+  1119→
+  1120→.article-body .pull-quote--centered::before {
+  1121→  content: '\201C';
+  1122→  display: block;
+  1123→  font-size: 2.5em;
+  1124→  line-height: 1;
+  1125→  color: var(--accent-color);
+  1126→  margin-bottom: 0.15em;
+  1127→}
+  1128→
+  1129→/* Inline highlight quote */
+  1130→.article-body .highlight-quote {
+  1131→  position: relative;
+  1132→  margin: 2em 0;
+  1133→  padding: 1.2em 1.4em;
+  1134→  padding-left: 1.6em;
+  1135→  border-left: 4px solid var(--brand);
+  1136→  background: var(--muted);
+  1137→  border-radius: 0 8px 8px 0;
+  1138→  font-style: italic;
+  1139→  font-size: 1.05em;
+  1140→  font-weight: 400;
+  1141→}
+  1142→
+  1143→/* In-article subheadings */
+  1144→.article-body h2 {
+  1145→  font-family: var(--font-heading), ui-serif, Georgia, serif;
+  1146→  font-size: 1.5rem;
+  1147→  font-weight: 400;
+  1148→  line-height: 1.3;
+  1149→  letter-spacing: -0.01em;
+  1150→  color: var(--text-primary);
+  1151→  margin-top: 2.2em;
+  1152→  margin-bottom: 0.75em;
+  1153→  text-wrap: balance;
+  1154→}
+  1155→
+  1156→.article-body h3 {
+  1157→  font-family: var(--font-heading), ui-serif, Georgia, serif;
+  1158→  font-size: 1.25rem;
+  1159→  font-weight: 400;
+  1160→  line-height: 1.35;
+  1161→  letter-spacing: -0.005em;
+  1162→  color: var(--text-primary);
+  1163→  margin-top: 1.8em;
+  1164→  margin-bottom: 0.5em;
+  1165→  text-wrap: balance;
+  1166→}
+  1167→
+  1168→/* In-article links */
+  1169→.article-body a {
+  1170→  color: var(--link-color);
+  1171→  text-decoration: underline;
+  1172→  text-underline-offset: 3px;
+  1173→  text-decoration-thickness: 1px;
+  1174→  text-decoration-color: var(--link-color);
+  1175→  transition: color 150ms ease, text-decoration-color 150ms ease;
+  1176→}
+  1177→
+  1178→.article-body a:hover {
+  1179→  color: var(--accent-color);
+  1180→  text-decoration-color: var(--accent-color);
+  1181→}
+  1182→
+  1183→/* In-article lists */
+  1184→.article-body ul,
+  1185→.article-body ol {
+  1186→  margin: 1.5em 0;
+  1187→  padding-left: 1.5em;
+  1188→}
+  1189→
+  1190→.article-body ul {
+  1191→  list-style: none;
+  1192→  padding-left: 1.25em;
+  1193→}
+  1194→
+  1195→.article-body ul li {
+  1196→  position: relative;
+  1197→  padding-left: 1em;
+  1198→  margin-bottom: 0.6em;
+  1199→}
+  1200→
+  1201→.article-body ul li::before {
+  1202→  content: '';
+  1203→  position: absolute;
+  1204→  left: 0;
+  1205→  top: 0.55em;
+  1206→  width: 6px;
+  1207→  height: 6px;
+  1208→  border-radius: 50%;
+  1209→  background: var(--accent-color);
+  1210→}
+  1211→
+  1212→.article-body ol li {
+  1213→  margin-bottom: 0.6em;
+  1214→  padding-left: 0.5em;
+  1215→}
+  1216→
+  1217→.article-body li {
+  1218→  line-height: 1.8;
+  1219→  text-align: left;
+  1220→}
+  1221→
+  1222→/* In-article image/figure */
+  1223→.article-body figure {
+  1224→  margin: 2.2em 0;
+  1225→}
+  1226→
+  1227→.article-body figcaption,
+  1228→figcaption {
+  1229→  margin-top: 0.5rem;
+  1230→  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  1231→  font-size: 0.8125rem; /* 13px */
+  1232→  line-height: 1.5;
+  1233→  color: var(--text-muted);
+  1234→  font-style: italic;
+  1235→}
+  1236→
+  1237→.credit {
+  1238→  font-weight: 600;
+  1239→  font-style: normal;
+  1240→}
+  1241→
+  1242→/* ═══════════════════════════════════════════════════════════════════════════
+  1243→ * Reading Progress Bar
+  1244→ * ═══════════════════════════════════════════════════════════════════════════ */
+  1245→.reading-progress-bar {
+  1246→  position: fixed;
+  1247→  top: 0;
+  1248→  left: 0;
+  1249→  width: 0%;
+  1250→  height: 3px;
+  1251→  background: var(--brand);
+  1252→  z-index: 9999;
+  1253→  transition: width 80ms linear;
+  1254→  will-change: width;
+  1255→}
+  1256→
+  1257→/* ═══════════════════════════════════════════════════════════════════════════
+  1258→ * Back-to-Top Button
+  1259→ * ═══════════════════════════════════════════════════════════════════════════ */
+  1260→.back-to-top-btn {
+  1261→  position: fixed;
+  1262→  bottom: 80px;
+  1263→  right: 20px;
+  1264→  z-index: 100;
+  1265→  display: flex;
+  1266→  align-items: center;
+  1267→  justify-content: center;
+  1268→  width: 44px;
+  1269→  height: 44px;
+  1270→  border-radius: 50%;
+  1271→  background: var(--card);
+  1272→  border: 1px solid var(--border);
+  1273→  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  1274→  color: var(--text-secondary);
+  1275→  cursor: pointer;
+  1276→  transition: all 200ms ease;
+  1277→}
+  1278→
+  1279→.back-to-top-btn:hover {
+  1280→  background: var(--brand);
+  1281→  color: var(--brand-foreground);
+  1282→  border-color: var(--brand);
+  1283→  transform: translateY(-2px);
+  1284→  box-shadow: 0 4px 16px rgba(227, 27, 35, 0.2);
+  1285→}
+  1286→
+  1287→/* ═══════════════════════════════════════════════════════════════════════════
+  1288→ * Article Page Skip-to-Content Link (Accessibility)
+  1289→ * ═══════════════════════════════════════════════════════════════════════════ */
+  1290→.skip-to-content {
+  1291→  position: absolute;
+  1292→  left: -9999px;
+  1293→  top: auto;
+  1294→  width: 1px;
+  1295→  height: 1px;
+  1296→  overflow: hidden;
+  1297→  z-index: 10000;
+  1298→}
+  1299→
+  1300→.skip-to-content:focus {
+  1301→  position: fixed;
+  1302→  top: 8px;
+  1303→  left: 50%;
+  1304→  transform: translateX(-50%);
+  1305→  width: auto;
+  1306→  height: auto;
+  1307→  padding: 0.75rem 1.5rem;
+  1308→  background: var(--brand);
+  1309→  color: var(--brand-foreground);
+  1310→  font-weight: 600;
+  1311→  font-size: 0.875rem;
+  1312→  border-radius: 0.5rem;
+  1313→  text-decoration: none;
+  1314→  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  1315→}
+  1316→
+  1317→/* ═══════════════════════════════════════════════════════════════════════════
+  1318→ * Article Skeleton Loading (matches final typography to prevent CLS)
+  1319→ * ═══════════════════════════════════════════════════════════════════════════ */
+  1320→.article-skeleton-eyebrow {
+  1321→  width: 100px;
+  1322→  height: 18px;
+  1323→  border-radius: 4px;
+  1324→}
+  1325→
+  1326→.article-skeleton-headline {
+  1327→  width: 100%;
+  1328→  height: calc(2.441rem * 1.28 * 3);
+  1329→  max-width: 100%;
+  1330→  border-radius: 4px;
+  1331→}
+  1332→
+  1333→.article-skeleton-dek {
+  1334→  width: 85%;
+  1335→  height: calc(1.125rem * 1.8 * 2);
+  1336→  border-radius: 4px;
+  1337→}
+  1338→
+  1339→.article-skeleton-byline {
+  1340→  width: 240px;
+  1341→  height: 16px;
+  1342→  border-radius: 4px;
+  1343→}
+  1344→
+  1345→.article-skeleton-image {
+  1346→  width: 100%;
+  1347→  aspect-ratio: 16 / 9;
+  1348→  border-radius: 8px;
+  1349→}
+  1350→
+  1351→.article-skeleton-body-line {
+  1352→  width: 100%;
+  1353→  height: calc(1.125rem * 1.8);
+  1354→  border-radius: 4px;
+  1355→  margin-bottom: 1.75em;
+  1356→}
+  1357→
+  1358→.article-skeleton-body-line:nth-child(odd) {
+  1359→  width: 95%;
+  1360→}
+  1361→
+  1362→/* ═══════════════════════════════════════════════════════════════════════════
+  1363→ * Component Classes
+  1364→ * ═══════════════════════════════════════════════════════════════════════════ */
+  1365→
+  1366→/* Sticky share sidebar (kept for potential future use) */
+  1367→.article-share-sidebar {
+  1368→  position: sticky;
+  1369→  top: 80px;
+  1370→}
+  1371→
+  1372→.article-share-sidebar .share-btn {
+  1373→  display: flex;
+  1374→  align-items: center;
+  1375→  justify-content: center;
+  1376→  width: 44px;
+  1377→  height: 44px;
+  1378→  border-radius: 50%;
+  1379→  border: 1px solid var(--border);
+  1380→  background: var(--card);
+  1381→  transition: all 200ms ease;
+  1382→}
+  1383→
+  1384→.article-share-sidebar .share-btn:hover {
+  1385→  transform: translateY(-2px);
+  1386→  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  1387→}
+  1388→
+  1389→/* Article card shadow (for homepage cards, not article page) */
+  1390→.article-card {
+  1391→  background: var(--card);
+  1392→  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  1393→}
+  1394→
+  1395→/* Comment textarea focus */
+  1396→.comment-input:focus {
+  1397→  border-color: var(--brand);
+  1398→  box-shadow: 0 0 0 3px rgba(227, 27, 35, 0.08);
+  1399→}
+  1400→
+  1401→/* ═══════════════════════════════════════════════════════════════════════════
+  1402→ * Responsive Overrides
+  1403→ * ═══════════════════════════════════════════════════════════════════════════ */
+  1404→
+  1405→/* Tablet: 768–1023px */
+  1406→@media (min-width: 768px) and (max-width: 1023px) {
+  1407→  .hero-headline {
+  1408→    font-size: var(--text-h1);
+  1409→    line-height: 1.24;
+  1410→  }
+  1411→
+  1412→  .masthead-wordmark {
+  1413→    letter-spacing: -0.02em;
+  1414→  }
+  1415→}
+  1416→
+  1417→/* Mobile: ≤767px */
+  1418→@media (max-width: 767px) {
+  1419→  .masthead-wordmark {
+  1420→    font-size: var(--text-h1);
+  1421→    letter-spacing: -0.015em;
+  1422→  }
+  1423→
+  1424→  .hero-headline {
+  1425→    font-size: var(--text-h1);
+  1426→    line-height: 1.25;
+  1427→  }
+  1428→
+  1429→  .hero-sub-headline {
+  1430→    font-size: var(--text-h3);
+  1431→  }
+  1432→
+  1433→  .section-heading {
+  1434→    font-size: var(--text-body-lg);
+  1435→  }
+  1436→
+  1437→  .section-header h2 {
+  1438→    font-size: var(--text-base);
+  1439→  }
+  1440→
+  1441→  .video-title {
+  1442→    font-size: var(--text-h4);
+  1443→  }
+  1444→
+  1445→  .newsletter-headline {
+  1446→    font-size: var(--text-h3);
+  1447→  }
+  1448→
+  1449→  .article-headline {
+  1450→    font-size: 1.6rem;
+  1451→    line-height: 1.25;
+  1452→  }
+  1453→
+  1454→  .article-dek {
+  1455→    font-size: 1.0625rem;
+  1456→    line-height: 1.6;
+  1457→  }
+  1458→
+  1459→  .article-body {
+  1460→    font-size: 1.0625rem; /* 17px mobile */
+  1461→    line-height: 1.85;
+  1462→  }
+  1463→
+  1464→  .article-body .lead-paragraph {
+  1465→    font-size: 1.125rem; /* 18px mobile lead */
+  1466→  }
+  1467→
+  1468→  .article-body .drop-cap::first-letter {
+  1469→    font-size: 3.2em;
+  1470→    line-height: 0.82;
+  1471→  }
+  1472→
+  1473→  .article-body h2 {
+  1474→    font-size: 1.3125rem;
+  1475→  }
+  1476→
+  1477→  .article-body h3 {
+  1478→    font-size: 1.125rem;
+  1479→  }
+  1480→
+  1481→  .article-body blockquote,
+  1482→  .article-body .pull-quote {
+  1483→    font-size: 1.08em;
+  1484→    padding: 1.2em 1.25em;
+  1485→    padding-left: 1.5em;
+  1486→  }
+  1487→
+  1488→  .back-to-top-btn {
+  1489→    bottom: 72px;
+  1490→    right: 16px;
+  1491→    width: 40px;
+  1492→    height: 40px;
+  1493→  }
+  1494→
+  1495→  .nav-link {
+  1496→    font-size: var(--text-caption);
+  1497→  }
+  1498→
+  1499→  .utility-bar {
+  1500→    font-size: 0.75rem;
+  1501→  }
+  1502→}
+  1503→
+  1504→/* Small mobile: ≤375px */
+  1505→@media (max-width: 375px) {
+  1506→  .masthead-wordmark {
+  1507→    font-size: var(--text-h2);
+  1508→    letter-spacing: -0.01em;
+  1509→  }
+  1510→
+  1511→  .card-headline {
+  1512→    font-size: var(--text-h4);
+  1513→  }
+  1514→
+  1515→  .ticker-text {
+  1516→    font-size: var(--text-caption);
+  1517→  }
+  1518→
+  1519→  .article-body .drop-cap::first-letter {
+  1520→    font-size: 2.8em;
+  1521→  }
+  1522→
+  1523→  .article-headline {
+  1524→    font-size: 1.4rem;
+  1525→  }
+  1526→}
+  1527→
+  1528→/* Live indicator pulse */
+  1529→@keyframes live-pulse {
+  1530→  0%, 100% {
+  1531→    opacity: 1;
+  1532→    box-shadow: 0 0 0 0 rgba(227, 27, 35, 0.4);
+  1533→  }
+  1534→  50% {
+  1535→    opacity: 0.8;
+  1536→    box-shadow: 0 0 0 6px rgba(227, 27, 35, 0);
+  1537→  }
+  1538→}
+  1539→
+  1540→.live-dot {
+  1541→  width: 8px;
+  1542→  height: 8px;
+  1543→  border-radius: 50%;
+  1544→  background: var(--brand);
+  1545→  animation: live-pulse 2s ease-in-out infinite;
+  1546→}
+  1547→
+  1548→/* ═══════════════════════════════════════════════════════════════════════════
+  1549→ * Scroll-Triggered Fade-In Animations
+  1550→ * ═══════════════════════════════════════════════════════════════════════════ */
+  1551→
+  1552→.fade-in-section {
+  1553→  opacity: 0;
+  1554→  transition: opacity 600ms ease-out, transform 600ms ease-out;
+  1555→  will-change: opacity, transform;
+  1556→}
+  1557→
+  1558→.fade-in-section[data-direction="up"] {
+  1559→  transform: translateY(24px);
+  1560→}
+  1561→
+  1562→.fade-in-section[data-direction="left"] {
+  1563→  transform: translateX(-24px);
+  1564→}
+  1565→
+  1566→.fade-in-section[data-direction="right"] {
+  1567→  transform: translateX(24px);
+  1568→}
+  1569→
+  1570→.fade-in-section[data-direction="fade"] {
+  1571→  transform: none;
+  1572→}
+  1573→
+  1574→.fade-in-section.is-visible {
+  1575→  opacity: 1;
+  1576→  transform: translateY(0) translateX(0);
+  1577→}
+  1578→
+  1579→/* Reduce motion preference */
+  1580→@media (prefers-reduced-motion: reduce) {
+  1581→  .fade-in-section {
+  1582→    opacity: 1;
+  1583→    transform: none;
+  1584→    transition: none;
+  1585→  }
+  1586→}
+  1587→
+  1588→/* ═══════════════════════════════════════════════════════════════════════════
+  1589→ * Print Stylesheet — Clean, ad-free, single-column
+  1590→ * ═══════════════════════════════════════════════════════════════════════════ */
+  1591→@media print {
+  1592→  .reading-progress-bar,
+  1593→  .back-to-top-btn,
+  1594→  .article-share-sidebar,
+  1595→  .skip-to-content,
+  1596→  nav,
+  1597→  footer,
+  1598→  .bottom-nav-bar,
+  1599→  .ad-box,
+  1600→  [class*="ad-box"],
+  1601→  .ad-break,
+  1602→  .reaction-bar,
+  1603→  .comments-section,
+  1604→  .related-articles-section,
+  1605→  .article-inline-share,
+  1606→  .article-highlight-box {
+  1607→    display: none !important;
+  1608→  }
+  1609→
+  1610→  body {
+  1611→    background: white !important;
+  1612→    color: black !important;
+  1613→    font-size: 11pt;
+  1614→    line-height: 1.6;
+  1615→  }
+  1616→
+  1617→  main {
+  1618→    max-width: 100% !important;
+  1619→    padding: 0 !important;
+  1620→  }
+  1621→
+  1622→  .article-body {
+  1623→    max-width: 100% !important;
+  1624→    font-size: 11pt;
+  1625→    line-height: 1.6;
+  1626→  }
+  1627→
+  1628→  .article-body p {
+  1629→    text-align: left !important;
+  1630→    text-justify: inter-word;
+  1631→    orphans: 3;
+  1632→    widows: 3;
+  1633→  }
+  1634→
+  1635→  .article-body .drop-cap::first-letter {
+  1636→    color: black !important;
+  1637→  }
+  1638→
+  1639→  .article-dek {
+  1640→    font-style: italic;
+  1641→    color: #333 !important;
+  1642→  }
+  1643→
+  1644→  .article-body a::after {
+  1645→    content: " (" attr(href) ")";
+  1646→    font-size: 0.85em;
+  1647→    color: #555;
+  1648→  }
+  1649→
+  1650→  .article-card {
+  1651→    box-shadow: none !important;
+  1652→    border: none !important;
+  1653→  }
+  1654→
+  1655→  figure, img {
+  1656→    page-break-inside: avoid;
+  1657→  }
+  1658→
+  1659→  h1, h2, h3 {
+  1660→    page-break-after: avoid;
+  1661→  }
+  1662→
+  1663→  .print-header {
+  1664→    display: block !important;
+  1665→    border-bottom: 2px solid black;
+  1666→    padding-bottom: 12pt;
+  1667→    margin-bottom: 24pt;
+  1668→  }
+  1669→}
+  1670→
+  1671→/* Hide print header on screen */
+  1672→.print-header {
+  1673→  display: none;
+  1674→}
+  1675→

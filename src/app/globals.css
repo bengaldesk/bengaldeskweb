@@ -1014,9 +1014,51 @@
   border-bottom-color: transparent;
 }
 
-/* ─── Byline Block ─── */
+/* ─── Byline Block — refined with better visual hierarchy ─── */
 .article-byline-block {
   padding-bottom: 0;
+  border-bottom: none;
+}
+
+/* ─── Dateline — location + date before body (Prothom Alo / NYT style) ─── */
+.article-dateline {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.875rem; /* 14px */
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.article-dateline .dateline-separator {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  margin: 0 0.65em;
+  vertical-align: middle;
+}
+
+/* ─── Article End Marker — ornamental diamond at body close ─── */
+.article-end-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2.5em 0 0.5em;
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.article-end-marker::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+  transform: rotate(45deg);
+  border-radius: 1px;
 }
 
 /* ─── Hero Figure — clean, no card styling ─── */
@@ -1039,6 +1081,94 @@
 /* ─── Ad Break — subtle, well-separated ─── */
 .ad-break {
   opacity: 0.85;
+}
+
+/* ─── Editorial Section Divider — thick rule with centered label ─── */
+.editorial-rule {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2.5rem 0;
+}
+
+.editorial-rule::before,
+.editorial-rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-custom);
+}
+
+.editorial-rule-label {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.6875rem; /* 11px */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* ─── Thick editorial accent rule (brand color) ─── */
+.editorial-rule--accent::before,
+.editorial-rule--accent::after {
+  height: 2px;
+  background: var(--brand);
+  opacity: 0.3;
+}
+
+/* ─── Highlight Box (Key Takeaway / মূল কথা) ─── */
+.article-key-takeaway {
+  position: relative;
+  margin: 0;
+  padding: 1.25rem 1.5rem;
+  padding-left: 1.75rem;
+  background: var(--surface-elevated);
+  border-left: 4px solid var(--brand);
+  border-radius: 0 8px 8px 0;
+}
+
+.article-key-takeaway .takeaway-label {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.6875rem; /* 11px */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--brand);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.article-key-takeaway .takeaway-text {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1rem; /* 16px */
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+/* ─── Inline share bar — refined professional style ─── */
+.article-inline-share {
+  border-color: var(--border-custom) !important;
+}
+
+/* ─── Professional meta stats row ─── */
+.article-meta-stats {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.75rem; /* 12px */
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+}
+
+.article-meta-stats .stat-separator {
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  opacity: 0.5;
+  margin: 0 0.5em;
+  vertical-align: middle;
 }
 
 /* ─── Article Body ─── */
@@ -1416,6 +1546,23 @@ figcaption {
 
 /* Mobile: ≤767px */
 @media (max-width: 767px) {
+  .article-dateline {
+    font-size: 0.8125rem; /* 13px */
+  }
+
+  .article-key-takeaway {
+    padding: 1rem 1.125rem;
+    padding-left: 1.25rem;
+  }
+
+  .article-key-takeaway .takeaway-text {
+    font-size: 0.9375rem; /* 15px */
+  }
+
+  .editorial-rule {
+    margin: 2rem 0;
+  }
+
   .masthead-wordmark {
     font-size: var(--text-h1);
     letter-spacing: -0.015em;
@@ -1586,6 +1733,59 @@ figcaption {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+ * Author Bio Card — Enhanced NYT-style
+ * ═══════════════════════════════════════════════════════════════════════════ */
+.author-bio-card {
+  position: relative;
+  border: 1px solid var(--border-custom);
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: var(--surface-elevated);
+  transition: box-shadow 200ms ease;
+}
+
+.author-bio-card:hover {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.author-bio-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 1.5rem;
+  right: 1.5rem;
+  height: 3px;
+  background: var(--brand);
+  border-radius: 0 0 3px 3px;
+}
+
+@media (max-width: 767px) {
+  .author-bio-card {
+    padding: 1.25rem;
+  }
+  .author-bio-card::before {
+    left: 1.25rem;
+    right: 1.25rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * Comments Section — Refined professional card
+ * ═══════════════════════════════════════════════════════════════════════════ */
+.comments-card {
+  border: 1px solid var(--border-custom);
+  border-radius: 12px;
+  background: var(--card);
+  overflow: hidden;
+}
+
+.comments-card-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-custom);
+  background: var(--surface-elevated);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
  * Print Stylesheet — Clean, ad-free, single-column
  * ═══════════════════════════════════════════════════════════════════════════ */
 @media print {
@@ -1601,9 +1801,14 @@ figcaption {
   .ad-break,
   .reaction-bar,
   .comments-section,
+  .comments-card,
   .related-articles-section,
   .article-inline-share,
-  .article-highlight-box {
+  .article-highlight-box,
+  .article-key-takeaway,
+  .article-end-marker,
+  .editorial-rule,
+  .editorial-rule-label {
     display: none !important;
   }
 
