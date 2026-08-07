@@ -28,10 +28,11 @@ function CatLabel({ category }: { category: NewsItem['category'] }) {
   )
 }
 
-/* ─── Hero image section (mobile: 16/10, desktop: 16/9) ─── */
+/* ─── Hero image + headline (image only, text below) ─── */
 function HeroImageSection({ item }: { item: NewsItem }) {
   return (
     <Link href={`/news/${item.id}`} className='group block'>
+      {/* Image — clean, no overlay */}
       <div className='relative aspect-[16/10] w-full overflow-hidden bg-muted lg:aspect-[16/9]'>
         <NewsImage
           src={item.image}
@@ -40,8 +41,6 @@ function HeroImageSection({ item }: { item: NewsItem }) {
           sizes='(max-width: 1024px) 100vw, 640px'
           className='img-zoom'
         />
-        {/* Subtle light gradient at the bottom for text readability */}
-        <div className='absolute inset-0 bg-gradient-to-t from-white via-white/70 to-transparent' />
 
         {/* Category pill badge — top-left */}
         <span
@@ -65,21 +64,21 @@ function HeroImageSection({ item }: { item: NewsItem }) {
         >
           <Bookmark className='h-4 w-4 text-muted-foreground' />
         </button>
+      </div>
 
-        {/* Text overlay at bottom */}
-        <div className='absolute inset-x-0 bottom-0 p-4 sm:p-5'>
-          <CatLabel category={item.category} />
-          <h2 className='font-display mt-1.5 line-clamp-3 text-[1.1rem] font-bold leading-tight text-foreground sm:text-lg'>
-            {item.title}
-          </h2>
-          <div className='mt-2 flex items-center gap-3 text-[11px] text-muted-foreground'>
-            <span className='font-semibold text-foreground/80'>{item.author}</span>
-            <span className='h-1 w-1 rounded-full bg-border' />
-            <span className='inline-flex items-center gap-1'>
-              <Clock className='h-3 w-3' />
-              {relativeTimeBn(new Date(item.publishedAt))}
-            </span>
-          </div>
+      {/* Headline — below the image, not overlaid */}
+      <div className='px-4 py-3.5 sm:px-5 sm:py-4'>
+        <CatLabel category={item.category} />
+        <h2 className='font-display mt-1.5 line-clamp-3 text-[1.15rem] font-bold leading-tight text-foreground transition-colors group-hover:text-brand sm:text-lg'>
+          {item.title}
+        </h2>
+        <div className='mt-2 flex items-center gap-3 text-[11px] text-muted-foreground'>
+          <span className='font-semibold text-foreground/80'>{item.author}</span>
+          <span className='h-1 w-1 rounded-full bg-border' />
+          <span className='inline-flex items-center gap-1'>
+            <Clock className='h-3 w-3' />
+            {relativeTimeBn(new Date(item.publishedAt))}
+          </span>
         </div>
       </div>
     </Link>
