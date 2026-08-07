@@ -4,7 +4,6 @@
   font-weight: 100 900;
   font-display: swap;
   font-style: normal;
-  font-synthesis: weight;
 }
 @font-face {
   font-family: 'Tiro Bangla';
@@ -12,7 +11,6 @@
   font-weight: 100 900;
   font-display: swap;
   font-style: italic;
-  font-synthesis: weight;
 }
 
 @import "tailwindcss";
@@ -159,36 +157,51 @@
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
     scroll-padding-top: 60px;
+    /* Enable browser to synthesize bold from single-weight Tiro Bangla */
+    font-synthesis: weight;
   }
   body {
     @apply bg-page-bg text-foreground;
     font-family: 'Tiro Bangla', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-    /* Bengali glyphs have tall matras & conjuncts — generous leading & spacing
-       for professional news portal readability. */
-    line-height: 1.72;
-    letter-spacing: 0.01em;
-    word-spacing: 0.02em;
+    /* Professional body: comfortable reading for Bengali */
+    font-weight: 500;
+    line-height: 1.75;
+    letter-spacing: 0.008em;
+    word-spacing: 0.015em;
     font-feature-settings: "kern" 1, "liga" 1;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  /* Headlines: slightly tighter leading, no extra letter-spacing */
+  /* ═══ HEADLINES: Heavy synthetic bold, tight leading, compact tracking ═══ */
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Tiro Bangla', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-    line-height: 1.28;
+    font-weight: 900;
+    line-height: 1.22;
+    letter-spacing: -0.01em;
+    word-spacing: 0;
+    -webkit-text-stroke: 0.3px currentColor;
+  }
+  /* ═══ UI TEXT: Nav, buttons, labels — moderately bold ═══ */
+  nav, button, label, .nav-link-hover {
+    font-weight: 600;
     letter-spacing: 0;
     word-spacing: 0;
+  }
+  /* Small labels, meta, timestamps — lighter */
+  time, .text-muted-foreground, [class*="text-[1"] {
+    font-weight: 400;
   }
 }
 
 /* ===== News portal custom utilities ===== */
 @layer utilities {
-  /* Display font for headlines — Tiro Bangla with heavier weight */
+  /* Display font for hero headlines — extra heavy */
   .font-display {
     font-family: 'Tiro Bangla', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-    font-weight: 700;
-    letter-spacing: 0;
+    font-weight: 900;
+    letter-spacing: -0.015em;
+    -webkit-text-stroke: 0.4px currentColor;
   }
   .marquee-track {
     display: inline-flex;
@@ -310,9 +323,10 @@
 }
 .section-header h2 {
   font-size: 1.125rem;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--foreground);
-  line-height: 1.2;
+  line-height: 1.15;
+  letter-spacing: -0.005em;
 }
 .section-header .read-more {
   font-size: 0.75rem;
@@ -348,15 +362,18 @@
 /* ===== Professional Article Typography ===== */
 .article-body {
   font-family: 'Tiro Bangla', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  font-size: 1.0625rem;
-  line-height: 2;
-  letter-spacing: 0.015em;
-  word-spacing: 0.025em;
+  font-size: 1.075rem;
+  font-weight: 400;
+  line-height: 2.05;
+  letter-spacing: 0.012em;
+  word-spacing: 0.02em;
   color: var(--foreground);
   text-rendering: optimizeLegibility;
 }
 .article-body p {
-  margin-bottom: 1.4em;
+  margin-bottom: 1.5em;
+  text-align: justify;
+  text-justify: inter-word;
 }
 .article-body p:last-child {
   margin-bottom: 0;
@@ -365,11 +382,12 @@
 .article-body .drop-cap::first-letter {
   font-family: 'Tiro Bangla', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   float: left;
-  font-size: 3.6em;
-  line-height: 0.8;
-  padding-right: 0.08em;
-  padding-top: 0.05em;
-  font-weight: 700;
+  font-size: 3.8em;
+  line-height: 0.78;
+  padding-right: 0.06em;
+  padding-top: 0.04em;
+  font-weight: 900;
+  -webkit-text-stroke: 0.5px var(--brand);
   color: var(--brand);
 }
 /* Inline highlight quote */
@@ -383,6 +401,7 @@
   border-radius: 0 8px 8px 0;
   font-style: italic;
   font-size: 1.05em;
+  font-weight: 400;
 }
 
 /* Sticky share sidebar */
