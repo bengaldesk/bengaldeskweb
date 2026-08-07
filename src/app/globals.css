@@ -1447,6 +1447,66 @@ figcaption {
   }
 }
 
+/* Live indicator pulse */
+@keyframes live-pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(227, 27, 35, 0.4);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 0 6px rgba(227, 27, 35, 0);
+  }
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--brand);
+  animation: live-pulse 2s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * Scroll-Triggered Fade-In Animations
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+.fade-in-section {
+  opacity: 0;
+  transition: opacity 600ms ease-out, transform 600ms ease-out;
+  will-change: opacity, transform;
+}
+
+.fade-in-section[data-direction="up"] {
+  transform: translateY(24px);
+}
+
+.fade-in-section[data-direction="left"] {
+  transform: translateX(-24px);
+}
+
+.fade-in-section[data-direction="right"] {
+  transform: translateX(24px);
+}
+
+.fade-in-section[data-direction="fade"] {
+  transform: none;
+}
+
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: translateY(0) translateX(0);
+}
+
+/* Reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-section {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
  * Print Stylesheet — Clean, ad-free, single-column
  * ═══════════════════════════════════════════════════════════════════════════ */

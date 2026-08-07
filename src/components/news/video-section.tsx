@@ -12,7 +12,7 @@ export function VideoSection() {
 
   return (
     <section className='py-6 sm:py-8' id='video'>
-      <SectionHeader title='ভিডিও' />
+      <SectionHeader title='ভিডিও' icon={<Play className='h-4 w-4 text-brand' />} />
 
       <div className='grid gap-5 lg:grid-cols-12 lg:gap-6'>
         {/* Lead video */}

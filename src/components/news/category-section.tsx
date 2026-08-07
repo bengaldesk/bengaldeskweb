@@ -20,7 +20,7 @@ export function CategorySection({
 
   return (
     <section className={cn('py-6 sm:py-8', className)}>
-      <SectionHeader title={category} href={href} />
+      <SectionHeader title={category} href={href} category={category} />
 
       {/* Mobile: 2-column grid with all items as cards */}
       <div className='grid grid-cols-2 gap-3 sm:gap-4 lg:hidden'>

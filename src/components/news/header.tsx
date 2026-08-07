@@ -5,7 +5,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Menu, Search, Radio } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
   Sheet,
   SheetContent,
@@ -15,6 +14,10 @@ import {
 import { NEWS_CATEGORIES, getCategorySlug } from '@/lib/news-data'
 import { cn } from '@/lib/utils'
 import { usePathname } from 'next/navigation'
+import {
+  SearchDropdown,
+  SearchDropdownDesktop,
+} from './search-dropdown'
 
 const LOGO_URL = 'https://res.cloudinary.com/dtdmwcs4r/image/upload/v1784526258/Bengaldesklogo_vgd6pt.png'
 
@@ -126,17 +129,17 @@ export function Header() {
         </nav>
 
         {/* Search — mobile icon, desktop input */}
-        <div className='ml-auto flex items-center gap-1'>
-          {/* Desktop search */}
-          <div className='relative hidden sm:block'>
-            <Search className='pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
-            <Input
-              type='search'
-              placeholder='খবর খুঁজুন...'
-              className='h-9 w-44 rounded-full border-border/60 bg-muted/50 pl-8 pr-3 text-sm transition-all focus-visible:w-56 focus-visible:bg-background focus-visible:border-brand/40 md:w-52'
-              aria-label='খবর খুঁজুন'
-            />
-          </div>
+        <div className='relative ml-auto flex items-center gap-1'>
+          {/* Desktop search trigger */}
+          <button
+            type='button'
+            className='relative hidden h-9 w-44 items-center gap-2 rounded-full border border-border/60 bg-muted/50 pl-3 pr-3 text-sm text-muted-foreground transition-all hover:bg-muted focus-visible:w-56 focus-visible:bg-background focus-visible:border-brand/40 focus-visible:outline-none md:w-52 sm:flex'
+            onClick={() => setSearchOpen(!searchOpen)}
+            aria-label='খবর খুঁজুন'
+          >
+            <Search className='h-4 w-4 shrink-0' />
+            <span className='flex-1 text-left'>খবর খুঁজুন...</span>
+          </button>
           {/* Mobile search button */}
           <Button
             variant='ghost'
@@ -147,24 +150,20 @@ export function Header() {
           >
             <Search className='h-5 w-5' />
           </Button>
+
+          {/* Desktop dropdown */}
+          <SearchDropdownDesktop
+            isOpen={searchOpen}
+            onClose={() => setSearchOpen(false)}
+          />
         </div>
       </div>
 
-      {/* Mobile search dropdown */}
-      {searchOpen && (
-        <div className='border-b border-border/70 bg-background px-4 py-3 sm:hidden'>
-          <div className='relative'>
-            <Search className='pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
-            <Input
-              type='search'
-              placeholder='শিরোনাম দিয়ে খুঁজুন...'
-              className='h-10 rounded-full border-border/60 bg-muted/50 pl-9 pr-4 text-sm'
-              autoFocus
-              aria-label='খবর খুঁজুন'
-            />
-          </div>
-        </div>
-      )}
+      {/* Mobile full-screen search overlay */}
+      <SearchDropdown
+        isOpen={searchOpen}
+        onClose={() => setSearchOpen(false)}
+      />
     </header>
   )
 }

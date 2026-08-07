@@ -1077,3 +1077,6 @@ export const getNewsByArea = (area: NewsArea, limit?: number) => {
   const items = getLatest().filter((item) => getAreaByNewsId(item.id) === area);
   return limit ? items.slice(0, limit) : items;
 };
+
+/** Alias kept for convenience in components that need the full array */
+export const ALL_NEWS = NEWS;

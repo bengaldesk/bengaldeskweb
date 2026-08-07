@@ -12,8 +12,9 @@ export function BreakingNewsTicker() {
     <div className='hidden border-b border-border/50 bg-background md:block'>
       <div className='mx-auto flex max-w-7xl items-stretch px-0 sm:px-6'>
         {/* Breaking badge */}
-        <div className='flex shrink-0 items-center gap-1.5 bg-brand px-2.5 py-1.5 text-white sm:px-3 sm:py-2'>
-          <Zap className='h-3.5 w-3.5 ticker-dot sm:h-4 sm:w-4' />
+        <div className='flex shrink-0 items-center gap-2 bg-brand px-2.5 py-1.5 text-white sm:px-3 sm:py-2'>
+          <span className='live-dot' aria-hidden='true' />
+          <Zap className='h-3.5 w-3.5 sm:h-4 sm:w-4' />
           <span className='text-[11px] font-bold uppercase tracking-wide sm:text-sm'>
             ব্রেকিং
           </span>

@@ -13,6 +13,9 @@ import { Footer } from '@/components/news/footer'
 import { AdBox } from '@/components/news/ad-box'
 import { MostReadSidebar } from '@/components/news/most-read-sidebar'
 import { BottomNav } from '@/components/news/bottom-nav'
+import { TrendingSection } from '@/components/news/trending-section'
+import { FadeInSection } from '@/components/news/fade-in-section'
+import { BackToTopButton } from '@/components/news/back-to-top-button'
 
 export default function Home() {
   return (
@@ -24,6 +27,13 @@ export default function Home() {
       <main className='flex-1 pb-safe'>
         <h1 className='sr-only'>বার্তা — বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদ</h1>
         <HeroSection />
+        {/* Trending — full width, outside grid */}
+        <div className='mx-auto max-w-7xl px-4 sm:px-6'>
+          <FadeInSection>
+            <TrendingSection />
+          </FadeInSection>
+        </div>
+
         <div className='mx-auto max-w-7xl px-4 sm:px-6'>
           <AdBox className='my-6' />
         </div>
@@ -33,17 +43,55 @@ export default function Home() {
           <div className='lg:grid lg:grid-cols-12 lg:gap-8'>
             {/* Main content area */}
             <div className='lg:col-span-8 xl:col-span-9'>
-              <LatestNews />
-              <AreaNewsSearch />
-              <CategorySection category='রাজনীতি' />
+              <FadeInSection>
+                <LatestNews />
+              </FadeInSection>
+
+
+
+              <FadeInSection delay={150}>
+                <AreaNewsSearch />
+              </FadeInSection>
+
+              <FadeInSection delay={100}>
+                <CategorySection category='রাজনীতি' />
+              </FadeInSection>
+
               <AdBox className='my-6' />
-              <CategorySection category='খেলা' />
-              <CategorySection category='প্রযুক্তি' />
+
+              <FadeInSection delay={100}>
+                <CategorySection category='খেলা' />
+              </FadeInSection>
+
+              <FadeInSection delay={100}>
+                <CategorySection category='আন্তর্জাতিক' />
+              </FadeInSection>
+
               <AdBox className='my-6' />
-              <VideoSection />
-              <OpinionSection />
-              <PollSection />
-              <Newsletter />
+
+              <FadeInSection delay={100}>
+                <CategorySection category='প্রযুক্তি' />
+              </FadeInSection>
+
+              <FadeInSection delay={100}>
+                <CategorySection category='অর্থনীতি' />
+              </FadeInSection>
+
+              <FadeInSection delay={100}>
+                <VideoSection />
+              </FadeInSection>
+
+              <FadeInSection delay={100}>
+                <OpinionSection />
+              </FadeInSection>
+
+              <FadeInSection delay={100}>
+                <PollSection />
+              </FadeInSection>
+
+              <FadeInSection delay={100}>
+                <Newsletter />
+              </FadeInSection>
             </div>
 
             {/* Right sidebar (desktop only) */}
@@ -59,6 +107,7 @@ export default function Home() {
 
       <Footer />
       <BottomNav />
+      <BackToTopButton />
     </div>
   )
 }
