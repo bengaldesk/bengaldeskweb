@@ -9,7 +9,7 @@ export function BreakingNewsTicker() {
   const duration = Math.max(28, BREAKING_NEWS.length * 6)
 
   return (
-    <div className='border-b border-border/50 bg-background'>
+    <div className='hidden border-b border-border/50 bg-background md:block'>
       <div className='mx-auto flex max-w-7xl items-stretch px-0 sm:px-6'>
         {/* Breaking badge */}
         <div className='flex shrink-0 items-center gap-1.5 bg-brand px-2.5 py-1.5 text-white sm:px-3 sm:py-2'>
