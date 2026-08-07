@@ -528,6 +528,17 @@
     letter-spacing: 0.01em;
   }
 
+  /* ─── i-b) Byline Author Name ──────────────────────────────────── */
+  .byline-author {
+    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-size: var(--text-small);
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.4;
+    letter-spacing: 0;
+    text-decoration: none;
+  }
+
   /* ─── j) Card Headline ──────────────────────────────────────────── */
   .card-headline {
     font-family: var(--font-heading), ui-serif, Georgia, serif;
@@ -963,41 +974,95 @@
 
 /* ═══════════════════════════════════════════════════════════════════════════
  * Professional Article Typography
+ * Optimized for long-form Bengali reading at editorial quality.
+ * Body column constrained to ~680px (≈42rem) — the single most
+ * important readability lever for sustained reading.
  * ═══════════════════════════════════════════════════════════════════════════ */
 .article-body {
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  font-size: var(--text-body-lg);
+  font-size: 1.125rem; /* 18px desktop */
   font-weight: 400;
-  line-height: 2.05;
-  letter-spacing: 0.012em;
-  word-spacing: 0.02em;
+  line-height: 1.8; /* Bengali conjuncts need extra breathing room */
+  letter-spacing: 0.008em;
+  word-spacing: 0.015em;
   color: var(--text-primary);
   text-rendering: optimizeLegibility;
+  max-width: 42rem; /* ~672px — optimal 65–75 char measure */
 }
 
 .article-body p {
-  margin-bottom: 1.5em;
+  margin-bottom: 1.65em; /* consistent vertical rhythm ≈ one line-height */
   text-align: justify;
   text-justify: inter-word;
+  text-wrap: pretty;
 }
 
 .article-body p:last-child {
   margin-bottom: 0;
 }
 
-/* Drop cap for first paragraph */
+/* Lead paragraph — slight size bump, classic newspaper convention */
+.article-body .lead-paragraph {
+  font-size: 1.1875rem; /* 19px — +1px bump */
+  line-height: 1.75;
+  color: var(--text-secondary);
+}
+
+/* Drop cap for first paragraph — 3-line height, serif */
 .article-body .drop-cap::first-letter {
   font-family: var(--font-heading), ui-serif, Georgia, serif;
   float: left;
-  font-size: 3.8em;
-  line-height: 0.78;
-  padding-right: 0.06em;
-  padding-top: 0.04em;
+  font-size: 3.6em;
+  line-height: 0.8;
+  padding-right: 0.08em;
+  padding-top: 0.05em;
   font-weight: 400;
-  color: var(--brand);
+  color: var(--text-primary);
 }
 
-/* Inline highlight quote */
+/* Blockquote / Pull-quote — left accent border, editorial feel */
+.article-body blockquote,
+.article-body .pull-quote {
+  position: relative;
+  margin: 2em 0;
+  padding: 1.25em 1.5em;
+  padding-left: 1.75em;
+  border-left: 3px solid var(--accent-color);
+  font-family: var(--font-heading), ui-serif, Georgia, serif;
+  font-size: 1.15em;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  background: transparent;
+}
+
+.article-body blockquote p,
+.article-body .pull-quote p {
+  margin-bottom: 0;
+  text-align: left;
+  text-justify: auto;
+}
+
+/* Centered pull-quote variant */
+.article-body .pull-quote--centered {
+  border-left: none;
+  padding: 1.5em 0;
+  text-align: center;
+  font-size: 1.25em;
+  letter-spacing: -0.005em;
+}
+
+.article-body .pull-quote--centered::before {
+  content: '\201C';
+  display: block;
+  font-size: 2em;
+  line-height: 1;
+  color: var(--accent-color);
+  margin-bottom: 0.1em;
+}
+
+/* Inline highlight quote (legacy, kept for compatibility) */
 .article-body .highlight-quote {
   position: relative;
   margin: 1.8em 0;
@@ -1009,6 +1074,229 @@
   font-style: italic;
   font-size: 1.05em;
   font-weight: 400;
+}
+
+/* In-article subheadings (h2/h3 within body) */
+.article-body h2 {
+  font-family: var(--font-heading), ui-serif, Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+  text-wrap: balance;
+}
+
+.article-body h3 {
+  font-family: var(--font-heading), ui-serif, Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+  color: var(--text-primary);
+  margin-top: 1.75em;
+  margin-bottom: 0.5em;
+  text-wrap: balance;
+}
+
+/* In-article links — underlined, accent color, accessible */
+.article-body a {
+  color: var(--link-color);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--link-color);
+  transition: color 150ms ease, text-decoration-color 150ms ease;
+}
+
+.article-body a:hover {
+  color: var(--accent-color);
+  text-decoration-color: var(--accent-color);
+}
+
+/* In-article lists */
+.article-body ul,
+.article-body ol {
+  margin: 1.25em 0;
+  padding-left: 1.5em;
+}
+
+.article-body ul {
+  list-style: none;
+  padding-left: 1.25em;
+}
+
+.article-body ul li {
+  position: relative;
+  padding-left: 1em;
+  margin-bottom: 0.5em;
+}
+
+.article-body ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-color);
+}
+
+.article-body ol li {
+  margin-bottom: 0.5em;
+  padding-left: 0.5em;
+}
+
+.article-body li {
+  line-height: 1.75;
+  text-align: left;
+}
+
+/* In-article image/figure */
+.article-body figure {
+  margin: 2em 0;
+}
+
+.article-body figcaption,
+figcaption {
+  margin-top: 0.5rem;
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.8125rem; /* 13px */
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.article-body figcaption,
+figcaption {
+  font-style: italic;
+}
+
+.credit {
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * Reading Progress Bar
+ * ═══════════════════════════════════════════════════════════════════════════ */
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: var(--brand);
+  z-index: 9999;
+  transition: width 80ms linear;
+  will-change: width;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * Back-to-Top Button
+ * ═══════════════════════════════════════════════════════════════════════════ */
+.back-to-top-btn {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.back-to-top-btn:hover {
+  background: var(--brand);
+  color: var(--brand-foreground);
+  border-color: var(--brand);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(227, 27, 35, 0.2);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * Article Page Skip-to-Content Link (Accessibility)
+ * ═══════════════════════════════════════════════════════════════════════════ */
+.skip-to-content {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 10000;
+}
+
+.skip-to-content:focus {
+  position: fixed;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  height: auto;
+  padding: 0.75rem 1.5rem;
+  background: var(--brand);
+  color: var(--brand-foreground);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * Article Skeleton Loading (matches final typography to prevent CLS)
+ * ═══════════════════════════════════════════════════════════════════════════ */
+.article-skeleton-eyebrow {
+  width: 100px;
+  height: 18px;
+  border-radius: 4px;
+}
+
+.article-skeleton-headline {
+  width: 100%;
+  height: calc(2.441rem * 1.28 * 3); /* ~9.4rem for 3-line display headline */
+  max-width: 100%;
+  border-radius: 4px;
+}
+
+.article-skeleton-dek {
+  width: 85%;
+  height: calc(1.125rem * 1.8 * 2); /* ~4rem for 2-line dek */
+  border-radius: 4px;
+}
+
+.article-skeleton-byline {
+  width: 240px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.article-skeleton-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+}
+
+.article-skeleton-body-line {
+  width: 100%;
+  height: calc(1.125rem * 1.8); /* ~2rem per line */
+  border-radius: 4px;
+  margin-bottom: 1.65em;
+}
+
+.article-skeleton-body-line:nth-child(odd) {
+  width: 95%;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -1099,8 +1387,39 @@
   }
 
   .article-body {
-    font-size: var(--text-base);
-    line-height: 1.9;
+    font-size: 1.0625rem; /* 17px mobile — never below 16px */
+    line-height: 1.85;
+  }
+
+  .article-body .lead-paragraph {
+    font-size: 1.125rem; /* 18px mobile lead */
+  }
+
+  .article-body .drop-cap::first-letter {
+    font-size: 3em;
+    line-height: 0.85;
+  }
+
+  .article-body h2 {
+    font-size: 1.3125rem; /* 21px mobile */
+  }
+
+  .article-body h3 {
+    font-size: 1.125rem; /* 18px mobile */
+  }
+
+  .article-body blockquote,
+  .article-body .pull-quote {
+    font-size: 1.05em;
+    padding: 1em 1.25em;
+    padding-left: 1.5em;
+  }
+
+  .back-to-top-btn {
+    bottom: 72px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
   }
 
   .nav-link {
@@ -1126,4 +1445,96 @@
   .ticker-text {
     font-size: var(--text-caption);
   }
+
+  .article-body .drop-cap::first-letter {
+    font-size: 2.8em;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * Print Stylesheet — Clean, ad-free, single-column
+ * ═══════════════════════════════════════════════════════════════════════════ */
+@media print {
+  /* Hide non-editorial elements */
+  .reading-progress-bar,
+  .back-to-top-btn,
+  .article-share-sidebar,
+  .skip-to-content,
+  nav,
+  footer,
+  .bottom-nav-bar,
+  .ad-box,
+  [class*="ad-box"],
+  .reaction-bar,
+  .comments-section,
+  .related-articles-section,
+  .mobile-share-bar,
+  .desktop-share-bar {
+    display: none !important;
+  }
+
+  /* Reset layout for single column */
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 11pt;
+    line-height: 1.6;
+  }
+
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .article-body {
+    max-width: 100% !important;
+    font-size: 11pt;
+    line-height: 1.6;
+  }
+
+  .article-body p {
+    text-align: left !important;
+    text-justify: inter-word;
+    orphans: 3;
+    widows: 3;
+  }
+
+  .article-body .drop-cap::first-letter {
+    color: black !important;
+  }
+
+  /* Show links as underlined with URL */
+  .article-body a::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    color: #555;
+  }
+
+  /* Article card shadow removal */
+  .article-card {
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Ensure images don't break across pages */
+  figure, img {
+    page-break-inside: avoid;
+  }
+
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+
+  /* Print header with article title and URL */
+ .print-header {
+    display: block !important;
+    border-bottom: 2px solid black;
+    padding-bottom: 12pt;
+    margin-bottom: 24pt;
+  }
+}
+
+/* Hide print header on screen */
+.print-header {
+  display: none;
 }
