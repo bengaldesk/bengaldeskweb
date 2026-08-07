@@ -972,26 +972,89 @@
   left: 10%;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
- * Professional Article Typography
- * Optimized for long-form Bengali reading at editorial quality.
- * Body column constrained to ~680px (≈42rem) — the single most
- * important readability lever for sustained reading.
- * ═══════════════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════════════════════
+ * Professional Article Typography & Layout
+ * NYT/Guardian-level editorial design for long-form Bengali reading.
+ * Single-column, clean white surface, no card wrapper.
+ * ═══════════════════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Article Headline — large, serif, dramatic ─── */
+.article-headline {
+  font-family: var(--font-heading), ui-serif, Georgia, serif;
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 1.22;
+  letter-spacing: -0.018em;
+  color: var(--text-primary);
+  text-wrap: balance;
+  word-spacing: 0;
+}
+
+/* ─── Article Dek (subheadline) — NYT-style italic serif ─── */
+.article-dek {
+  font-family: var(--font-heading), ui-serif, Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+
+/* ─── Eyebrow link — hover underline effect ─── */
+.article-eyebrow-link {
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--accent-color);
+  padding-bottom: 1px;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+.article-eyebrow-link:hover {
+  border-bottom-color: transparent;
+}
+
+/* ─── Byline Block ─── */
+.article-byline-block {
+  padding-bottom: 0;
+}
+
+/* ─── Hero Figure — clean, no card styling ─── */
+.article-hero-figure {
+  margin: 0;
+}
+
+.article-hero-caption {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.8125rem; /* 13px */
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* ─── Article Highlight Box ("মূল কথা") ─── */
+.article-highlight-box {
+ background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 4%, transparent) 0%, transparent 60%);
+}
+
+/* ─── Ad Break — subtle, well-separated ─── */
+.ad-break {
+  opacity: 0.85;
+}
+
+/* ─── Article Body ─── */
 .article-body {
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   font-size: 1.125rem; /* 18px desktop */
   font-weight: 400;
-  line-height: 1.8; /* Bengali conjuncts need extra breathing room */
+  line-height: 1.85;
   letter-spacing: 0.008em;
   word-spacing: 0.015em;
   color: var(--text-primary);
   text-rendering: optimizeLegibility;
-  max-width: 42rem; /* ~672px — optimal 65–75 char measure */
 }
 
 .article-body p {
-  margin-bottom: 1.65em; /* consistent vertical rhythm ≈ one line-height */
+  margin-bottom: 1.75em;
   text-align: justify;
   text-justify: inter-word;
   text-wrap: pretty;
@@ -1004,18 +1067,18 @@
 /* Lead paragraph — slight size bump, classic newspaper convention */
 .article-body .lead-paragraph {
   font-size: 1.1875rem; /* 19px — +1px bump */
-  line-height: 1.75;
+  line-height: 1.8;
   color: var(--text-secondary);
 }
 
-/* Drop cap for first paragraph — 3-line height, serif */
+/* Drop cap — 4-line height, serif, elegant */
 .article-body .drop-cap::first-letter {
   font-family: var(--font-heading), ui-serif, Georgia, serif;
   float: left;
-  font-size: 3.6em;
-  line-height: 0.8;
-  padding-right: 0.08em;
-  padding-top: 0.05em;
+  font-size: 4em;
+  line-height: 0.78;
+  padding-right: 0.1em;
+  padding-top: 0.04em;
   font-weight: 400;
   color: var(--text-primary);
 }
@@ -1024,12 +1087,12 @@
 .article-body blockquote,
 .article-body .pull-quote {
   position: relative;
-  margin: 2em 0;
-  padding: 1.25em 1.5em;
+  margin: 2.2em 0;
+  padding: 1.5em 1.5em;
   padding-left: 1.75em;
   border-left: 3px solid var(--accent-color);
   font-family: var(--font-heading), ui-serif, Georgia, serif;
-  font-size: 1.15em;
+  font-size: 1.2em;
   font-weight: 400;
   font-style: italic;
   line-height: 1.55;
@@ -1047,25 +1110,26 @@
 /* Centered pull-quote variant */
 .article-body .pull-quote--centered {
   border-left: none;
-  padding: 1.5em 0;
+  padding: 2em 0;
   text-align: center;
-  font-size: 1.25em;
-  letter-spacing: -0.005em;
+  font-size: 1.35em;
+  letter-spacing: -0.008em;
+  color: var(--text-primary);
 }
 
 .article-body .pull-quote--centered::before {
   content: '\201C';
   display: block;
-  font-size: 2em;
+  font-size: 2.5em;
   line-height: 1;
   color: var(--accent-color);
-  margin-bottom: 0.1em;
+  margin-bottom: 0.15em;
 }
 
-/* Inline highlight quote (legacy, kept for compatibility) */
+/* Inline highlight quote */
 .article-body .highlight-quote {
   position: relative;
-  margin: 1.8em 0;
+  margin: 2em 0;
   padding: 1.2em 1.4em;
   padding-left: 1.6em;
   border-left: 4px solid var(--brand);
@@ -1076,7 +1140,7 @@
   font-weight: 400;
 }
 
-/* In-article subheadings (h2/h3 within body) */
+/* In-article subheadings */
 .article-body h2 {
   font-family: var(--font-heading), ui-serif, Georgia, serif;
   font-size: 1.5rem;
@@ -1084,7 +1148,7 @@
   line-height: 1.3;
   letter-spacing: -0.01em;
   color: var(--text-primary);
-  margin-top: 2em;
+  margin-top: 2.2em;
   margin-bottom: 0.75em;
   text-wrap: balance;
 }
@@ -1096,12 +1160,12 @@
   line-height: 1.35;
   letter-spacing: -0.005em;
   color: var(--text-primary);
-  margin-top: 1.75em;
+  margin-top: 1.8em;
   margin-bottom: 0.5em;
   text-wrap: balance;
 }
 
-/* In-article links — underlined, accent color, accessible */
+/* In-article links */
 .article-body a {
   color: var(--link-color);
   text-decoration: underline;
@@ -1119,7 +1183,7 @@
 /* In-article lists */
 .article-body ul,
 .article-body ol {
-  margin: 1.25em 0;
+  margin: 1.5em 0;
   padding-left: 1.5em;
 }
 
@@ -1131,7 +1195,7 @@
 .article-body ul li {
   position: relative;
   padding-left: 1em;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.6em;
 }
 
 .article-body ul li::before {
@@ -1146,18 +1210,18 @@
 }
 
 .article-body ol li {
-  margin-bottom: 0.5em;
+  margin-bottom: 0.6em;
   padding-left: 0.5em;
 }
 
 .article-body li {
-  line-height: 1.75;
+  line-height: 1.8;
   text-align: left;
 }
 
 /* In-article image/figure */
 .article-body figure {
-  margin: 2em 0;
+  margin: 2.2em 0;
 }
 
 .article-body figcaption,
@@ -1206,7 +1270,7 @@ figcaption {
   border-radius: 50%;
   background: var(--card);
   border: 1px solid var(--border);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   color: var(--text-secondary);
   cursor: pointer;
   transition: all 200ms ease;
@@ -1261,14 +1325,14 @@ figcaption {
 
 .article-skeleton-headline {
   width: 100%;
-  height: calc(2.441rem * 1.28 * 3); /* ~9.4rem for 3-line display headline */
+  height: calc(2.441rem * 1.28 * 3);
   max-width: 100%;
   border-radius: 4px;
 }
 
 .article-skeleton-dek {
   width: 85%;
-  height: calc(1.125rem * 1.8 * 2); /* ~4rem for 2-line dek */
+  height: calc(1.125rem * 1.8 * 2);
   border-radius: 4px;
 }
 
@@ -1286,9 +1350,9 @@ figcaption {
 
 .article-skeleton-body-line {
   width: 100%;
-  height: calc(1.125rem * 1.8); /* ~2rem per line */
+  height: calc(1.125rem * 1.8);
   border-radius: 4px;
-  margin-bottom: 1.65em;
+  margin-bottom: 1.75em;
 }
 
 .article-skeleton-body-line:nth-child(odd) {
@@ -1299,7 +1363,7 @@ figcaption {
  * Component Classes
  * ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Sticky share sidebar */
+/* Sticky share sidebar (kept for potential future use) */
 .article-share-sidebar {
   position: sticky;
   top: 80px;
@@ -1319,13 +1383,13 @@ figcaption {
 
 .article-share-sidebar .share-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Article card shadow */
+/* Article card shadow (for homepage cards, not article page) */
 .article-card {
   background: var(--card);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
 /* Comment textarea focus */
@@ -1382,8 +1446,18 @@ figcaption {
     font-size: var(--text-h3);
   }
 
+  .article-headline {
+    font-size: 1.6rem;
+    line-height: 1.25;
+  }
+
+  .article-dek {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
   .article-body {
-    font-size: 1.0625rem; /* 17px mobile — never below 16px */
+    font-size: 1.0625rem; /* 17px mobile */
     line-height: 1.85;
   }
 
@@ -1392,22 +1466,22 @@ figcaption {
   }
 
   .article-body .drop-cap::first-letter {
-    font-size: 3em;
-    line-height: 0.85;
+    font-size: 3.2em;
+    line-height: 0.82;
   }
 
   .article-body h2 {
-    font-size: 1.3125rem; /* 21px mobile */
+    font-size: 1.3125rem;
   }
 
   .article-body h3 {
-    font-size: 1.125rem; /* 18px mobile */
+    font-size: 1.125rem;
   }
 
   .article-body blockquote,
   .article-body .pull-quote {
-    font-size: 1.05em;
-    padding: 1em 1.25em;
+    font-size: 1.08em;
+    padding: 1.2em 1.25em;
     padding-left: 1.5em;
   }
 
@@ -1444,6 +1518,10 @@ figcaption {
 
   .article-body .drop-cap::first-letter {
     font-size: 2.8em;
+  }
+
+  .article-headline {
+    font-size: 1.4rem;
   }
 }
 
@@ -1511,7 +1589,6 @@ figcaption {
  * Print Stylesheet — Clean, ad-free, single-column
  * ═══════════════════════════════════════════════════════════════════════════ */
 @media print {
-  /* Hide non-editorial elements */
   .reading-progress-bar,
   .back-to-top-btn,
   .article-share-sidebar,
@@ -1521,15 +1598,15 @@ figcaption {
   .bottom-nav-bar,
   .ad-box,
   [class*="ad-box"],
+  .ad-break,
   .reaction-bar,
   .comments-section,
   .related-articles-section,
-  .mobile-share-bar,
-  .desktop-share-bar {
+  .article-inline-share,
+  .article-highlight-box {
     display: none !important;
   }
 
-  /* Reset layout for single column */
   body {
     background: white !important;
     color: black !important;
@@ -1559,20 +1636,22 @@ figcaption {
     color: black !important;
   }
 
-  /* Show links as underlined with URL */
+  .article-dek {
+    font-style: italic;
+    color: #333 !important;
+  }
+
   .article-body a::after {
     content: " (" attr(href) ")";
     font-size: 0.85em;
     color: #555;
   }
 
-  /* Article card shadow removal */
   .article-card {
     box-shadow: none !important;
     border: none !important;
   }
 
-  /* Ensure images don't break across pages */
   figure, img {
     page-break-inside: avoid;
   }
@@ -1581,8 +1660,7 @@ figcaption {
     page-break-after: avoid;
   }
 
-  /* Print header with article title and URL */
- .print-header {
+  .print-header {
     display: block !important;
     border-bottom: 2px solid black;
     padding-bottom: 12pt;

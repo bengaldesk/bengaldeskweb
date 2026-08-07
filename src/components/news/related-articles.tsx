@@ -20,8 +20,8 @@ interface RelatedArticlesProps {
 }
 
 /**
- * RelatedArticles — 3-4 card grid reusing homepage card typography.
- * Visual consistency with homepage news cards.
+ * RelatedArticles — editorial-style section with decorative rule.
+ * 3-card grid with clean typography.
  */
 export function RelatedArticles({
   articles,
@@ -32,8 +32,10 @@ export function RelatedArticles({
 
   return (
     <section className={cn('related-articles-section mt-10', className)}>
-      <div className='section-header mb-6'>
-        <h2>{heading}</h2>
+      {/* Editorial section header with decorative rule */}
+      <div className='mb-6 flex items-center gap-4'>
+        <h2 className='font-display shrink-0 text-xl text-foreground'>{heading}</h2>
+        <div className='h-px flex-1 bg-border/50' />
       </div>
 
       <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
@@ -52,7 +54,7 @@ function RelatedCard({ item }: { item: RelatedArticle }) {
   return (
     <Link
       href={`/news/${item.id}`}
-      className='group flex flex-col overflow-hidden rounded-xl border border-border/40 bg-card transition-all duration-200 hover:border-brand/30 hover:shadow-md news-card-hover'
+      className='group flex flex-col overflow-hidden rounded-lg border border-border/30 bg-card transition-all duration-200 hover:border-border hover:shadow-sm news-card-hover'
     >
       {/* Image */}
       <div className='relative aspect-[16/10] w-full overflow-hidden bg-muted'>

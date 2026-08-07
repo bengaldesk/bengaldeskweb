@@ -8,16 +8,16 @@ interface TagsFooterProps {
 }
 
 /**
- * TagsFooter — pill-style tag chips at end of article body.
- * Always shows the category tag; optionally shows additional keyword tags.
+ * TagsFooter — editorial-style tag section at end of article body.
+ * Thin rule, uppercase label, category badge + keyword pills.
  */
 export function TagsFooter({ category, tags }: TagsFooterProps) {
   const catColor = categoryColor(category)
 
   return (
-    <div className='flex flex-wrap items-center gap-2 border-t border-border/40 pt-6'>
-      <span className='text-[11px] font-bold uppercase tracking-[0.1em] text-muted-foreground'>
-        সম্পর্কিত ট্যাগ
+    <div className='flex flex-wrap items-center gap-2.5 border-t border-border/40 pt-5'>
+      <span className='text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground'>
+        বিষয়শ্রেণী
       </span>
       <Link
         href={getCategorySlug(category)}
