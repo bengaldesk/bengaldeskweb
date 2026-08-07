@@ -16,7 +16,7 @@ export function OpinionSection() {
         {OPINIONS.map((op) => (
           <Link
             key={op.id}
-            href={`/#${op.id}`}
+            href={`/category/opinion`}
             className='group flex gap-3 border-b border-border/40 py-4 first:pt-0 last:border-0'
           >
             <div className='relative h-11 w-11 shrink-0 overflow-hidden rounded-full bg-muted'>
@@ -40,7 +40,7 @@ export function OpinionSection() {
         {OPINIONS.map((op) => (
           <Link
             key={op.id}
-            href={`/#${op.id}`}
+            href={`/category/opinion`}
             className='group flex gap-4 rounded-lg bg-card p-4 news-card-hover'
           >
             <div className='relative h-14 w-14 shrink-0 overflow-hidden rounded-full bg-muted'>

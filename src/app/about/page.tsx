@@ -2,7 +2,6 @@ import { TopBar } from '@/components/news/top-bar'
 import { Header } from '@/components/news/header'
 import { Footer } from '@/components/news/footer'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
-import { Separator } from '@/components/ui/separator'
 import { Card, CardContent } from '@/components/ui/card'
 import { Mail, MapPin, Phone } from 'lucide-react'
 
@@ -27,7 +26,7 @@ export default function AboutPage() {
 
         <section className="mb-12">
           <h1 className="text-4xl font-bold font-display mb-6 text-brand">আমাদের সম্পর্কে</h1>
-          <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground leading-relaxed">
+          <div className="max-w-none text-text-secondary leading-relaxed space-y-4">
             <p className="mb-4">
               বার্তা একটি আধুনিক ও গতিশীল বাংলা নিউজ পোর্টাল। আমরা বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদ, গভীর বিশ্লেষণ এবং নিরপেক্ষ দৃষ্টিভঙ্গি নিয়ে পাঠকদের সামনে হাজির হই। সত্যের পথে অবিচল থেকে বস্তুনিষ্ঠ সাংবাদিকতা আমাদের মূল লক্ষ্য।
             </p>

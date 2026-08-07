@@ -1167,10 +1167,6 @@ figcaption {
   font-size: 0.8125rem; /* 13px */
   line-height: 1.5;
   color: var(--text-muted);
-}
-
-.article-body figcaption,
-figcaption {
   font-style: italic;
 }
 

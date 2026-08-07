@@ -43,12 +43,13 @@ export function AreaNewsSearch() {
       <div className='rounded-xl border border-border/60 bg-secondary/25 p-4 sm:p-5'>
         <div className='grid gap-3 md:grid-cols-[220px_1fr]'>
           <div>
-            <label className='mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground'>
+            <label htmlFor='area-select' className='mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground'>
               এলাকা নির্বাচন করুন
             </label>
             <div className='relative'>
               <MapPin className='pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
               <select
+                id='area-select'
                 value={selectedArea}
                 onChange={(e) => setSelectedArea(e.target.value)}
                 className='h-9 w-full rounded-md border border-input bg-background pl-8 pr-3 text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50'

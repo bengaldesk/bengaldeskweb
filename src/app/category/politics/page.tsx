@@ -5,5 +5,5 @@ export const metadata = {
 }
 
 export default function Page() {
-  return <CategoryPageContent category="রাজনীতি" as any />
+  return <CategoryPageContent category="রাজনীতি" />
 }

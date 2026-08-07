@@ -29,13 +29,12 @@ export function TagsFooter({ category, tags }: TagsFooterProps) {
         {category}
       </Link>
       {tags?.map((tag) => (
-        <Link
+        <span
           key={tag}
-          href={`/tag/${encodeURIComponent(tag)}`}
-          className='rounded-full bg-muted px-3.5 py-1.5 text-xs font-medium text-text-secondary transition-colors hover:bg-border-custom hover:text-text-primary'
+          className='rounded-full bg-muted px-3.5 py-1.5 text-xs font-medium text-text-secondary'
         >
           {tag}
-        </Link>
+        </span>
       ))}
     </div>
   )

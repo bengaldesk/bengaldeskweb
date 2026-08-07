@@ -18,7 +18,7 @@ export function VideoSection() {
         {/* Lead video */}
         <div className='lg:col-span-7'>
           <Link
-            href={`/#${lead.id}`}
+            href={`/category/entertainment`}
             className='group relative block overflow-hidden rounded-lg bg-black'
           >
             <div className='relative aspect-video w-full'>
@@ -56,7 +56,7 @@ export function VideoSection() {
           {rest.map((v) => (
             <Link
               key={v.id}
-              href={`/#${v.id}`}
+              href={`/category/entertainment`}
               className='group flex gap-3 border-b border-border/40 py-3.5 first:pt-0 last:border-0'
             >
               <div className='relative aspect-video w-28 shrink-0 overflow-hidden rounded-md bg-black sm:w-32'>

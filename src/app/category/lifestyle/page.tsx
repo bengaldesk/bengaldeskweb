@@ -5,5 +5,5 @@ export const metadata = {
 }
 
 export default function Page() {
-  return <CategoryPageContent category="লাইফস্টাইল" as any />
+  return <CategoryPageContent category="লাইফস্টাইল" />
 }

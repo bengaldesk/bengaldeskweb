@@ -9,9 +9,9 @@ import { usePathname } from 'next/navigation'
 const NAV_ITEMS = [
   { icon: Home, label: 'হোম', href: '/' },
   { icon: Newspaper, label: 'সংবাদ', href: '/category/national' },
-  { icon: Video, label: 'ভিডিও', href: '/#video' },
+  { icon: Video, label: 'ভিডিও', href: '/category/entertainment' },
   { icon: MessageSquare, label: 'মতামত', href: '/category/opinion' },
-  { icon: MoreHorizontal, label: 'আরও', href: '/#more' },
+  { icon: MoreHorizontal, label: 'আরও', href: '/category/economy' },
 ]
 
 export function BottomNav() {
