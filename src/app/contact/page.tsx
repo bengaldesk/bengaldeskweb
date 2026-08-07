@@ -27,13 +27,13 @@ export default function ContactPage() {
           </BreadcrumbList>
         </Breadcrumb>
 
-        <h1 className="text-4xl font-bold font-serif-bn mb-8 text-brand">আমাদের সাথে যোগাযোগ করুন</h1>
+        <h1 className="text-4xl font-bold font-display mb-8 text-brand">আমাদের সাথে যোগাযোগ করুন</h1>
 
         <div className="grid lg:grid-cols-3 gap-12">
           {/* Contact Info */}
           <div className="lg:col-span-1 space-y-8">
             <div>
-              <h2 className="text-2xl font-bold mb-4 font-serif-bn">যোগাযোগের তথ্য</h2>
+              <h2 className="text-2xl font-bold mb-4 font-display">যোগাযোগের তথ্য</h2>
               <p className="text-muted-foreground mb-6">
                 আপনার যেকোনো মতামত, অভিযোগ বা বিজ্ঞাপনের জন্য আমাদের সাথে সরাসরি যোগাযোগ করতে পারেন।
               </p>
@@ -88,7 +88,7 @@ export default function ContactPage() {
           {/* Contact Form */}
           <div className="lg:col-span-2">
             <div className="bg-card border rounded-2xl p-8 shadow-sm">
-              <h2 className="text-2xl font-bold mb-6 font-serif-bn">বার্তা পাঠান</h2>
+              <h2 className="text-2xl font-bold mb-6 font-display">বার্তা পাঠান</h2>
               <form className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">

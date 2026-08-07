@@ -23,7 +23,7 @@ export default function CookiesPage() {
         </Breadcrumb>
 
         <article className="prose prose-slate dark:prose-invert max-w-none">
-          <h1 className="text-3xl font-bold font-serif-bn mb-6">কুকিজ নীতি (Cookies Policy)</h1>
+          <h1 className="text-3xl font-bold font-display mb-6">কুকিজ নীতি (Cookies Policy)</h1>
           <p className="text-muted-foreground mb-6">সর্বশেষ আপডেট: ৪ আগস্ট, ২০২৪</p>
 
           <p>
