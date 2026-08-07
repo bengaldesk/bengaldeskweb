@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Hind_Siliguri } from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -7,14 +7,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-});
-
-// Primary Bengali body/UI font — highly legible, widely used in Bengali news sites.
-const hindSiliguri = Hind_Siliguri({
-  variable: "--font-hind",
-  subsets: ["bengali", "latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
 });
 
 const BRAND_ICON_URL =
@@ -59,7 +51,7 @@ export default function RootLayout({
     <html
       lang="bn"
       suppressHydrationWarning
-      className={`${hindSiliguri.variable} ${geistSans.variable}`}
+      className={`${geistSans.variable}`}
     >
       <body className="antialiased bg-background text-foreground">
         <ThemeProvider

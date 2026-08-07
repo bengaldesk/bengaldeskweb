@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'Shurjo';
+  src: url('/fonts/Shurjo.woff2') format('woff2'),
+       url('/fonts/Shurjo.ttf') format('truetype');
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -6,8 +15,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-hind), var(--font-geist-sans);
-  --font-display: var(--font-hind), var(--font-geist-sans);
+  --font-sans: 'Shurjo', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Shurjo', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -145,27 +154,31 @@
   }
   body {
     @apply bg-page-bg text-foreground;
-    /* Bengali glyphs have tall matras & conjuncts — relaxed leading improves
-       readability across body text and prevents line crowding. */
-    line-height: 1.65;
-    font-feature-settings: "kern" 1;
+    font-family: 'Shurjo', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+    /* Bengali glyphs have tall matras & conjuncts — generous leading & spacing
+       for professional news portal readability. */
+    line-height: 1.72;
+    letter-spacing: 0.01em;
+    word-spacing: 0.02em;
+    font-feature-settings: "kern" 1, "liga" 1;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  /* Bengali headlines shouldn't use tight negative tracking (conjuncts overlap).
-     Keep neutral tracking with slightly relaxed leading for display text. */
-  h1, h2, h3 {
-    line-height: 1.3;
+  /* Headlines: slightly tighter leading, no extra letter-spacing */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Shurjo', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.28;
     letter-spacing: 0;
+    word-spacing: 0;
   }
 }
 
 /* ===== News portal custom utilities ===== */
 @layer utilities {
-  /* Display font for headlines — same family, heavier weight */
+  /* Display font for headlines — Shurjo with heavier weight */
   .font-display {
-    font-family: var(--font-hind), var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+    font-family: 'Shurjo', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
     font-weight: 700;
     letter-spacing: 0;
   }
@@ -326,9 +339,11 @@
 
 /* ===== Professional Article Typography ===== */
 .article-body {
-  font-family: var(--font-hind), var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Shurjo', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   font-size: 1.0625rem;
-  line-height: 1.95;
+  line-height: 2;
+  letter-spacing: 0.015em;
+  word-spacing: 0.025em;
   color: var(--foreground);
   text-rendering: optimizeLegibility;
 }
@@ -340,7 +355,7 @@
 }
 /* Drop cap for first paragraph */
 .article-body .drop-cap::first-letter {
-  font-family: var(--font-hind), var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Shurjo', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   float: left;
   font-size: 3.6em;
   line-height: 0.8;
