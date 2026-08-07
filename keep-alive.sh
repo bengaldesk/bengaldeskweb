@@ -1,8 +1,7 @@
 #!/bin/bash
 cd /home/z/my-project
 while true; do
-  echo "[$(date)] Starting..." >> /home/z/my-project/server.log
-  node_modules/.bin/next dev -p 3000 >> /home/z/my-project/server.log 2>&1
-  echo "[$(date)] Exited, restarting..." >> /home/z/my-project/server.log
+  npx next dev -p 3000 >> dev.log 2>&1
+  echo "Server crashed, restarting in 2s..." >> dev.log
   sleep 2
 done
