@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { CheckCircle2, BarChart3 } from 'lucide-react'
+import { CheckCircle2, BarChart3, ChevronDown, ChevronUp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { getActivePoll, getPastPolls } from '@/lib/poll-data'
 import { formatBnDate, toBn } from '@/lib/bn'
@@ -28,7 +28,9 @@ function sumVotes(map: Record<string, number> | undefined) {
 
 export function PollSection() {
   const activePoll = getActivePoll()
-  const pastPolls = getPastPolls(3)
+  const allPastPolls = getPastPolls(10)
+  const [showAllPolls, setShowAllPolls] = React.useState(false)
+  const pastPolls = showAllPolls ? allPastPolls : allPastPolls.slice(0, 1)
 
   const [votes, setVotes] = React.useState<VoteStore>(baseVotes)
   const [userVote, setUserVote] = React.useState<UserVoteStore>({})
@@ -191,6 +193,29 @@ export function PollSection() {
               )
             })}
           </div>
+
+          {!showAllPolls && allPastPolls.length > 1 && (
+            <Button
+              variant='outline'
+              size='sm'
+              className='mt-4 w-full gap-2 border-border/60 text-xs font-medium hover:border-brand/40 hover:text-brand'
+              onClick={() => setShowAllPolls(true)}
+            >
+              <ChevronDown className='h-3.5 w-3.5' />
+              আরও {toBn(String(allPastPolls.length - 1))}টি পোলের ফলাফল দেখুন
+            </Button>
+          )}
+          {showAllPolls && allPastPolls.length > 1 && (
+            <Button
+              variant='ghost'
+              size='sm'
+              className='mt-4 w-full gap-2 text-xs text-muted-foreground hover:text-foreground'
+              onClick={() => setShowAllPolls(false)}
+            >
+              <ChevronUp className='h-3.5 w-3.5' />
+              পোল সংকুচিত করুন
+            </Button>
+          )}
         </div>
       </div>
     </section>

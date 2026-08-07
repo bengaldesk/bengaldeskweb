@@ -91,15 +91,15 @@ export function CategoryPageContent({ category }: { category: NewsCategory }) {
             <div className='mt-4'>
               <LeadStoryCard
                 item={lead}
-                subItems={rest.slice(0, 5)}
+                subItems={rest.slice(0, 3)}
               />
             </div>
           )}
 
           {/* Rest of the news — 2-col grid on mobile, 3-col on desktop */}
-          {rest.length > 5 && (
+          {rest.length > 3 && (
             <div className='mt-5 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3'>
-              {rest.slice(5).map((item) => (
+              {rest.slice(3).map((item) => (
                 <Link
                   key={item.id}
                   href={`/news/${item.id}`}

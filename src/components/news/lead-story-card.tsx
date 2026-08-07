@@ -178,7 +178,7 @@ export function LeadStoryCard({
   showDesktopSidebars,
   leftItems,
 }: LeadStoryCardProps) {
-  const mobileSubItems = subItems.slice(0, 5)
+  const mobileSubItems = subItems.slice(0, 3)
 
   // On desktop, some subItems go to the right sidebar
   const rightSidebarItems = showDesktopSidebars ? subItems.slice(0, 6) : []
