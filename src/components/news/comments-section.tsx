@@ -6,9 +6,9 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { cn } from '@/lib/utils'
 import { toBn } from '@/lib/bn'
 
-// Mock initial comments to make the section look populated
 type CommentItem = {
   id: string
   name: string
@@ -71,7 +71,6 @@ export function CommentsSection({ articleId }: { articleId: string }) {
     try {
       const raw = window.localStorage.getItem(storageKey)
       if (!raw) {
-        // Load mock comments on first visit
         const mocks = MOCK_COMMENTS.map((c, i) => ({
           ...c,
           id: `mock-${articleId}-${i}`,
@@ -104,7 +103,6 @@ export function CommentsSection({ articleId }: { articleId: string }) {
     }
 
     setIsSubmitting(true)
-    // Simulate network delay
     setTimeout(() => {
       const next: CommentItem[] = [
         {
@@ -121,24 +119,24 @@ export function CommentsSection({ articleId }: { articleId: string }) {
     }, 500)
   }
 
-  const userCommentCount = comments.filter((c) => !c.isMock).length
-
   return (
-    <section className='mt-12 border-t border-border/40 pt-8' id='comments'>
-      {/* Section header */}
+    <section className='mt-10 pt-8 border-t border-border/40' id='comments'>
+      {/* Header */}
       <div className='section-header mb-6'>
         <h2 className='flex items-center gap-2'>
           <MessageSquare className='h-4 w-4 text-brand' />
-          মন্তব্য
+          পাঠকের মন্তব্য
           <span className='ml-1 text-sm font-normal text-muted-foreground'>({toBn(comments.length)})</span>
         </h2>
       </div>
 
       {/* Comment form */}
-      <form onSubmit={onSubmit} className='mb-8 rounded-xl border border-border/50 bg-card p-4 sm:p-5'>
-        <div className='mb-3 flex items-center gap-2 text-sm font-semibold text-foreground'>
-          <User className='h-4 w-4 text-brand' />
-          আপনার মন্তব্য লিখুন
+      <form onSubmit={onSubmit} className='mb-8 rounded-xl border border-border/50 bg-card p-5 shadow-sm'>
+        <div className='mb-4 flex items-center gap-2 text-sm font-semibold text-foreground'>
+          <div className='flex h-6 w-6 items-center justify-center rounded-full bg-brand/10'>
+            <User className='h-3.5 w-3.5 text-brand' />
+          </div>
+          আপনার মতামত জানান
         </div>
         <div className='space-y-3'>
           <Input
@@ -148,20 +146,24 @@ export function CommentsSection({ articleId }: { articleId: string }) {
             aria-label='আপনার নাম'
             maxLength={80}
             required
-            className='bg-muted/50'
+            className='comment-input bg-muted/40 border-border/60'
           />
           <Textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder='আপনার মন্তব্য লিখুন...'
             aria-label='মন্তব্য'
-            className='min-h-28 bg-muted/50'
+            className='comment-input min-h-24 bg-muted/40 border-border/60'
             maxLength={1200}
             required
           />
           <div className='flex items-center justify-between'>
             {error ? <p className='text-xs text-destructive'>{error}</p> : <div />}
-            <Button type='submit' disabled={isSubmitting} className='gap-2'>
+            <Button
+              type='submit'
+              disabled={isSubmitting}
+              className='gap-2 bg-brand hover:bg-brand/90'
+            >
               <Send className='h-3.5 w-3.5' />
               {isSubmitting ? 'পাঠানো হচ্ছে...' : 'মন্তব্য পাঠান'}
             </Button>
@@ -172,8 +174,8 @@ export function CommentsSection({ articleId }: { articleId: string }) {
       {/* Comments list */}
       <div className='space-y-3'>
         {comments.length === 0 ? (
-          <div className='rounded-xl border border-dashed border-border/60 px-5 py-10 text-center'>
-            <MessageSquare className='mx-auto mb-2 h-8 w-8 text-muted-foreground/40' />
+          <div className='rounded-xl border border-dashed border-border/60 px-5 py-12 text-center'>
+            <MessageSquare className='mx-auto mb-3 h-8 w-8 text-muted-foreground/30' />
             <p className='text-sm text-muted-foreground'>এখনো কোনো মন্তব্য নেই। প্রথম মন্তব্যটি করুন।</p>
           </div>
         ) : (
@@ -184,7 +186,7 @@ export function CommentsSection({ articleId }: { articleId: string }) {
                 'rounded-xl border p-4 transition-colors',
                 comment.isMock
                   ? 'border-border/40 bg-card'
-                  : 'border-brand/20 bg-brand/5'
+                  : 'border-brand/20 bg-brand/[0.03]'
               )}
             >
               <div className='flex items-start gap-3'>
@@ -205,7 +207,7 @@ export function CommentsSection({ articleId }: { articleId: string }) {
                     <p className='text-sm font-semibold text-foreground'>{comment.name}</p>
                     <span className='text-[11px] text-muted-foreground'>{formatCommentTime(comment.createdAt)}</span>
                   </div>
-                  <p className='mt-1.5 text-sm leading-relaxed text-foreground/90'>{comment.message}</p>
+                  <p className='mt-1.5 text-[15px] leading-relaxed text-foreground/85'>{comment.message}</p>
                 </div>
               </div>
             </article>
@@ -214,8 +216,4 @@ export function CommentsSection({ articleId }: { articleId: string }) {
       </div>
     </section>
   )
-}
-
-function cn(...classes: (string | undefined | false)[]) {
-  return classes.filter(Boolean).join(' ')
 }
