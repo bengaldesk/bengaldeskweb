@@ -24,7 +24,9 @@ export default function Home() {
       <main className='flex-1 pb-safe'>
         <h1 className='sr-only'>বার্তা — বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদ</h1>
         <HeroSection />
-        <AdBox className='my-6' />
+        <div className='mx-auto max-w-7xl px-4 sm:px-6'>
+          <AdBox className='my-6' />
+        </div>
 
         {/* Content + Sidebar layout (desktop) */}
         <div className='mx-auto max-w-7xl px-4 sm:px-6'>
