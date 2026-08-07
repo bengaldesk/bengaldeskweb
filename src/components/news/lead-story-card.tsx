@@ -67,9 +67,9 @@ function HeroImageSection({ item }: { item: NewsItem }) {
       </div>
 
       {/* Headline — below the image, not overlaid */}
-      <div className='px-4 py-3.5 sm:px-5 sm:py-4'>
+      <div className='px-4 py-4 sm:px-5 sm:py-5'>
         <CatLabel category={item.category} />
-        <h2 className='font-display mt-1.5 line-clamp-3 text-[1.3rem] font-extrabold leading-tight text-foreground transition-colors group-hover:text-brand sm:text-xl'>
+        <h2 className='font-display mt-2 line-clamp-4 text-[1.6rem] font-black leading-[1.25] tracking-tight text-foreground transition-colors group-hover:text-brand sm:text-[1.75rem] lg:text-2xl'>
           {item.title}
         </h2>
         <div className='mt-2 flex items-center gap-3 text-[11px] text-muted-foreground'>
