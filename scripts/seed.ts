@@ -7,10 +7,10 @@ async function seed() {
   // Create admin user
   const adminPassword = await bcrypt.hash('admin123', 10)
   const admin = await db.user.upsert({
-    where: { email: 'admin@barta.com' },
+    where: { email: 'admin@bengaldesk.com' },
     update: {},
     create: {
-      email: 'admin@barta.com',
+      email: 'admin@bengaldesk.com',
       password: adminPassword,
       name: 'Admin',
       role: 'admin',
@@ -22,10 +22,10 @@ async function seed() {
   // Create editor user
   const editorPassword = await bcrypt.hash('editor123', 10)
   const editor = await db.user.upsert({
-    where: { email: 'editor@barta.com' },
+    where: { email: 'editor@bengaldesk.com' },
     update: {},
     create: {
-      email: 'editor@barta.com',
+      email: 'editor@bengaldesk.com',
       password: editorPassword,
       name: 'Editor',
       role: 'editor',
@@ -65,8 +65,8 @@ async function seed() {
 
   // Create site settings
   const settings = [
-    { key: 'site_name', value: 'বার্তা' },
-    { key: 'site_description', value: 'বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদ পড়ুন বার্তায়' },
+    { key: 'site_name', value: 'Bengal Desk' },
+    { key: 'site_description', value: 'Bengal Desk - Professional News Management System' },
     { key: 'site_logo', value: '/logo.png' },
     { key: 'posts_per_page', value: '12' },
   ]

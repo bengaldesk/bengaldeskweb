@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import PostForm from "@/components/admin/post-form"
 import {
   Breadcrumb,
@@ -12,29 +13,22 @@ import {
 
 export default function NewPostPage() {
   return (
-    <div className="space-y-6">
+    <div className="max-w-4xl space-y-6">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/admin">অ্যাডমিন</BreadcrumbLink>
+            <BreadcrumbLink href="/admin">Home</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/admin/posts">সংবাদ</BreadcrumbLink>
+            <BreadcrumbLink href="/admin/posts">Posts</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>নতুন</BreadcrumbPage>
+            <BreadcrumbPage>New Post</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-
-      <div>
-        <h2 className="text-2xl font-bold tracking-tight">নতুন সংবাদ</h2>
-        <p className="text-muted-foreground text-sm mt-1">
-          একটি নতুন সংবাদ তৈরি করুন
-        </p>
-      </div>
 
       <PostForm />
     </div>

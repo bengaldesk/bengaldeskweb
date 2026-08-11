@@ -1,6 +1,7 @@
 "use client"
 
-import { use } from "react"
+import React, { use } from "react"
+import Link from "next/link"
 import PostForm from "@/components/admin/post-form"
 import {
   Breadcrumb,
@@ -19,29 +20,22 @@ export default function EditPostPage({
   const { id } = use(params)
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-4xl space-y-6">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/admin">অ্যাডমিন</BreadcrumbLink>
+            <BreadcrumbLink href="/admin">Home</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/admin/posts">সংবাদ</BreadcrumbLink>
+            <BreadcrumbLink href="/admin/posts">Posts</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>সম্পাদনা</BreadcrumbPage>
+            <BreadcrumbPage>Edit Post</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-
-      <div>
-        <h2 className="text-2xl font-bold tracking-tight">সংবাদ সম্পাদনা</h2>
-        <p className="text-muted-foreground text-sm mt-1">
-          সংবাদের তথ্য সম্পাদনা করুন
-        </p>
-      </div>
 
       <PostForm postId={id} />
     </div>

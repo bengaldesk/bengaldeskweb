@@ -7,12 +7,6 @@ import { useForm, Controller } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
-import {
-  ChevronDown,
-  ChevronRight,
-  Loader2,
-  ImageIcon,
-} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -37,9 +31,27 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import {
+  ChevronDown,
+  ChevronRight,
+  Loader2,
+  ImageIcon,
+  Eye,
+  Save,
+  Send,
+  X,
+} from "lucide-react"
 
 const postSchema = z.object({
-  title: z.string().min(1, "শিরোনাম আবশ্যক"),
+  title: z.string().min(1, "Title is required"),
   categoryId: z.string().optional(),
   summary: z.string().optional(),
   content: z.string().optional(),
@@ -136,7 +148,7 @@ export default function PostForm({ postId }: PostFormProps) {
       })
       if (data.image) setImagePreview(data.image)
     } catch {
-      toast.error("সংবাদ লোড করতে সমস্যা হয়েছে")
+      toast.error("Failed to load post")
       router.push("/admin/posts")
     } finally {
       setLoadingPost(false)
@@ -164,8 +176,19 @@ export default function PostForm({ postId }: PostFormProps) {
     setSubmitting(true)
     try {
       const payload = {
-        ...data,
-        published: publishNow,
+        title: data.title,
+        categoryId: data.categoryId,
+        summary: data.summary,
+        content: data.content,
+        image: data.image,
+        sourceUrl: data.sourceUrl,
+        sourceName: data.sourceName,
+        metaTitle: data.metaTitle,
+        metaDescription: data.metaDescription,
+        metaKeywords: data.metaKeywords,
+        published: publishNow ? true : false,
+        featured: data.featured,
+        breaking: data.breaking,
       }
 
       const url = isEditing
@@ -181,19 +204,21 @@ export default function PostForm({ postId }: PostFormProps) {
 
       if (!res.ok) {
         const err = await res.json().catch(() => null)
-        throw new Error(err?.error || "সমস্যা হয়েছে")
+        throw new Error(err?.error || "Something went wrong")
       }
 
       toast.success(
         isEditing
-          ? "সংবাদ সফলভাবে আপডেট হয়েছে"
+          ? "Post updated successfully"
           : publishNow
-            ? "সংবাদ সফলভাবে প্রকাশিত হয়েছে"
-            : "সংবাদ ড্রাফট সংরক্ষিত হয়েছে"
+            ? "Post published successfully"
+            : "Draft saved successfully"
       )
       router.push("/admin/posts")
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "সংবাদ সংরক্ষণ করতে সমস্যা হয়েছে")
+      toast.error(
+        err instanceof Error ? err.message : "Failed to save post"
+      )
     } finally {
       setSubmitting(false)
     }
@@ -213,148 +238,235 @@ export default function PostForm({ postId }: PostFormProps) {
 
   if (loadingPost) {
     return (
-      <div className="space-y-6">
+      <div className="max-w-4xl mx-auto space-y-6">
         <Skeleton className="h-8 w-48" />
+        <Skeleton className="h-4 w-72" />
         <Card>
           <CardContent className="p-6 space-y-5">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="space-y-2">
-              <Skeleton className="h-4 w-24" />
-              <Skeleton className="h-10 w-full" />
-            </div>
-          ))}
-        </CardContent>
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="space-y-2">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-10 w-full" />
+              </div>
+            ))}
+          </CardContent>
         </Card>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleFormSubmit} className="space-y-6">
-      {/* Main Fields Card */}
-      <Card>
-        <CardContent className="p-6 space-y-5">
-          {/* Title */}
-          <div className="space-y-2">
-            <Label htmlFor="title">
-              শিরোনাম <span className="text-destructive">*</span>
-            </Label>
-            <Input
-              id="title"
-              placeholder="সংবাদের শিরোনাম লিখুন"
-              {...register("title")}
-            />
-            {form.formState.errors.title && (
-              <p className="text-sm text-destructive">
-                {form.formState.errors.title.message}
-              </p>
-            )}
-          </div>
+    <div className="max-w-4xl mx-auto space-y-6">
+      {/* Breadcrumb */}
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/admin">Dashboard</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/admin/posts">Posts</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{isEditing ? "Edit Post" : "New Post"}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
 
-          {/* Category */}
-          <div className="space-y-2">
-            <Label htmlFor="category">বিভাগ</Label>
-            <Controller
-              control={control}
-              name="categoryId"
-              render={({ field }) => (
-                <Select
-                  value={field.value || ""}
-                  onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="বিভাগ নির্বাচন করুন" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="none">বিভাগ নেই</SelectItem>
-                    {categories.map((cat) => (
-                      <SelectItem key={cat.id} value={cat.id}>
-                        {cat.nameBn || cat.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
-            />
-          </div>
+      {/* Page Header */}
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight">
+          {isEditing ? "Edit Post" : "Create New Post"}
+        </h1>
+        <p className="text-muted-foreground text-sm mt-1">
+          {isEditing
+            ? "Update the post details and publish changes."
+            : "Fill in the details below to create a new post."}
+        </p>
+      </div>
 
-          {/* Summary */}
-          <div className="space-y-2">
-            <Label htmlFor="summary">সারসংক্ষেপ</Label>
-            <Textarea
-              id="summary"
-              rows={3}
-              placeholder="সংবাদের সারসংক্ষেপ লিখুন"
-              {...register("summary")}
-            />
-          </div>
-
-          {/* Content */}
-          <div className="space-y-2">
-            <Label htmlFor="content">বিষয়বস্তু</Label>
-            <Textarea
-              id="content"
-              rows={12}
-              placeholder="সংবাদের বিস্তারিত বিষয়বস্তু লিখুন"
-              {...register("content")}
-            />
-          </div>
-
-          {/* Image URL */}
-          <div className="space-y-2">
-            <Label htmlFor="image">ছবির লিংক</Label>
-            <div className="flex items-center gap-2">
-              <ImageIcon className="h-4 w-4 text-muted-foreground shrink-0" />
+      <form onSubmit={handleFormSubmit} className="space-y-6">
+        {/* Main Fields Card */}
+        <Card>
+          <CardContent className="p-6 space-y-5">
+            {/* Title */}
+            <div className="space-y-2">
+              <Label htmlFor="title">
+                Title <span className="text-destructive">*</span>
+              </Label>
               <Input
-                id="image"
-                placeholder="https://example.com/image.jpg"
-                {...register("image")}
+                id="title"
+                placeholder="Enter post title"
+                {...register("title")}
+              />
+              {form.formState.errors.title && (
+                <p className="text-sm text-destructive">
+                  {form.formState.errors.title.message}
+                </p>
+              )}
+            </div>
+
+            {/* Category */}
+            <div className="space-y-2">
+              <Label htmlFor="category">Category</Label>
+              <Controller
+                control={control}
+                name="categoryId"
+                render={({ field }) => (
+                  <Select
+                    value={field.value || ""}
+                    onValueChange={(v) =>
+                      field.onChange(v === "none" ? "" : v)
+                    }
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="none">No category</SelectItem>
+                      {categories.map((cat) => (
+                        <SelectItem key={cat.id} value={cat.id}>
+                          {cat.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
               />
             </div>
-            {imagePreview && (
-              <div className="mt-2">
-                <img
-                  src={imagePreview}
-                  alt="প্রিভিউ"
-                  className="h-40 w-auto max-w-full rounded-lg border object-cover bg-muted"
-                  onError={() => setImagePreview("")}
+
+            {/* Summary */}
+            <div className="space-y-2">
+              <Label htmlFor="summary">Summary</Label>
+              <Textarea
+                id="summary"
+                rows={3}
+                placeholder="Brief summary of the post"
+                {...register("summary")}
+              />
+            </div>
+
+            {/* Content */}
+            <div className="space-y-2">
+              <Label htmlFor="content">Content</Label>
+              <Textarea
+                id="content"
+                rows={12}
+                placeholder="Write your post content here..."
+                {...register("content")}
+              />
+            </div>
+
+            {/* Image URL */}
+            <div className="space-y-2">
+              <Label htmlFor="image">Image URL</Label>
+              <div className="flex items-center gap-2">
+                <ImageIcon className="h-4 w-4 text-muted-foreground shrink-0" />
+                <Input
+                  id="image"
+                  placeholder="https://example.com/image.jpg"
+                  {...register("image")}
                 />
               </div>
-            )}
-          </div>
-
-          {/* Source URL + Source Name */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="sourceUrl">উৎসের লিংক</Label>
-              <Input
-                id="sourceUrl"
-                placeholder="https://source.com/..."
-                {...register("sourceUrl")}
-              />
+              {imagePreview && (
+                <div className="mt-2">
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="h-40 w-auto max-w-full rounded-lg border object-cover bg-muted"
+                    onError={() => setImagePreview("")}
+                  />
+                </div>
+              )}
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="sourceName">উৎসের নাম</Label>
-              <Input
-                id="sourceName"
-                placeholder="উৎসের নাম লিখুন"
-                {...register("sourceName")}
-              />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
 
-      {/* Toggles Card */}
-      <Card>
-        <CardContent className="p-6 space-y-4">
-          <CardTitle className="text-base">বিকল্প</CardTitle>
-          <div className="space-y-4 pt-2">
+            {/* Source URL + Source Name */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="sourceUrl">Source URL</Label>
+                <Input
+                  id="sourceUrl"
+                  placeholder="https://source.com/..."
+                  {...register("sourceUrl")}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="sourceName">Source Name</Label>
+                <Input
+                  id="sourceName"
+                  placeholder="e.g. Reuters, AP News"
+                  {...register("sourceName")}
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* SEO Collapsible */}
+        <Card>
+          <CardContent className="p-0">
+            <Collapsible open={seoOpen} onOpenChange={setSeoOpen}>
+              <CollapsibleTrigger className="w-full flex items-center justify-between p-6 hover:bg-accent/50 transition-colors rounded-t-lg">
+                <CardTitle className="text-base">SEO Settings</CardTitle>
+                {seoOpen ? (
+                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                ) : (
+                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                )}
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <div className="px-6 pb-6 space-y-4 pt-2 border-t">
+                  <div className="space-y-2">
+                    <Label htmlFor="metaTitle">Meta Title</Label>
+                    <Input
+                      id="metaTitle"
+                      placeholder="Leave empty to use post title"
+                      {...register("metaTitle")}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="metaDescription">
+                      Meta Description
+                    </Label>
+                    <Textarea
+                      id="metaDescription"
+                      rows={2}
+                      placeholder="Brief description for search engines"
+                      {...register("metaDescription")}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="metaKeywords">Meta Keywords</Label>
+                    <Input
+                      id="metaKeywords"
+                      placeholder="comma, separated, keywords"
+                      {...register("metaKeywords")}
+                    />
+                  </div>
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+          </CardContent>
+        </Card>
+
+        {/* Toggles Card */}
+        <Card>
+          <CardHeader className="pb-4">
+            <CardTitle className="text-base">Options</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <Label htmlFor="published" className="cursor-pointer">প্রকাশিত</Label>
+                <Label htmlFor="published" className="cursor-pointer">
+                  Published
+                </Label>
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  এই সংবাদটি সর্বজনীনভাবে দেখানো হবে
+                  Make this post visible to the public
                 </p>
               </div>
               <Controller
@@ -370,9 +482,11 @@ export default function PostForm({ postId }: PostFormProps) {
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <Label htmlFor="featured" className="cursor-pointer">বৈশিষ্ট্যযুক্ত</Label>
+                <Label htmlFor="featured" className="cursor-pointer">
+                  Featured
+                </Label>
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  হোমপেজে বিশেষভাবে প্রদর্শিত হবে
+                  Display prominently on the homepage
                 </p>
               </div>
               <Controller
@@ -388,9 +502,11 @@ export default function PostForm({ postId }: PostFormProps) {
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <Label htmlFor="breaking" className="cursor-pointer">ব্রেকিং নিউজ</Label>
+                <Label htmlFor="breaking" className="cursor-pointer">
+                  Breaking News
+                </Label>
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  জরুরি ব্রেকিং নিউজ হিসেবে চিহ্নিত হবে
+                  Mark as urgent breaking news
                 </p>
               </div>
               <Controller
@@ -404,84 +520,46 @@ export default function PostForm({ postId }: PostFormProps) {
                 )}
               />
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
 
-      {/* SEO Collapsible */}
-      <Card>
-        <CardContent className="p-0">
-          <Collapsible open={seoOpen} onOpenChange={setSeoOpen}>
-            <CollapsibleTrigger className="w-full flex items-center justify-between p-6 hover:bg-accent/50 transition-colors rounded-t-lg">
-              <CardTitle className="text-base">SEO সেটিংস</CardTitle>
-              {seoOpen ? (
-                <ChevronDown className="h-4 w-4 text-muted-foreground" />
-              ) : (
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+        {/* Action Buttons */}
+        <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-3 pb-8">
+          <Link href="/admin/posts">
+            <Button type="button" variant="ghost">
+              <X className="h-4 w-4 mr-1.5" />
+              Cancel
+            </Button>
+          </Link>
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+            <Button
+              type="button"
+              variant="outline"
+              className="flex-1 sm:flex-none"
+              disabled={submitting}
+              onClick={handleDraft}
+            >
+              {submitting && (
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
               )}
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <div className="px-6 pb-6 space-y-4 pt-2 border-t">
-                <div className="space-y-2">
-                  <Label htmlFor="metaTitle">মেটা শিরোনাম</Label>
-                  <Input
-                    id="metaTitle"
-                    placeholder="সার্চ ইঞ্জিনের জন্য শিরোনাম"
-                    {...register("metaTitle")}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="metaDescription">মেটা বিবরণ</Label>
-                  <Textarea
-                    id="metaDescription"
-                    rows={3}
-                    placeholder="সার্চ ইঞ্জিনের জন্য বিবরণ"
-                    {...register("metaDescription")}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="metaKeywords">মেটা কীওয়ার্ড</Label>
-                  <Input
-                    id="metaKeywords"
-                    placeholder="কীওয়ার্ড1, কীওয়ার্ড2, কীওয়ার্ড3"
-                    {...register("metaKeywords")}
-                  />
-                </div>
-              </div>
-            </CollapsibleContent>
-          </Collapsible>
-        </CardContent>
-      </Card>
-
-      {/* Action Buttons */}
-      <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-3 pb-8">
-        <Link href="/admin/posts">
-          <Button type="button" variant="outline">
-            বাতিল
-          </Button>
-        </Link>
-        <div className="flex items-center gap-3 w-full sm:w-auto">
-          <Button
-            type="button"
-            variant="outline"
-            className="flex-1 sm:flex-none"
-            disabled={submitting}
-            onClick={handleDraft}
-          >
-            {submitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-            ড্রাফট সংরক্ষণ
-          </Button>
-          <Button
-            type="button"
-            className="flex-1 sm:flex-none"
-            disabled={submitting}
-            onClick={handlePublish}
-          >
-            {submitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-            প্রকাশ করুন
-          </Button>
+              <Save className="h-4 w-4 mr-1.5" />
+              Save as Draft
+            </Button>
+            <Button
+              type="button"
+              className="flex-1 sm:flex-none"
+              disabled={submitting}
+              onClick={handlePublish}
+            >
+              {submitting && (
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+              )}
+              <Send className="h-4 w-4 mr-1.5" />
+              Publish
+            </Button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   )
 }

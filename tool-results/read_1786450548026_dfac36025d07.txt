@@ -1,0 +1,952 @@
+   100→  return (
+   101→    <Card className="hover:shadow-md transition-shadow">
+   102→      <CardContent className="p-4">
+   103→        <div className="flex items-center gap-3">
+   104→          <Skeleton className="h-10 w-10 rounded-lg shrink-0" />
+   105→          <div className="space-y-1.5 flex-1">
+   106→            <Skeleton className="h-6 w-14" />
+   107→            <Skeleton className="h-3 w-24" />
+   108→          </div>
+   109→        </div>
+   110→      </CardContent>
+   111→    </Card>
+   112→  )
+   113→}
+   114→
+   115→function ChartSkeleton() {
+   116→  return (
+   117→    <Card>
+   118→      <CardHeader>
+   119→        <Skeleton className="h-5 w-40" />
+   120→        <Skeleton className="h-4 w-60" />
+   121→      </CardHeader>
+   122→      <CardContent>
+   123→        <Skeleton className="h-[300px] w-full rounded-lg" />
+   124→      </CardContent>
+   125→    </Card>
+   126→  )
+   127→}
+   128→
+   129→function TableSkeleton() {
+   130→  return (
+   131→    <Card>
+   132→      <CardHeader>
+   133→        <div className="flex items-center justify-between">
+   134→          <div className="space-y-2">
+   135→            <Skeleton className="h-5 w-40" />
+   136→            <Skeleton className="h-4 w-60" />
+   137→          </div>
+   138→          <Skeleton className="h-9 w-24" />
+   139→        </div>
+   140→      </CardHeader>
+   141→      <CardContent>
+   142→        <div className="space-y-3">
+   143→          {Array.from({ length: 5 }).map((_, i) => (
+   144→            <div key={i} className="flex items-center gap-4">
+   145→              <Skeleton className="h-4 flex-1" />
+   146→              <Skeleton className="h-5 w-16 rounded-full" />
+   147→              <Skeleton className="h-5 w-16 rounded-full" />
+   148→              <Skeleton className="h-4 w-20" />
+   149→              <Skeleton className="h-4 w-24" />
+   150→            </div>
+   151→          ))}
+   152→        </div>
+   153→      </CardContent>
+   154→    </Card>
+   155→  )
+   156→}
+   157→}
+   158→
+   159→function QuickActionsSkeleton() {
+   160→  return (
+   161→    <Card>
+   162→      <CardHeader>
+   163→        <Skeleton className="h-5 w-32" />
+   164→        <Skeleton className="h-4 w-48" />
+   165→      </CardHeader>
+   166→      <CardContent>
+   167→        <div className="grid grid-cols-2 gap-3">
+   168→          {Array.from({ length: 4 }).map((_, i) => (
+   169→            <Skeleton key={i} className="h-20 rounded-xl" />
+   170→          ))}
+   171→        </div>
+   172→      </CardContent>
+   173→    </Card>
+   174→  )
+   175→}
+   176→
+   177→function ActivitySkeleton() {
+   178→  return (
+   179→    <Card>
+   180→      <CardHeader>
+   181→        <Skeleton className="h-5 w-32" />
+   182→      </CardHeader>
+   183→      <CardContent>
+   184→        <div className="space-y-4">
+   185→          {Array.from({ length: 5 }).map((_, i) => (
+   186→            <div key={i} className="flex items-start gap-3">
+   187→              <Skeleton className="h-2 w-2 rounded-full mt-1.5 shrink-0" />
+   188→              <div className="flex-1 space-y-1">
+   189→                <Skeleton className="h-4 w-full" />
+   190→                <Skeleton className="h-3 w-16" />
+   191→              </div>
+   192→            </div>
+   193→          ))}
+   194→        </div>
+   195→      </CardContent>
+   196→    </Card>
+   197→  )
+   198→}
+   199→
+   200→/* ── Activity Placeholder Data ── */
+   201→
+   202→const activityItems = [
+   203→  { text: "System initialized", time: "Just now" },
+   204→  { text: "Database seeded successfully", time: "2m ago" },
+   205→  { text: "Admin panel deployed", time: "5m ago" },
+   206→  { text: "SEO settings configured", time: "1h ago" },
+   207→  { text: "Media storage initialized", time: "3h ago" },
+   208→]
+   209→
+   210→/* ── Main Dashboard ── */
+   211→
+   212→export default function AdminDashboard() {
+   213→  const { data: session } = useSession()
+   214→  const [stats, setStats] = useState<StatsData | null>(null)
+   215→  const [loading, setLoading] = useState(true)
+   216→  const [error, setError] = useState("")
+   217→  const [lastUpdated, setLastUpdated] = useState<Date>(new Date())
+   218→
+   219→  async function fetchStats() {
+   220→    try {
+   221→      setLoading(true)
+   222→      setError("")
+   223→      const res = await fetch("/api/admin/stats")
+   224→      if (!res.ok) {
+   225→        throw new Error("Failed to load dashboard data")
+   226→      }
+   227→      const data = await res.json()
+   228→      setStats(data)
+   229→      setLastUpdated(new Date())
+   230→    } catch (err) {
+   231→      setError(err instanceof Error ? err.message : "Unknown error")
+   232→    } finally {
+   233→      setLoading(false)
+   234→    }
+   235→  }
+   236→
+   237→  useEffect(() => {
+   238→    fetchStats()
+   239→  }, [])
+   240→
+   241→  /* ── Chart Data ── */
+   242→  const chartData = (() => {
+   243→    if (stats?.postsPerDay && stats.postsPerDay.length > 0) {
+   244→      return stats.postsPerDay.map((item) => ({
+   245→        name: new Date(item.date).toLocaleDateString("en-US", {
+   246→          weekday: "short",
+   247→        }),
+   248→        Posts: item.count,
+   249→        Views: item.count * 47,
+   250→      }))
+   251→    }
+   252→    return Array.from({ length: 7 }).map((_, i) => {
+   253→      const d = new Date()
+   254→      d.setDate(d.getDate() - (6 - i))
+   255→      return {
+   256→        name: d.toLocaleDateString("en-US", { weekday: "short" }),
+   257→        Posts: 0,
+   258→        Views: 0,
+   259→      }
+   260→    })
+   261→  })()
+   262→
+   263→  /* ── Quick Actions ── */
+   264→  const quickActions = [
+   265→    {
+   266→      label: "New Post",
+   267→      href: "/admin/posts/new",
+   268→      icon: Plus,
+   269→      color:
+   270→        "bg-blue-500/10 text-blue-600 dark:text-blue-400 hover:bg-blue-500/20 border-blue-200 dark:border-blue-800",
+   271→    },
+   272→    {
+   273→      label: "New Category",
+   274→      href: "/admin/categories/new",
+   275→      icon: FolderOpen,
+   276→      color:
+   277→        "bg-rose-500/10 text-rose-600 dark:text-rose-400 hover:bg-rose-500/20 border-rose-200 dark:border-rose-800",
+   278→    },
+   279→    {
+   280→      label: "Add User",
+   281→      href: "/admin/users/new",
+   282→      icon: UserPlus,
+   283→      color:
+   284→        "bg-violet-500/10 text-violet-600 dark:text-violet-400 hover:bg-violet-500/20 border-violet-200 dark:border-violet-800",
+   285→    },
+   286→    {
+   287→      label: "Upload Media",
+   288→      href: "/admin/media",
+   289→      icon: Upload,
+   290→      color:
+   291→        "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 hover:bg-cyan-500/20 border-cyan-200 dark:border-cyan-800",
+   292→    },
+   293→  ]
+   294→
+   295→  /* ── Derived Values ── */
+   296→  const totalViews = (stats?.totalPosts ?? 0) * 47
+   297→  const publishedRatio =
+   298→    stats && stats.totalPosts > 0
+   299→      ? Math.round((stats.publishedPosts / stats.totalPosts) * 100)
+   300→      : 0
+   301→
+   302→  /* ── Category placeholder data ── */
+   303→  const categoryData = stats && stats.totalCategories > 0
+   304→    ? [
+   305→        { name: "Politics", count: Math.ceil((stats.totalPosts / stats.totalCategories) * 1.5) },
+   306→        { name: "Technology", count: Math.ceil(stats.totalPosts / stats.totalCategories) },
+   307→        { name: "Sports", count: Math.floor((stats.totalPosts / stats.totalCategories) * 0.8) },
+   308→        { name: "Business", count: Math.floor((stats.totalPosts / stats.totalCategories) * 0.6) },
+   309→        { name: "Entertainment", count: Math.floor((stats.totalPosts / stats.totalCategories) * 0.4) },
+   310→      ]
+   311→    : []
+   312→
+   313→  /* ── Error State ── */
+   314→  if (error && !stats) {
+   315→    return (
+   316→      <div className="space-y-6">
+   317→        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+   318→          <div>
+   319→            <h2 className="text-2xl font-bold tracking-tight">
+   320→              Welcome back, {session?.user?.name || "Admin"}
+   321→            </h2>
+   322→            <p className="text-muted-foreground mt-1">
+   323→              Here is what is happening with Bengal Desk today.
+   324→            </p>
+   325→          </div>
+   326→        </div>
+   327→        <Card className="border-destructive/50">
+   328→          <CardContent className="flex flex-col items-center justify-center py-12 text-center">
+   329→            <Zap className="h-10 w-10 text-destructive/60 mb-3" />
+   330→            <p className="text-sm font-medium text-destructive">{error}</p>
+   331→            <Button
+   332→              variant="outline"
+   333→              size="sm"
+   334→              className="mt-4"
+   335→              onClick={fetchStats}
+   336→            >
+   337→              <RefreshCw className="h-3.5 w-3.5 mr-1.5" />
+   338→              Retry
+   339→            </Button>
+   340→          </CardContent>
+   341→        </Card>
+   342→      </div>
+   343→    )
+   344→  }
+   345→
+   346→  return (
+   347→    <div className="space-y-6">
+   348→      {/* ─── 1. WELCOME HEADER ─── */}
+   349→      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+   350→        <div>
+   351→          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+   352→            Welcome back, {session?.user?.name || "Admin"}
+   353→          </h2>
+   354→          <p className="text-muted-foreground mt-1">
+   355→            Here is what is happening with Bengal Desk today.
+   356→          </p>
+   357→        </div>
+   358→        <div className="flex items-center gap-3 text-sm text-muted-foreground shrink-0">
+   359→          <span className="hidden sm:inline">
+   360→            Last updated: {lastUpdated.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
+   361→          </span>
+   362→          <Button
+   363→            variant="outline"
+   364→            size="icon"
+   365→            className="h-9 w-9"
+   366→            onClick={fetchStats}
+   367→            disabled={loading}
+   368→          >
+   369→            <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+   370→          </Button>
+   371→        </div>
+   372→      </div>
+   373→
+   374→      {error && stats && (
+   375→        <Card className="border-amber-500/50 bg-amber-500/5">
+   376→          <CardContent className="flex items-center gap-3 p-3">
+   377→            <Zap className="h-4 w-4 text-amber-500 shrink-0" />
+   378→            <p className="text-sm text-amber-600 dark:text-amber-400 flex-1">
+   379→              {error}
+   380→            </p>
+   381→            <Button variant="ghost" size="sm" className="h-7 text-xs" onClick={fetchStats}>
+   382→              Retry
+   383→            </Button>
+   384→          </CardContent>
+   385→        </Card>
+   386→      )}
+   387→
+   388→      {/* ─── 2. PRIMARY STATS ROW (4 cards) ─── */}
+   389→      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+   390→        {loading
+   391→          ? Array.from({ length: 4 }).map((_, i) => <StatCardSkeleton key={i} />)
+   392→          : [
+   393→              {
+   394→                label: "Total Posts",
+   395→                value: stats?.totalPosts ?? 0,
+   396→                icon: FileText,
+   397→                color: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
+   398→                ring: "ring-blue-500/20",
+   399→                trend: "+12%",
+   400→                trendUp: true,
+   401→                extra: (
+   402→                  <div className="mt-2.5">
+   403→                    <div className="flex items-center justify-between text-[11px] text-muted-foreground mb-1">
+   404→                      <span>Published / Draft</span>
+   405→                      <span>
+   406→                        {stats?.publishedPosts ?? 0} / {stats?.draftPosts ?? 0}
+   407→                      </span>
+   408→                    </div>
+   409→                    <Progress value={publishedRatio} className="h-1.5" />
+   410→                  </div>
+   411→                ),
+   412→              },
+   413→              {
+   414→                label: "Published",
+   415→                value: stats?.publishedPosts ?? 0,
+   416→                icon: Eye,
+   417→                color: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+   418→                ring: "ring-emerald-500/20",
+   419→                trend: "+8%",
+   420→                trendUp: true,
+   421→              },
+   422→              {
+   423→                label: "Total Views",
+   424→                value: totalViews,
+   425→                icon: Globe,
+   426→                color: "bg-violet-500/10 text-violet-600 dark:text-violet-400",
+   427→                ring: "ring-violet-500/20",
+   428→                trend: "+23%",
+   429→                trendUp: true,
+   430→              },
+   431→              {
+   432→                label: "Comments",
+   433→                value: stats?.totalComments ?? 0,
+   434→                icon: MessageSquare,
+   435→                color: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
+   436→                ring: "ring-amber-500/20",
+   437→                trend: (stats?.pendingComments ?? 0) > 0 ? `+${stats?.pendingComments} pending` : "-2%",
+   438→                trendUp: (stats?.pendingComments ?? 0) > 0,
+   439→                subBadge: (stats?.pendingComments ?? 0) > 0
+   440→                  ? stats!.pendingComments
+   441→                  : null,
+   442→              },
+   443→            ].map((card) => {
+   444→              const Icon = card.icon
+   445→              return (
+   446→                <Card
+   447→                  key={card.label}
+   448→                  className="hover:shadow-md transition-shadow"
+   449→                >
+   450→                  <CardContent className="p-4 md:p-6">
+   451→                    <div className="flex items-start justify-between">
+   452→                      <div className="space-y-1 flex-1 min-w-0">
+   453→                        <p className="text-sm text-muted-foreground font-medium">
+   454→                          {card.label}
+   455→                        </p>
+   456→                        <p className="text-2xl md:text-3xl font-bold tracking-tight">
+   457→                          {card.value.toLocaleString("en-US")}
+   458→                        </p>
+   459→                        {card.trend && (
+   460→                          <div
+   461→                            className={`flex items-center text-xs gap-0.5 ${
+   462→                              card.trendUp
+   463→                                ? "text-emerald-600 dark:text-emerald-400"
+   464→                                : "text-red-500 dark:text-red-400"
+   465→                            }`}
+   466→                          >
+   467→                            {card.trendUp ? (
+   468→                              <ArrowUpRight className="h-3 w-3" />
+   469→                            ) : (
+   470→                              <ArrowDownRight className="h-3 w-3" />
+   471→                            )}
+   472→                            <span>{card.trend} from last week</span>
+   473→                          </div>
+   474→                        )}
+   475→                      </div>
+   476→                      <div className="flex flex-col items-end gap-2">
+   477→                        <div
+   478→                          className={`h-11 w-11 rounded-full flex items-center justify-center shrink-0 ring-1 ${card.ring} ${card.color}`}
+   479→                        >
+   480→                          <Icon className="h-5 w-5" />
+   481→                        </div>
+   482→                        {"subBadge" in card && card.subBadge != null && (
+   483→                          <Badge
+   484→                            variant="secondary"
+   485→                            className="text-[10px] px-1.5 py-0 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+   486→                          >
+   487→                            {card.subBadge} pending
+   488→                          </Badge>
+   489→                        )}
+   490→                      </div>
+   491→                    </div>
+   492→                    {"extra" in card && card.extra}
+   493→                  </CardContent>
+   494→                </Card>
+   495→              )
+   496→            })}
+   497→      </div>
+   498→
+   499→      {/* ─── 3. SECONDARY STATS ROW (3 compact cards) ─── */}
+   500→      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+   501→        {loading
+   502→          ? Array.from({ length: 3 }).map((_, i) => <SecondaryStatSkeleton key={i} />)
+   503→          : [
+   504→              {
+   505→                label: "Categories",
+   506→                value: stats?.totalCategories ?? 0,
+   507→                icon: FolderOpen,
+   508→                color: "bg-rose-500/10 text-rose-600 dark:text-rose-400",
+   509→              },
+   510→              {
+   511→                label: "Media Files",
+   512→                value: stats?.totalMedia ?? 0,
+   513→                icon: Image,
+   514→                color: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400",
+   515→              },
+   516→              {
+   517→                label: "Newsletter",
+   518→                value: stats?.totalSubscribers ?? 0,
+   519→                icon: Mail,
+   520→                color: "bg-pink-500/10 text-pink-600 dark:text-pink-400",
+   521→              },
+   522→            ].map((card) => {
+   523→              const Icon = card.icon
+   524→              return (
+   525→                <Card
+   526→                  key={card.label}
+   527→                  className="hover:shadow-md transition-shadow"
+   528→                >
+   529→                  <CardContent className="p-4">
+   530→                    <div className="flex items-center gap-3">
+   531→                      <div
+   532→                        className={`h-10 w-10 rounded-lg flex items-center justify-center shrink-0 ${card.color}`}
+   533→                      >
+   534→                        <Icon className="h-5 w-5" />
+   535→                      </div>
+   536→                      <div className="flex items-baseline gap-2 min-w-0">
+   537→                        <span className="text-xl font-bold tracking-tight">
+   538→                          {card.value.toLocaleString("en-US")}
+   539→                        </span>
+   540→                        <span className="text-sm text-muted-foreground">
+   541→                          {card.label}
+   542→                        </span>
+   543→                      </div>
+   544→                    </div>
+   545→                  </CardContent>
+   546→                </Card>
+   547→              )
+   548→            })}
+   549→      </div>
+   550→
+   551→      {/* ─── 4. MAIN CHART SECTION ─── */}
+   552→      {loading ? (
+   553→        <ChartSkeleton />
+   554→      ) : (
+   555→        <Card>
+   556→          <Tabs defaultValue="posts">
+   557→            <CardHeader className="pb-0">
+   558→              <div className="flex items-center justify-between">
+   559→                <div>
+   560→                  <CardTitle className="flex items-center gap-2">
+   561→                    <BarChart3 className="h-5 w-5" />
+   562→                    Analytics Overview
+   563→                  </CardTitle>
+   564→                  <CardDescription className="mt-1">
+   565→                    Content performance over the last 7 days
+   566→                  </CardDescription>
+   567→                </div>
+   568→              </div>
+   569→            </CardHeader>
+   570→            <CardContent>
+   571→              <TabsList className="mb-4">
+   572→                <TabsTrigger value="posts">Posts</TabsTrigger>
+   573→                <TabsTrigger value="views">Views</TabsTrigger>
+   574→              </TabsList>
+   575→              <TabsContent value="posts" className="mt-0">
+   576→                <div className="h-[300px] w-full">
+   577→                  <ResponsiveContainer width="100%" height="100%">
+   578→                    <AreaChart
+   579→                      data={chartData}
+   580→                      margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+   581→                    >
+   582→                      <defs>
+   583→                        <linearGradient id="colorPosts" x1="0" y1="0" x2="0" y2="1">
+   584→                          <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.2} />
+   585→                          <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+   586→                        </linearGradient>
+   587→                      </defs>
+   588→                      <XAxis
+   589→                        dataKey="name"
+   590→                        tick={{ fontSize: 12 }}
+   591→                        tickLine={false}
+   592→                        axisLine={false}
+   593→                      />
+   594→                      <YAxis
+   595→                        tick={{ fontSize: 12 }}
+   596→                        tickLine={false}
+   597→                        axisLine={false}
+   598→                        allowDecimals={false}
+   599→                      />
+   600→                      <RechartsTooltip
+   601→                        contentStyle={{
+   602→                          backgroundColor: "hsl(var(--popover))",
+   603→                          border: "1px solid hsl(var(--border))",
+   604→                          borderRadius: "8px",
+   605→                          fontSize: "13px",
+   606→                        }}
+   607→                      />
+   608→                      <Area
+   609→                        type="monotone"
+   610→                        dataKey="Posts"
+   611→                        stroke="hsl(var(--primary))"
+   612→                        strokeWidth={2}
+   613→                        fillOpacity={1}
+   614→                        fill="url(#colorPosts)"
+   615→                      />
+   616→                    </AreaChart>
+   617→                  </ResponsiveContainer>
+   618→                </div>
+   619→              </TabsContent>
+   620→              <TabsContent value="views" className="mt-0">
+   621→                <div className="h-[300px] w-full">
+   622→                  <ResponsiveContainer width="100%" height="100%">
+   623→                    <AreaChart
+   624→                      data={chartData}
+   625→                      margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+   626→                    >
+   627→                      <defs>
+   628→                        <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
+   629→                          <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.15} />
+   630→                          <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+   631→                        </linearGradient>
+   632→                      </defs>
+   633→                      <XAxis
+   634→                        dataKey="name"
+   635→                        tick={{ fontSize: 12 }}
+   636→                        tickLine={false}
+   637→                        axisLine={false}
+   638→                      />
+   639→                      <YAxis
+   640→                        tick={{ fontSize: 12 }}
+   641→                        tickLine={false}
+   642→                        axisLine={false}
+   643→                        allowDecimals={false}
+   644→                      />
+   645→                      <RechartsTooltip
+   646→                        contentStyle={{
+   647→                          backgroundColor: "hsl(var(--popover))",
+   648→                          border: "1px solid hsl(var(--border))",
+   649→                          borderRadius: "8px",
+   650→                          fontSize: "13px",
+   651→                        }}
+   652→                      />
+   653→                      <Area
+   654→                        type="monotone"
+   655→                        dataKey="Views"
+   656→                        stroke="hsl(var(--primary))"
+   657→                        strokeWidth={2}
+   658→                        fillOpacity={1}
+   659→                        fill="url(#colorViews)"
+   660→                      />
+   661→                    </AreaChart>
+   662→                  </ResponsiveContainer>
+   663→                </div>
+   664→              </TabsContent>
+   665→            </CardContent>
+   666→          </Tabs>
+   667→        </Card>
+   668→      )}
+   669→
+   670→      {/* ─── 5. TWO-COLUMN SECTION ─── */}
+   671→      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+   672→        {/* LEFT: Recent Posts */}
+   673→        <div className="lg:col-span-2">
+   674→          {loading ? (
+   675→            <TableSkeleton />
+   676→          ) : (
+   677→            <Card>
+   678→              <CardHeader>
+   679→                <div className="flex items-center justify-between">
+   680→                  <div>
+   681→                    <CardTitle className="flex items-center gap-2">
+   682→                      <FileText className="h-5 w-5" />
+   683→                      Recent Posts
+   684→                    </CardTitle>
+   685→                    <CardDescription className="mt-1">
+   686→                      Latest posts across all categories
+   687→                    </CardDescription>
+   688→                  </div>
+   689→                  <Link href="/admin/posts">
+   690→                    <Button variant="outline" size="sm">
+   691→                      View All
+   692→                      <ArrowUpRight className="h-3.5 w-3.5 ml-1" />
+   693→                    </Button>
+   694→                  </Link>
+   695→                </div>
+   696→              </CardHeader>
+   697→              <CardContent>
+   698→                {stats?.recentPosts && stats.recentPosts.length > 0 ? (
+   699→                  <>
+   700→                    {/* Desktop Table */}
+   701→                    <div className="hidden md:block">
+   702→                      <Table>
+   703→                        <TableHeader>
+   704→                          <TableRow>
+   705→                            <TableHead>Title</TableHead>
+   706→                            <TableHead>Category</TableHead>
+   707→                            <TableHead>Status</TableHead>
+   708→                            <TableHead>Author</TableHead>
+   709→                            <TableHead className="text-right">Date</TableHead>
+   710→                          </TableRow>
+   711→                        </TableHeader>
+   712→                        <TableBody>
+   713→                          {stats.recentPosts.map((post) => (
+   714→                            <TableRow key={post.id} className="cursor-pointer hover:bg-accent/50">
+   715→                              <TableCell className="font-medium max-w-[280px]">
+   716→                                <Link
+   717→                                  href={`/admin/posts/${post.id}`}
+   718→                                  className="hover:underline truncate block"
+   719→                                >
+   720→                                  {post.title}
+   721→                                </Link>
+   722→                              </TableCell>
+   723→                              <TableCell>
+   724→                                {post.categoryRel && (
+   725→                                  <Badge variant="secondary" className="font-normal">
+   726→                                    {post.categoryRel.nameBn}
+   727→                                  </Badge>
+   728→                                )}
+   729→                              </TableCell>
+   730→                              <TableCell>
+   731→                                <Badge
+   732→                                  variant="outline"
+   733→                                  className={
+   734→                                    post.published
+   735→                                      ? "border-emerald-500/50 text-emerald-600 dark:text-emerald-400"
+   736→                                      : "border-yellow-500/50 text-yellow-600 dark:text-yellow-400"
+   737→                                  }
+   738→                                >
+   739→                                  {post.published ? "Published" : "Draft"}
+   740→                                </Badge>
+   741→                              </TableCell>
+   742→                              <TableCell className="text-muted-foreground">
+   743→                                {post.author.name}
+   744→                              </TableCell>
+   745→                              <TableCell className="text-right text-muted-foreground text-sm">
+   746→                                {new Date(post.createdAt).toLocaleDateString("en-US", {
+   747→                                  month: "short",
+   748→                                  day: "numeric",
+   749→                                  year: "numeric",
+   750→                                })}
+   751→                              </TableCell>
+   752→                            </TableRow>
+   753→                          ))}
+   754→                        </TableBody>
+   755→                      </Table>
+   756→                    </div>
+   757→
+   758→                    {/* Mobile Card List */}
+   759→                    <div className="md:hidden space-y-3">
+   760→                      {stats.recentPosts.map((post) => (
+   761→                        <Link key={post.id} href={`/admin/posts/${post.id}`}>
+   762→                          <div className="border rounded-lg p-3 hover:bg-accent/50 transition-colors">
+   763→                            <div className="flex items-start justify-between gap-2">
+   764→                              <h4 className="text-sm font-medium line-clamp-2">
+   765→                                {post.title}
+   766→                              </h4>
+   767→                              <Badge
+   768→                                variant="outline"
+   769→                                className={
+   770→                                  post.published
+   771→                                    ? "border-emerald-500/50 text-emerald-600 dark:text-emerald-400 shrink-0 text-[10px] px-1.5 py-0"
+   772→                                    : "border-yellow-500/50 text-yellow-600 dark:text-yellow-400 shrink-0 text-[10px] px-1.5 py-0"
+   773→                                }
+   774→                              >
+   775→                                {post.published ? "Published" : "Draft"}
+   776→                              </Badge>
+   777→                            </div>
+   778→                            <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
+   779→                              {post.categoryRel && (
+   780→                                <Badge
+   781→                                  variant="secondary"
+   782→                                  className="text-[10px] px-1.5 py-0 font-normal"
+   783→                                >
+   784→                                  {post.categoryRel.nameBn}
+   785→                                </Badge>
+   786→                              )}
+   787→                              <span>{post.author.name}</span>
+   788→                              <span>·</span>
+   789→                              <span>
+   790→                                {new Date(post.createdAt).toLocaleDateString("en-US", {
+   791→                                  month: "short",
+   792→                                  day: "numeric",
+   793→                                })}
+   794→                              </span>
+   795→                            </div>
+   796→                          </div>
+   797→                        </Link>
+   798→                      ))}
+   799→                    </div>
+   800→                  </>
+   801→                ) : (
+   802→                  <div className="text-center py-12 text-muted-foreground">
+   803→                    <FileText className="h-12 w-12 mx-auto mb-3 opacity-30" />
+   804→                    <p className="text-sm font-medium">No posts yet</p>
+   805→                    <p className="text-xs mt-1">Create your first post to get started!</p>
+   806→                  </div>
+   807→                )}
+   808→              </CardContent>
+   809→            </Card>
+   810→          )}
+   811→        </div>
+   812→
+   813→        {/* RIGHT: Quick Actions + Activity */}
+   814→        <div className="space-y-4 md:space-y-6">
+   815→          {loading ? (
+   816→            <>
+   817→              <QuickActionsSkeleton />
+   818→              <ActivitySkeleton />
+   819→            </>
+   820→          ) : (
+   821→            <>
+   822→              {/* Quick Actions */}
+   823→              <Card>
+   824→                <CardHeader>
+   825→                  <CardTitle className="flex items-center gap-2 text-base">
+   826→                    <Zap className="h-4 w-4" />
+   827→                    Quick Actions
+   828→                  </CardTitle>
+   829→                  <CardDescription>Common tasks at your fingertips</CardDescription>
+   830→                </CardHeader>
+   831→                <CardContent>
+   832→                  <div className="grid grid-cols-2 gap-3">
+   833→                    {quickActions.map((action) => {
+   834→                      const Icon = action.icon
+   835→                      return (
+   836→                        <Link key={action.href} href={action.href}>
+   837→                          <div
+   838→                            className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-colors cursor-pointer ${action.color}`}
+   839→                          >
+   840→                            <Icon className="h-6 w-6" />
+   841→                            <span className="text-xs font-medium text-center">
+   842→                              {action.label}
+   843→                            </span>
+   844→                          </div>
+   845→                        </Link>
+   846→                      )
+   847→                    })}
+   848→                  </div>
+   849→                </CardContent>
+   850→              </Card>
+   851→
+   852→              {/* Activity Feed */}
+   853→              <Card>
+   854→                <CardHeader>
+   855→                  <CardTitle className="flex items-center gap-2 text-base">
+   856→                    <Activity className="h-4 w-4" />
+   857→                    Recent Activity
+   858→                  </CardTitle>
+   859→                </CardHeader>
+   860→                <CardContent>
+   861→                  <div className="space-y-4">
+   862→                    {activityItems.map((item, i) => (
+   863→                      <div key={i} className="flex items-start gap-3">
+   864→                        <div className="h-2 w-2 rounded-full bg-primary mt-1.5 shrink-0" />
+   865→                        <div className="flex-1 min-w-0">
+   866→                          <p className="text-sm leading-snug">{item.text}</p>
+   867→                          <p className="text-xs text-muted-foreground mt-0.5">
+   868→                            {item.time}
+   869→                          </p>
+   870→                        </div>
+   871→                      </div>
+   872→                    ))}
+   873→                  </div>
+   874→                </CardContent>
+   875→              </Card>
+   876→            </>
+   877→          )}
+   878→        </div>
+   879→      </div>
+   880→
+   881→      {/* ─── 6. CONTENT OVERVIEW (Bottom Table) ─── */}
+   882→      {loading ? (
+   883→        <TableSkeleton />
+   884→      ) : (
+   885→        <Card>
+   886→          <Tabs defaultValue="recent-posts">
+   887→            <CardHeader className="pb-0">
+   888→              <div>
+   889→                <CardTitle className="flex items-center gap-2">
+   890→                  <TrendingUp className="h-5 w-5" />
+   891→                  Content Overview
+   892→                </CardTitle>
+   893→                <CardDescription className="mt-1">
+   894→                  Overview of your site content
+   895→                </CardDescription>
+   896→              </div>
+   897→            </CardHeader>
+   898→            <CardContent>
+   899→              <TabsList className="mb-4">
+   900→                <TabsTrigger value="recent-posts">Recent Posts</TabsTrigger>
+   901→                <TabsTrigger value="top-categories">Top Categories</TabsTrigger>
+   902→              </TabsList>
+   903→
+   904→              <TabsContent value="recent-posts" className="mt-0">
+   905→                {stats?.recentPosts && stats.recentPosts.length > 0 ? (
+   906→                  <>
+   907→                    <div className="hidden md:block">
+   908→                      <Table>
+   909→                        <TableHeader>
+   910→                          <TableRow>
+   911→                            <TableHead>Title</TableHead>
+   912→                            <TableHead>Category</TableHead>
+   913→                            <TableHead>Status</TableHead>
+   914→                            <TableHead>Author</TableHead>
+   915→                            <TableHead className="text-right">Date</TableHead>
+   916→                          </TableRow>
+   917→                        </TableHeader>
+   918→                        <TableBody>
+   919→                          {stats.recentPosts.map((post) => (
+   920→                            <TableRow key={post.id} className="cursor-pointer hover:bg-accent/50">
+   921→                              <TableCell className="font-medium max-w-[280px]">
+   922→                                <Link
+   923→                                  href={`/admin/posts/${post.id}`}
+   924→                                  className="hover:underline truncate block"
+   925→                                >
+   926→                                  {post.title}
+   927→                                </Link>
+   928→                              </TableCell>
+   929→                              <TableCell>
+   930→                                {post.categoryRel && (
+   931→                                  <Badge variant="secondary" className="font-normal">
+   932→                                    {post.categoryRel.nameBn}
+   933→                                  </Badge>
+   934→                                )}
+   935→                              </TableCell>
+   936→                              <TableCell>
+   937→                                <Badge
+   938→                                  variant="outline"
+   939→                                  className={
+   940→                                    post.published
+   941→                                      ? "border-emerald-500/50 text-emerald-600 dark:text-emerald-400"
+   942→                                      : "border-yellow-500/50 text-yellow-600 dark:text-yellow-400"
+   943→                                  }
+   944→                                >
+   945→                                  {post.published ? "Published" : "Draft"}
+   946→                                </Badge>
+   947→                              </TableCell>
+   948→                              <TableCell className="text-muted-foreground">
+   949→                                {post.author.name}
+   950→                              </TableCell>
+   951→                              <TableCell className="text-right text-muted-foreground text-sm">
+   952→                                {new Date(post.createdAt).toLocaleDateString("en-US", {
+   953→                                  month: "short",
+   954→                                  day: "numeric",
+   955→                                  year: "numeric",
+   956→                                })}
+   957→                              </TableCell>
+   958→                            </TableRow>
+   959→                          ))}
+   960→                        </TableBody>
+   961→                      </Table>
+   962→                    </div>
+   963→
+   964→                    <div className="md:hidden space-y-3">
+   965→                      {stats.recentPosts.map((post) => (
+   966→                        <Link key={post.id} href={`/admin/posts/${post.id}`}>
+   967→                          <div className="border rounded-lg p-3 hover:bg-accent/50 transition-colors">
+   968→                            <div className="flex items-start justify-between gap-2">
+   969→                              <h4 className="text-sm font-medium line-clamp-2">
+   970→                                {post.title}
+   971→                              </h4>
+   972→                              <Badge
+   973→                                variant="outline"
+   974→                                className={
+   975→                                  post.published
+   976→                                    ? "border-emerald-500/50 text-emerald-600 dark:text-emerald-400 shrink-0 text-[10px] px-1.5 py-0"
+   977→                                    : "border-yellow-500/50 text-yellow-600 dark:text-yellow-400 shrink-0 text-[10px] px-1.5 py-0"
+   978→                                }
+   979→                              >
+   980→                                {post.published ? "Published" : "Draft"}
+   981→                              </Badge>
+   982→                            </div>
+   983→                            <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
+   984→                              {post.categoryRel && (
+   985→                                <Badge variant="secondary" className="text-[10px] px-1.5 py-0 font-normal">
+   986→                                  {post.categoryRel.nameBn}
+   987→                                </Badge>
+   988→                              )}
+   989→                              <span>{post.author.name}</span>
+   990→                              <span>·</span>
+   991→                              <span>
+   992→                                {new Date(post.createdAt).toLocaleDateString("en-US", {
+   993→                                  month: "short",
+   994→                                  day: "numeric",
+   995→                                })}
+   996→                              </span>
+   997→                            </div>
+   998→                          </div>
+   999→                        </Link>
+  1000→                      ))}
+  1001→                    </div>
+  1002→                  </>
+  1003→                ) : (
+  1004→                  <div className="text-center py-12 text-muted-foreground">
+  1005→                    <FileText className="h-12 w-12 mx-auto mb-3 opacity-30" />
+  1006→                    <p className="text-sm font-medium">No posts yet</p>
+  1007→                    <p className="text-xs mt-1">Create your first post to get started!</p>
+  1008→                  </div>
+  1009→                )}
+  1010→              </TabsContent>
+  1011→
+  1012→              <TabsContent value="top-categories" className="mt-0">
+  1013→                {categoryData.length > 0 ? (
+  1014→                  <div className="space-y-3">
+  1015→                    {categoryData.map((cat, i) => (
+  1016→                      <div
+  1017→                        key={cat.name}
+  1018→                        className="flex items-center justify-between py-2 border-b last:border-0"
+  1019→                      >
+  1020→                        <div className="flex items-center gap-3">
+  1021→                          <span className="text-sm font-medium text-muted-foreground w-6">
+  1022→                            {i + 1}.
+  1023→                          </span>
+  1024→                          <FolderOpen className="h-4 w-4 text-muted-foreground" />
+  1025→                          <span className="text-sm font-medium">{cat.name}</span>
+  1026→                        </div>
+  1027→                        <div className="flex items-center gap-2">
+  1028→                          <span className="text-sm font-semibold">
+  1029→                            {cat.count.toLocaleString("en-US")}
+  1030→                          </span>
+  1031→                          <span className="text-xs text-muted-foreground">posts</span>
+  1032→                        </div>
+  1033→                      </div>
+  1034→                    ))}
+  1035→                  </div>
+  1036→                ) : (
+  1037→                  <div className="text-center py-12 text-muted-foreground">
+  1038→                    <FolderOpen className="h-12 w-12 mx-auto mb-3 opacity-30" />
+  1039→                    <p className="text-sm font-medium">No categories yet</p>
+  1040→                    <p className="text-xs mt-1">Create categories to organize your content.</p>
+  1041→                  </div>
+  1042→                )}
+  1043→              </TabsContent>
+  1044→            </CardContent>
+  1045→          </Tabs>
+  1046→        </Card>
+  1047→      )}
+  1048→    </div>
+  1049→  )
+  1050→}
+  1051→
