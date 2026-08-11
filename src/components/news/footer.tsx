@@ -129,6 +129,9 @@ export function Footer() {
             <Link href='/cookies' className='transition-colors hover:text-white'>
               কুকিজ নীতি
             </Link>
+            <Link href='/admin/login' className='transition-colors hover:text-white'>
+              Admin
+            </Link>
           </div>
         </div>
       </div>
