@@ -65,8 +65,8 @@ async function seed() {
 
   // Create site settings
   const settings = [
-    { key: 'site_name', value: 'Bengal Desk' },
-    { key: 'site_description', value: 'Bengal Desk - Professional News Management System' },
+    { key: 'site_name', value: 'The Bengal Desk' },
+    { key: 'site_description', value: 'The Bengal Desk - Professional News Management System' },
     { key: 'site_logo', value: '/logo.png' },
     { key: 'posts_per_page', value: '12' },
   ]

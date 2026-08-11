@@ -169,7 +169,7 @@ export default function SettingsPage() {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="siteName">Site Name</Label>
-                <Input id="siteName" placeholder="Bengal Desk" {...register("siteName")} />
+                <Input id="siteName" placeholder="The Bengal Desk" {...register("siteName")} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="siteDescription">Site Description</Label>

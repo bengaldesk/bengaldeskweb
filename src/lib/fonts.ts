@@ -1,6 +1,6 @@
 /**
  * ═══════════════════════════════════════════════════════════════
- * বার্তা — Editorial Font Configuration
+ * The Bengal Desk — Editorial Font Configuration
  * ═══════════════════════════════════════════════════════════════
  *
  * Two-font system for Bengali news portal:

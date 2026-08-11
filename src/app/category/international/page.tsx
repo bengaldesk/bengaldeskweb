@@ -1,7 +1,7 @@
 import { CategoryPageContent } from "../_shared/category-page-content"
 
 export const metadata = {
-  title: "আন্তর্জাতিক — বার্তা",
+  title: "আন্তর্জাতিক — The Bengal Desk",
 }
 
 export default function Page() {

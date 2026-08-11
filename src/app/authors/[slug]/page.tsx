@@ -26,14 +26,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const author = getAuthorBySlug(slug)
 
   if (!author) {
-    return { title: 'লেখক পাওয়া যায়নি | বার্তা' }
+    return { title: 'লেখক পাওয়া যায়নি | The Bengal Desk' }
   }
 
   return {
-    title: `${author.name} | লেখক প্রোফাইল | বার্তা`,
+    title: `${author.name} | লেখক প্রোফাইল | The Bengal Desk`,
     description: `${author.name} এর প্রোফাইল ও প্রকাশিত সংবাদসমূহ`,
     openGraph: {
-      title: `${author.name} | বার্তা`,
+      title: `${author.name} | The Bengal Desk`,
       description: `${author.name} এর প্রকাশিত সংবাদসমূহ`,
       images: [{ url: author.avatar }],
     },

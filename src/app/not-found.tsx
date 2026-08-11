@@ -2,8 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Home, SearchX } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-
-const LOGO_URL = '/logo.png'
+import { LOGO_URL } from '@/lib/brand'
 
 export default function NotFound() {
   return (
@@ -12,7 +11,7 @@ export default function NotFound() {
         <Link href='/' className='inline-flex items-center justify-center'>
           <Image
             src={LOGO_URL}
-            alt='বার্তা লোগো'
+            alt='The Bengal Desk Logo'
             width={240}
             height={70}
             priority

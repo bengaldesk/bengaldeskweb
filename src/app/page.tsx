@@ -25,7 +25,7 @@ export default function Home() {
       <BreakingNewsTicker />
 
       <main className='flex-1 pb-safe'>
-        <h1 className='sr-only'>বার্তা — বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদ</h1>
+        <h1 className='sr-only'>The Bengal Desk — বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদ</h1>
         <HeroSection />
         {/* Trending — full width, outside grid */}
         <div className='mx-auto max-w-7xl px-4 sm:px-6'>

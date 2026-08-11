@@ -1,4 +1,4 @@
-// Mock news data for the বার্তা (Barta) news portal.
+// Mock news data for the The Bengal Desk news portal.
 // In later steps this will be replaced with a Prisma-backed API.
 
 export type NewsCategory =
@@ -1054,8 +1054,8 @@ export const getAuthors = (): AuthorProfile[] => {
       avatar: img(`author-${slug}`, 320, 320),
       role: lead ? `${lead.category} প্রতিবেদক` : "স্টাফ রিপোর্টার",
       bio: lead
-        ? `${name} বার্তা-র ${lead.category} বিভাগের সঙ্গে যুক্ত একজন সাংবাদিক। মাঠপর্যায়ের তথ্য, সূত্র যাচাই এবং বিশ্লেষণধর্মী প্রতিবেদনের মাধ্যমে পাঠকদের জন্য নির্ভরযোগ্য সংবাদ তুলে ধরেন।`
-        : `${name} বার্তা-র একজন স্টাফ রিপোর্টার।`,
+        ? `${name} The Bengal Desk-র ${lead.category} বিভাগের সঙ্গে যুক্ত একজন সাংবাদিক। মাঠপর্যায়ের তথ্য, সূত্র যাচাই এবং বিশ্লেষণধর্মী প্রতিবেদনের মাধ্যমে পাঠকদের জন্য নির্ভরযোগ্য সংবাদ তুলে ধরেন।`
+        : `${name} The Bengal Desk-র একজন স্টাফ রিপোর্টার।`,
       articleCount: authoredNews.length,
     };
   });

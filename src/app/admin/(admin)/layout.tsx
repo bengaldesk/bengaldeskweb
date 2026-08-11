@@ -260,7 +260,7 @@ function AdminSidebar({
         </div>
         {(!collapsed || isMobile) && (
           <span className="font-bold text-base tracking-tight whitespace-nowrap">
-            Bengal Desk
+            The Bengal Desk
           </span>
         )}
       </div>

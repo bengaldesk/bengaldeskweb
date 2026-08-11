@@ -319,7 +319,7 @@ export default function AdminDashboard() {
               Welcome back, {session?.user?.name || "Admin"}
             </h2>
             <p className="text-muted-foreground mt-1">
-              Here is what is happening with Bengal Desk today.
+              Here is what is happening with The Bengal Desk today.
             </p>
           </div>
         </div>
@@ -351,7 +351,7 @@ export default function AdminDashboard() {
             Welcome back, {session?.user?.name || "Admin"}
           </h2>
           <p className="text-muted-foreground mt-1">
-            Here is what is happening with Bengal Desk today.
+            Here is what is happening with The Bengal Desk today.
           </p>
         </div>
         <div className="flex items-center gap-3 text-sm text-muted-foreground shrink-0">

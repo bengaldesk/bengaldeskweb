@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Facebook, Twitter, Youtube, Instagram, MapPin, Phone, Mail } from 'lucide-react'
 import { NEWS_CATEGORIES, getCategorySlug } from '@/lib/news-data'
+import { LOGO_URL, SITE_EMAIL } from '@/lib/brand'
 
 const QUICK_LINKS = [
   { label: 'প্রচ্ছদ', href: '/' },
@@ -11,8 +12,7 @@ const QUICK_LINKS = [
   { label: 'গোপনীয়তা নীতি', href: '/privacy' },
 ]
 
-const LOGO_URL = '/logo.png'
-const LOGO_WHITE_URL = '/logo.png'
+const LOGO_WHITE_URL = LOGO_URL
 
 const SOCIALS = [
   { icon: Facebook, label: 'Facebook', href: '#' },
@@ -31,7 +31,7 @@ export function Footer() {
             <Link href='/' className='inline-flex items-center'>
               <Image
                 src={LOGO_WHITE_URL}
-                alt='বার্তা লোগো'
+                alt='The Bengal Desk Logo'
                 width={180}
                 height={52}
                 className='h-auto w-[140px] object-contain sm:w-[160px]'
@@ -110,10 +110,10 @@ export function Footer() {
               <li className='flex items-center gap-2.5'>
                 <Mail className='h-4 w-4 shrink-0 text-brand' />
                 <a
-                  href='mailto:info@barta.news'
+                  href={`mailto:${SITE_EMAIL}`}
                   className='transition-colors hover:text-white'
                 >
-                  info@barta.news
+                  {SITE_EMAIL}
                 </a>
               </li>
             </ul>
@@ -121,7 +121,7 @@ export function Footer() {
         </div>
 
         <div className='mt-10 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-white/50 sm:flex-row'>
-          <p>© {new Date().getFullYear()} বার্তা নিউজ। সর্বস্বত্ব সংরক্ষিত।</p>
+          <p>© {new Date().getFullYear()} The Bengal Desk। সর্বস্বত্ব সংরক্ষিত।</p>
           <div className='flex items-center gap-4'>
             <Link href='/terms' className='transition-colors hover:text-white'>
               ব্যবহারের শর্তাবলী

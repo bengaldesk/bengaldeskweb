@@ -5,8 +5,7 @@ import Link from 'next/link'
 import { useEffect } from 'react'
 import { AlertTriangle, RefreshCw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-
-const LOGO_URL = '/logo.png'
+import { LOGO_URL } from '@/lib/brand'
 
 export default function Error({
   error,
@@ -25,7 +24,7 @@ export default function Error({
         <Link href='/' className='inline-flex items-center justify-center'>
           <Image
             src={LOGO_URL}
-            alt='বার্তা লোগো'
+            alt='The Bengal Desk Logo'
             width={240}
             height={70}
             priority

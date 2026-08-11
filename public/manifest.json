@@ -1,0 +1,25 @@
+{
+  "name": "The Bengal Desk",
+  "short_name": "Bengal Desk",
+  "description": "বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদের নির্ভরযোগ্য উৎস",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#dc2626",
+  "orientation": "portrait-primary",
+  "lang": "bn",
+  "icons": [
+    {
+      "src": "https://res.cloudinary.com/r51xywlg/image/upload/w_192,h_192,c_pad,f_auto,q_auto/v1786488737/icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://res.cloudinary.com/r51xywlg/image/upload/w_512,h_512,c_pad,f_auto,q_auto/v1786488737/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

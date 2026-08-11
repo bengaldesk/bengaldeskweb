@@ -3,9 +3,14 @@ import { tiroBangla, hindSiliguri } from "@/lib/fonts";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
+import { SITE_NAME, ICON_FAVICON, ICON_APPLE, OG_IMAGE, SITE_URL } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "বার্তা | সর্বশেষ খবর, বিশ্লেষণ ও আরও অনেক কিছু",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} | সর্বশেষ খবর, বিশ্লেষণ ও আরও অনেক কিছু`,
+    template: `%s | ${SITE_NAME}`,
+  },
   description:
     "বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদ, রাজনীতি, খেলা, প্রযুক্তি, বিনোদন ও লাইফস্টাইলের নির্ভরযোগ্য উৎস।",
   keywords: [
@@ -17,21 +22,29 @@ export const metadata: Metadata = {
     "প্রযুক্তি",
     "বিনোদন",
     "Bengali News",
+    "The Bengal Desk",
   ],
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: ICON_FAVICON,
+    shortcut: ICON_FAVICON,
+    apple: ICON_APPLE,
   },
   openGraph: {
-    title: "বার্তা | সর্বশেষ খবর",
+    title: `${SITE_NAME} | সর্বশেষ খবর`,
     description: "বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদের নির্ভরযোগ্য উৎস।",
-    siteName: "বার্তা",
+    siteName: SITE_NAME,
     type: "website",
-    images: [{ url: "/logo.png" }],
+    url: SITE_URL,
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: SITE_NAME }],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} | সর্বশেষ খবর`,
+    description: "বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদের নির্ভরযোগ্য উৎস।",
+    images: [OG_IMAGE],
+  },
+  manifest: "/manifest.json",
   other: {
-    // Remove any tech stack fingerprints
     'X-Powered-By': 'Anonymous',
   },
 };

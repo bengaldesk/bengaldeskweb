@@ -66,7 +66,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-bold">ইমেইল</h3>
-                  <p className="text-muted-foreground text-sm">info@barta.news</p>
+                  <p className="text-muted-foreground text-sm">info@bengaldesk.com</p>
                 </div>
               </div>
             </div>

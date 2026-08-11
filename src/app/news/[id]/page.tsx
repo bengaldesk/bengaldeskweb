@@ -47,9 +47,9 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
   const article = getNewsById(id)
-  if (!article) return { title: 'খবর পাওয়া যায়নি | বার্তা' }
+  if (!article) return { title: 'খবর পাওয়া যায়নি | The Bengal Desk' }
   return {
-    title: `${article.title} | বার্তা`,
+    title: `${article.title} | The Bengal Desk`,
     description: article.excerpt,
     openGraph: {
       title: article.title,
@@ -113,7 +113,7 @@ export default async function NewsDetailsPage({ params }: { params: Promise<{ id
     <div className='min-h-screen flex flex-col bg-page-bg text-foreground'>
       <a href='#article-content' className='skip-to-content'>প্রধান বিষয়বস্তুতে যান</a>
       <div className='print-header'>
-        <p className='text-sm font-semibold'>বার্তা</p>
+        <p className='text-sm font-semibold'>The Bengal Desk</p>
         <h1 className='mt-2 text-xl font-bold'>{article.title}</h1>
         <p className='mt-1 text-sm text-gray-600'>{article.excerpt}</p>
       </div>
@@ -204,7 +204,7 @@ export default async function NewsDetailsPage({ params }: { params: Promise<{ id
             </div>
             <figcaption className='article-hero-caption mt-3 flex items-start gap-2 px-1'>
               <span className='credit mt-px shrink-0 font-semibold'>ছবি:</span>
-              <span>বার্তা ডেস্ক</span>
+              <span>The Bengal Desk</span>
             </figcaption>
           </figure>
 

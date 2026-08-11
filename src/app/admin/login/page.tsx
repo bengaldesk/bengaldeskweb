@@ -89,7 +89,7 @@ export default function AdminLoginPage() {
             <div className="flex items-center justify-center w-11 h-11 bg-primary-foreground/15 rounded-xl backdrop-blur-sm">
               <Newspaper className="w-6 h-6" />
             </div>
-            <span className="text-2xl font-bold tracking-tight">Bengal Desk</span>
+            <span className="text-2xl font-bold tracking-tight">The Bengal Desk</span>
           </div>
         </div>
 
@@ -127,7 +127,7 @@ export default function AdminLoginPage() {
 
         <div className="relative z-10">
           <p className="text-primary-foreground/40 text-xs">
-            &copy; {new Date().getFullYear()} Bengal Desk. All rights reserved.
+            &copy; {new Date().getFullYear()} The Bengal Desk. All rights reserved.
           </p>
         </div>
       </div>
@@ -140,7 +140,7 @@ export default function AdminLoginPage() {
             <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-xl">
               <Newspaper className="w-5 h-5 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold">Bengal Desk</span>
+            <span className="text-xl font-bold">The Bengal Desk</span>
           </div>
 
           <Card className="shadow-lg border-border/50">
@@ -152,7 +152,7 @@ export default function AdminLoginPage() {
                 <div>
                   <CardTitle className="text-xl font-bold">Welcome back</CardTitle>
                   <CardDescription className="text-sm">
-                    Sign in to Bengal Desk Admin
+                    Sign in to The Bengal Desk Admin
                   </CardDescription>
                 </div>
               </div>

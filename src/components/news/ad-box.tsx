@@ -33,7 +33,7 @@ export function AdBox({ className, slot, format = 'horizontal' }: AdBoxProps) {
 
         <Image
           src={LOGO_URL}
-          alt='বার্তা'
+          alt='The Bengal Desk'
           width={120}
           height={40}
           className='h-auto w-28 brightness-0 invert'

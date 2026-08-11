@@ -13,20 +13,19 @@ import {
 } from '@/components/ui/sheet'
 import { NEWS_CATEGORIES, getCategorySlug } from '@/lib/news-data'
 import { cn } from '@/lib/utils'
+import { LOGO_URL } from '@/lib/brand'
 import { usePathname } from 'next/navigation'
 import {
   SearchDropdown,
   SearchDropdownDesktop,
 } from './search-dropdown'
 
-const LOGO_URL = '/logo.png'
-
 function Logo({ className }: { className?: string }) {
   return (
-    <Link href='/' className={cn('inline-flex items-center', className)} aria-label='বার্তা হোম'>
+    <Link href='/' className={cn('inline-flex items-center', className)} aria-label='The Bengal Desk Home'>
       <Image
         src={LOGO_URL}
-        alt='বার্তা লোগো'
+        alt='The Bengal Desk Logo'
         width={220}
         height={64}
         priority
@@ -60,7 +59,7 @@ export function Header() {
             <div className='flex h-14 items-center border-b px-4'>
               <Image
                 src={LOGO_URL}
-                alt='বার্তা লোগো'
+                alt='The Bengal Desk Logo'
                 width={180}
                 height={52}
                 className='h-auto w-[130px] object-contain'

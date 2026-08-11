@@ -26,7 +26,7 @@ const MOCK_COMMENTS: Omit<CommentItem, 'id'>[] = [
   },
   {
     name: 'ফারহানা ইয়াসমিন',
-    message: 'বিষয়টি নিয়ে বিস্তারিত জানতে পেরেছি, ধন্যবাদ বার্তা ডেস্ক।',
+    message: 'বিষয়টি নিয়ে বিস্তারিত জানতে পেরেছি, ধন্যবাদ The Bengal Desk।',
     createdAt: new Date(Date.now() - 2 * 3600 * 1000).toISOString(),
     isMock: true,
   },

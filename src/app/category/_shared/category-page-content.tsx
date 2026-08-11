@@ -74,7 +74,7 @@ export function CategoryPageContent({ category }: { category: NewsCategory }) {
       </div>
 
       <main className='flex-1 pb-safe'>
-        <h1 className='sr-only'>{category} — বার্তা</h1>
+        <h1 className='sr-only'>{category} — The Bengal Desk</h1>
 
         <div className='mx-auto max-w-7xl px-4 pt-6 sm:px-6'>
           {/* Category title */}
