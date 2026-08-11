@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { writeFile, mkdir } from 'fs/promises'
-import path from 'path'
 import { db } from '@/lib/db'
 import { getNextAuthServerSession } from '@/lib/auth'
-import { v4 as uuidv4 } from 'uuid'
+import { put } from '@vercel/blob'
 
 export async function GET(request: NextRequest) {
   try {
@@ -54,19 +52,16 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
 
-    const ext = path.extname(file.name) || ''
-    const uniqueName = `${uuidv4()}${ext}`
-
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads')
-    await mkdir(uploadsDir, { recursive: true })
-
-    const filePath = path.join(uploadsDir, uniqueName)
-    await writeFile(filePath, buffer)
+    const ext = file.name.split('.').pop() || 'bin'
+    const blob = await put(`uploads/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`, buffer, {
+      access: 'public',
+      contentType: file.type,
+    })
 
     const media = await db.media.create({
       data: {
         filename: file.name,
-        url: `/uploads/${uniqueName}`,
+        url: blob.url,
         mimeType: file.type,
         size: file.size,
         uploadedBy: session.user.id,

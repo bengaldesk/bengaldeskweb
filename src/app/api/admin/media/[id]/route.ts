@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { unlink } from 'fs/promises'
-import path from 'path'
 import { db } from '@/lib/db'
 import { getNextAuthServerSession } from '@/lib/auth'
+import { del } from '@vercel/blob'
 
 export async function DELETE(
   request: NextRequest,
@@ -21,12 +20,13 @@ export async function DELETE(
       return NextResponse.json({ error: 'Media not found' }, { status: 404 })
     }
 
-    // Delete from disk
+    // Delete from Vercel Blob
     try {
-      const filePath = path.join(process.cwd(), 'public', media.url)
-      await unlink(filePath)
+      if (media.url.startsWith('https://')) {
+        await del(media.url)
+      }
     } catch {
-      // File might not exist, continue with DB deletion
+      // Blob might not exist, continue with DB deletion
     }
 
     await db.media.delete({ where: { id } })
