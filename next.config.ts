@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   allowedDevOrigins: ["preview-chat-aa6c6859-e9a5-457a-816f-dbbcff2f17a0.space-z.ai"],
   images: {
+    // Use unoptimized on Vercel free tier to save image optimization quota
+    // Cloudflare CDN will handle caching instead
+    unoptimized: !!process.env.VERCEL,
     remotePatterns: [
       {
         protocol: "https",
