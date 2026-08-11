@@ -62,6 +62,7 @@ export async function POST(request: NextRequest) {
         mimeType: file.type,
         size: file.size,
         alt: '',
+        publicId,
         uploadedBy: session.user.id,
       },
     })
