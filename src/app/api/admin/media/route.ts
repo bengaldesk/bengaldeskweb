@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { getNextAuthServerSession } from '@/lib/auth'
-import { put } from '@vercel/blob'
+import { uploadToCloudinary } from '@/lib/cloudinary'
 
 export async function GET(request: NextRequest) {
   try {
@@ -53,17 +53,15 @@ export async function POST(request: NextRequest) {
     const buffer = Buffer.from(bytes)
 
     const ext = file.name.split('.').pop() || 'bin'
-    const blob = await put(`uploads/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`, buffer, {
-      access: 'public',
-      contentType: file.type,
-    })
+    const { url, publicId } = await uploadToCloudinary(buffer, `bengaldesk/${ext}`)
 
     const media = await db.media.create({
       data: {
         filename: file.name,
-        url: blob.url,
+        url,
         mimeType: file.type,
         size: file.size,
+        alt: '',
         uploadedBy: session.user.id,
       },
     })
@@ -76,7 +74,7 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    return NextResponse.json(media, { status: 201 })
+    return NextResponse.json({ ...media, publicId }, { status: 201 })
   } catch (error) {
     console.error('Upload media error:', error)
     return NextResponse.json({ error: 'Failed to upload file' }, { status: 500 })

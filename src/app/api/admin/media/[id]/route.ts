@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { getNextAuthServerSession } from '@/lib/auth'
-import { del } from '@vercel/blob'
+import { deleteFromCloudinary } from '@/lib/cloudinary'
 
 export async function DELETE(
   request: NextRequest,
@@ -20,13 +20,13 @@ export async function DELETE(
       return NextResponse.json({ error: 'Media not found' }, { status: 404 })
     }
 
-    // Delete from Vercel Blob
-    try {
-      if (media.url.startsWith('https://')) {
-        await del(media.url)
+    // Delete from Cloudinary
+    if (media.publicId) {
+      try {
+        await deleteFromCloudinary(media.publicId)
+      } catch {
+        // Cloudinary delete failed, continue with DB deletion
       }
-    } catch {
-      // Blob might not exist, continue with DB deletion
     }
 
     await db.media.delete({ where: { id } })
