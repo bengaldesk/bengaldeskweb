@@ -11,8 +11,8 @@ const QUICK_LINKS = [
   { label: 'গোপনীয়তা নীতি', href: '/privacy' },
 ]
 
-const LOGO_URL = 'https://res.cloudinary.com/dtdmwcs4r/image/upload/v1784526258/Bengaldesklogo_vgd6pt.png'
-const LOGO_WHITE_URL = 'https://res.cloudinary.com/dtdmwcs4r/image/upload/v1768092478/LOGO-white_backgraound_tbasop.png'
+const LOGO_URL = '/logo.png'
+const LOGO_WHITE_URL = '/logo.png'
 
 const SOCIALS = [
   { icon: Facebook, label: 'Facebook', href: '#' },

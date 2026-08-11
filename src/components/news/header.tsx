@@ -19,7 +19,7 @@ import {
   SearchDropdownDesktop,
 } from './search-dropdown'
 
-const LOGO_URL = 'https://res.cloudinary.com/dtdmwcs4r/image/upload/v1784526258/Bengaldesklogo_vgd6pt.png'
+const LOGO_URL = '/logo.png'
 
 function Logo({ className }: { className?: string }) {
   return (
