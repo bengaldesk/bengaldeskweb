@@ -24,7 +24,10 @@ export async function uploadToCloudinary(
         {
           folder,
           resource_type: 'auto',
-          transformation: [{ quality: 'auto', fetch_format: 'auto' }],
+          use_filename: true,
+          unique_filename: true,
+          overwrite: false,
+          transformation: [{ quality: 'auto:good', fetch_format: 'auto' }],
         },
         (error, result) => {
           if (error || !result) {
