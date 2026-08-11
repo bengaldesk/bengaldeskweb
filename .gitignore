@@ -68,3 +68,7 @@ font-*.png
 
 # === Internal work log ===
 worklog.md
+--timeout
+agent-ctx/
+tool-results/
+.zscripts/
