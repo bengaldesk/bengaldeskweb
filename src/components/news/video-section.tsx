@@ -20,6 +20,7 @@ export function VideoSection() {
           <Link
             href={`/category/entertainment`}
             className='group relative block overflow-hidden rounded-lg bg-black'
+            id={`video-${lead.id}`}
           >
             <div className='relative aspect-video w-full'>
               <Image
@@ -57,6 +58,7 @@ export function VideoSection() {
             <Link
               key={v.id}
               href={`/category/entertainment`}
+              id={`video-${v.id}`}
               className='group flex gap-3 border-b border-border/40 py-3.5 first:pt-0 last:border-0'
             >
               <div className='relative aspect-video w-28 shrink-0 overflow-hidden rounded-md bg-black sm:w-32'>

@@ -81,7 +81,7 @@ export function AreaNewsSearch() {
         </div>
 
         <p className='mt-3 text-xs text-muted-foreground'>
-          ফলাফল: <span className='font-semibold text-foreground'>{results.length}</span> টি সংবাদ
+          ফলাফল: <span className='font-semibold text-foreground'>{Math.min(results.length, 8)}</span> টি দেখানো হচ্ছে{results.length > 8 && ` (${results.length} টি পাওয়া গেছে)`}
         </p>
 
         <div className='mt-4 space-y-3'>

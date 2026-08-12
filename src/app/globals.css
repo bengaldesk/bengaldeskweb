@@ -37,8 +37,9 @@
 /* ─── Tailwind v4 Design Token Integration ─────────────────────────────── */
 @theme inline {
   /* ── Font families ── */
-  --font-sans: var(--font-body);
-  --font-display: var(--font-heading);
+  --font-sans: "Noto Sans Bengali", var(--font-heading), "Hind Siliguri", sans-serif;
+  --font-display: "Noto Sans Bengali", var(--font-heading), "Hind Siliguri", sans-serif;
+  --font-serif: var(--font-serif), serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
   /* ── Text size scale (Major Third 1.25) ── */
@@ -835,7 +836,7 @@
     transform: translateX(0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translateX(-100%);
   }
 }
 
@@ -978,25 +979,24 @@
  * Single-column, clean white surface, no card wrapper.
  * ═══════════════════════════════════════════════════════════════════════════════════════ */
 
-/* ─── Article Headline — large, serif, dramatic ─── */
+/* ─── Article Headline — bold, high-impact ─── */
 .article-headline {
-  font-family: var(--font-heading), ui-serif, Georgia, serif;
+  font-family: var(--font-heading), "Hind Siliguri", sans-serif;
   font-size: 1.75rem;
-  font-weight: 400;
-  line-height: 1.22;
-  letter-spacing: -0.018em;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
   color: var(--text-primary);
   text-wrap: balance;
   word-spacing: 0;
 }
 
-/* ─── Article Dek (subheadline) — NYT-style italic serif ─── */
+/* ─── Article Dek (subheadline) ─── */
 .article-dek {
-  font-family: var(--font-heading), ui-serif, Georgia, serif;
+  font-family: var(--font-body), "Hind Siliguri", sans-serif;
   font-size: 1.2rem;
-  font-weight: 400;
-  font-style: italic;
-  line-height: 1.55;
+  font-weight: 500;
+  line-height: 1.6;
   letter-spacing: -0.005em;
   color: var(--text-secondary);
   text-wrap: pretty;
@@ -1272,10 +1272,10 @@
 
 /* In-article subheadings */
 .article-body h2 {
-  font-family: var(--font-heading), ui-serif, Georgia, serif;
+  font-family: var(--font-heading), "Hind Siliguri", sans-serif;
   font-size: 1.5rem;
-  font-weight: 400;
-  line-height: 1.3;
+  font-weight: 700;
+  line-height: 1.35;
   letter-spacing: -0.01em;
   color: var(--text-primary);
   margin-top: 2.2em;
@@ -1284,10 +1284,10 @@
 }
 
 .article-body h3 {
-  font-family: var(--font-heading), ui-serif, Georgia, serif;
+  font-family: var(--font-heading), "Hind Siliguri", sans-serif;
   font-size: 1.25rem;
-  font-weight: 400;
-  line-height: 1.35;
+  font-weight: 700;
+  line-height: 1.4;
   letter-spacing: -0.005em;
   color: var(--text-primary);
   margin-top: 1.8em;

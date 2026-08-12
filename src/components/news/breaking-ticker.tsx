@@ -5,7 +5,6 @@ import { Zap } from 'lucide-react'
 import { BREAKING_NEWS } from '@/lib/news-data'
 
 export function BreakingNewsTicker() {
-  const items = [...BREAKING_NEWS, ...BREAKING_NEWS]
   const duration = Math.max(28, BREAKING_NEWS.length * 6)
 
   return (
@@ -28,7 +27,7 @@ export function BreakingNewsTicker() {
             className='marquee-track py-1.5 sm:py-2'
             style={{ ['--marquee-duration' as string]: `${duration}s` }}
           >
-            {items.map((news, i) => (
+            {BREAKING_NEWS.map((news, i) => (
               <span
                 key={i}
                 className='inline-flex items-center px-3 text-[12px] text-foreground/90 sm:px-4 sm:text-sm'

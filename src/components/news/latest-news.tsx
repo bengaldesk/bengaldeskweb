@@ -13,68 +13,42 @@ export function LatestNews() {
 
   return (
     <section className='py-6 sm:py-8'>
-      <SectionHeader title='সর্বশেষ খবর' href='/' />
+      <SectionHeader title='সর্বশেষ খবর' href='/category/national' />
 
-      {/* Mobile: list view with thumbnails */}
-      <div className='lg:hidden'>
+      {/* Unified responsive layout — list on mobile, grid on desktop */}
+      <div className='space-y-0 lg:grid lg:grid-cols-3 lg:gap-5 lg:space-y-0'>
         {latest.map((item, i) => (
           <Link
             key={item.id}
             href={`/news/${item.id}`}
             className={cn(
-              'group flex gap-3',
-              i === 0 ? 'pt-0' : 'pt-3 border-t border-border/40'
+              'group flex gap-3 border-b border-border/40 py-3.5 first:pt-0',
+              'lg:block lg:rounded-lg lg:overflow-hidden lg:bg-card lg:news-card-hover lg:border-0 lg:py-0'
             )}
           >
-            <div className='relative h-20 w-20 shrink-0 overflow-hidden rounded-md bg-muted'>
+            {/* Thumbnail */}
+            <div className='relative h-20 w-20 shrink-0 overflow-hidden rounded-md bg-muted
+              lg:aspect-[16/10] lg:h-auto lg:w-full lg:rounded-none'>
               <NewsImage
                 src={item.image}
                 alt={item.title}
-                sizes='80px'
+                sizes='(max-width: 1024px) 80px, (max-width: 1280px) 33vw, 400px'
                 className='img-zoom'
               />
             </div>
-            <div className='flex min-w-0 flex-col justify-center'>
+            {/* Text */}
+            <div className='flex min-w-0 flex-col justify-center lg:p-3.5'>
               <span className='flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider'>
                 <span className={cn('inline-block h-1.5 w-1.5 rounded-full', categoryColor(item.category))} />
                 <span className='text-muted-foreground'>{item.category}</span>
               </span>
-              <h3 className='mt-1 line-clamp-2 text-[14px] font-semibold leading-snug transition-colors group-hover:text-brand'>
+              <h3 className={cn(
+                'mt-1 line-clamp-2 font-semibold leading-snug transition-colors group-hover:text-brand',
+                'text-[14px] lg:mt-1.5 lg:text-[15px]'
+              )}>
                 {item.title}
               </h3>
               <span className='mt-1 text-[11px] text-muted-foreground'>
-                {relativeTimeBn(new Date(item.publishedAt))}
-              </span>
-            </div>
-          </Link>
-        ))}
-      </div>
-
-      {/* Desktop: 3-column grid */}
-      <div className='hidden lg:grid lg:grid-cols-3 lg:gap-5'>
-        {latest.map((item) => (
-          <Link
-            key={item.id}
-            href={`/news/${item.id}`}
-            className='group block rounded-lg overflow-hidden bg-card news-card-hover'
-          >
-            <div className='relative aspect-[16/10] w-full overflow-hidden bg-muted'>
-              <NewsImage
-                src={item.image}
-                alt={item.title}
-                sizes='(max-width: 1280px) 33vw, 400px'
-                className='img-zoom'
-              />
-            </div>
-            <div className='p-3.5'>
-              <span className='flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider'>
-                <span className={cn('inline-block h-1.5 w-1.5 rounded-full', categoryColor(item.category))} />
-                <span className='text-muted-foreground'>{item.category}</span>
-              </span>
-              <h3 className='mt-1.5 line-clamp-2 text-[15px] font-semibold leading-snug transition-colors group-hover:text-brand'>
-                {item.title}
-              </h3>
-              <span className='mt-1.5 inline-block text-[11px] text-muted-foreground'>
                 {relativeTimeBn(new Date(item.publishedAt))}
               </span>
             </div>

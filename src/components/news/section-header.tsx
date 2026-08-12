@@ -33,7 +33,7 @@ export function SectionHeader({ title, href, className, category, icon }: Sectio
           )}
           aria-hidden='true'
         />
-        <h2 className='font-display text-lg font-normal tracking-tight text-foreground sm:text-xl'>
+        <h2 className='font-display text-lg font-bold tracking-tight text-foreground sm:text-xl'>
           {icon}
           {title}
         </h2>

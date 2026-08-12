@@ -49,9 +49,11 @@ export default function Home() {
 
 
 
-              <FadeInSection delay={150}>
+              <FadeInSection delay={100}>
                 <AreaNewsSearch />
               </FadeInSection>
+
+              <div className='my-2' />
 
               <FadeInSection delay={100}>
                 <CategorySection category='রাজনীতি' />

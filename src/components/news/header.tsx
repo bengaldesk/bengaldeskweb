@@ -163,6 +163,28 @@ export function Header() {
         isOpen={searchOpen}
         onClose={() => setSearchOpen(false)}
       />
+      {/* Category Navigation Bar — desktop only, sticky below header */}
+      <nav className='hidden border-b border-border/40 bg-background/90 backdrop-blur-sm lg:block' aria-label='ক্যাটাগরি নেভিগেশন'>
+        <div className='mx-auto flex max-w-7xl items-center gap-0 overflow-x-auto px-6 scrollbar-hide'>
+          {NEWS_CATEGORIES.map((c) => {
+            const href = getCategorySlug(c.label)
+            return (
+              <Link
+                key={c.label}
+                href={href}
+                className={cn(
+                  'shrink-0 whitespace-nowrap border-b-2 px-4 py-2.5 text-[13px] font-semibold tracking-wide transition-colors',
+                  pathname === href
+                    ? 'border-brand text-brand'
+                    : 'border-transparent text-foreground/70 hover:text-foreground'
+                )}
+              >
+                {c.label}
+              </Link>
+            )
+          })}
+        </div>
+      </nav>
     </header>
   )
 }

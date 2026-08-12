@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ChevronRight, Clock, Eye, Calendar, RefreshCw, Share2, MapPin } from 'lucide-react'
+import { Clock, Eye, Calendar, RefreshCw, Share2, MapPin } from 'lucide-react'
 import { TopBar } from '@/components/news/top-bar'
 import { Header } from '@/components/news/header'
 import { Footer } from '@/components/news/footer'
@@ -67,12 +67,18 @@ function Breadcrumb({ category, title }: { category: NewsCategory; title: string
   const truncatedTitle = title.length > 45 ? title.slice(0, 45) + '...' : title
   return (
     <nav aria-label='Breadcrumb' className='mb-5'>
-      <ol className='flex flex-wrap items-center gap-1.5 text-[11px] text-muted-foreground tracking-wide'>
-        <li><Link href='/' className='transition-colors hover:text-brand'>হোম</Link></li>
-        <li aria-hidden='true'><ChevronRight className='h-2.5 w-2.5' /></li>
-        <li><Link href={categoryHref} className='font-medium transition-colors hover:text-brand'>{category}</Link></li>
-        <li aria-hidden='true'><ChevronRight className='h-2.5 w-2.5' /></li>
-        <li><span className='line-clamp-1 font-medium text-foreground/50' aria-current='page'>{truncatedTitle}</span></li>
+      <ol className='flex flex-wrap items-center gap-1 text-[11px] text-muted-foreground tracking-wide'>
+        <li className='flex items-center gap-1'>
+          <Link href='/' className='transition-colors hover:text-brand'>হোম</Link>
+          <span aria-hidden='true' className='text-foreground/30'>/</span>
+        </li>
+        <li className='flex items-center gap-1'>
+          <Link href={categoryHref} className='font-medium transition-colors hover:text-brand'>{category}</Link>
+          <span aria-hidden='true' className='text-foreground/30'>/</span>
+        </li>
+        <li>
+          <span className='line-clamp-1 font-medium text-foreground/50' aria-current='page'>{truncatedTitle}</span>
+        </li>
       </ol>
     </nav>
   )

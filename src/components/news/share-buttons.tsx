@@ -80,8 +80,13 @@ const SHARE_ITEMS = [
 
 export function ShareButtons({ url, title, className, vertical, compact, showPrint }: ShareButtonsProps) {
   const [copied, setCopied] = React.useState(false)
+  const [currentUrl, setCurrentUrl] = React.useState('')
 
-  const shareUrl = url || (typeof window !== 'undefined' ? window.location.href : '')
+  React.useEffect(() => {
+    setCurrentUrl(window.location.href)
+  }, [])
+
+  const shareUrl = url || currentUrl
   const shareTitle = title || ''
 
   const handleCopy = async () => {
