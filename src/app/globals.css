@@ -29,7 +29,6 @@
  * ═══════════════════════════════════════════════════════════════════════════ */
 
 @import "tailwindcss";
-/* v2 — Noto Serif + Noto Sans typography system */
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
