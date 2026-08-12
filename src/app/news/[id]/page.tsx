@@ -67,7 +67,7 @@ function Breadcrumb({ category, title }: { category: NewsCategory; title: string
   const truncatedTitle = title.length > 45 ? title.slice(0, 45) + '...' : title
   return (
     <nav aria-label='Breadcrumb' className='mb-5'>
-      <ol className='flex flex-wrap items-center gap-1 text-[11px] text-muted-foreground tracking-wide'>
+      <ol className='breadcrumb flex flex-wrap items-center gap-1'>
         <li className='flex items-center gap-1'>
           <Link href='/' className='transition-colors hover:text-brand'>হোম</Link>
           <span aria-hidden='true' className='text-foreground/30'>/</span>
@@ -160,7 +160,7 @@ export default async function NewsDetailsPage({ params }: { params: Promise<{ id
             </div>
 
             {/* Headline */}
-            <h1 className='article-headline font-display mt-4 text-balance sm:text-[2.1rem] sm:leading-[1.22] md:text-[2.5rem] md:leading-[1.2]'>
+            <h1 className='article-headline mt-4 text-balance'>
               {article.title}
             </h1>
 

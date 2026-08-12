@@ -3,42 +3,37 @@
  * The Bengal Desk — Editorial Font Configuration
  * ═══════════════════════════════════════════════════════════════
  *
- * Three-font system for Bengali news portal:
- *   Hind Siliguri     → --font-sans  (body/UI, clean sans, 300–700)
- *   Noto Sans Bengali → --font-display (headlines, 400–900)
- *   Tiro Bangla       → --font-serif  (serif accent, drop caps, 400)
+ * Two-font editorial system for Bengali news portal:
+ *   Noto Serif Bengali  → --font-serif  (headlines: H1–H3, hero, cards, section headers)
+ *   Noto Sans Bengali   → --font-sans   (body text, UI chrome, badges, meta, ticker, breadcrumb)
+ *
+ * Weight files loaded: 400, 500, 600, 700 for both fonts.
+ * NEVER request weight values not in this list — prevents synthetic/faux bold.
  * ═══════════════════════════════════════════════════════════════
  */
 
-import { Tiro_Bangla, Hind_Siliguri, Noto_Sans_Bengali } from 'next/font/google'
+import { Noto_Serif_Bengali, Noto_Sans_Bengali } from 'next/font/google'
 
 /**
- * Hind Siliguri — Primary body/UI sans-serif.
+ * Noto Serif Bengali — Editorial headlines only (≥16px).
+ * Genuine serif with visible thick/thin stroke contrast.
+ * Part of Google's Noto family: full Unicode coverage, reliable conjunct/matra shaping.
  */
-export const hindSiliguri = Hind_Siliguri({
-  subsets: ['bengali', 'latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-sans',
+export const notoSerifBengali = Noto_Serif_Bengali({
+  subsets: ['bengali'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-serif',
   display: 'swap',
 })
 
 /**
- * Noto Sans Bengali — Display/headline font (wider weight range 400–900).
+ * Noto Sans Bengali — Body text AND all UI chrome.
+ * Widest Unicode/script coverage of any Bangla web font.
+ * Most consistent glyph shaping across browsers and OS.
  */
 export const notoSansBengali = Noto_Sans_Bengali({
   subsets: ['bengali'],
-  weight: ['400', '500', '600', '700', '800', '900'],
-  variable: '--font-display',
-  display: 'swap',
-})
-
-/**
- * Tiro Bangla — Editorial serif for accents, drop caps, pull-quotes.
- */
-export const tiroBangla = Tiro_Bangla({
-  subsets: ['bengali'],
-  weight: '400',
-  style: ['normal', 'italic'],
-  variable: '--font-serif',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-sans',
   display: 'swap',
 })

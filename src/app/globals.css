@@ -2,15 +2,12 @@
  * The Bengal Desk — Design System & Global Styles
  * ═══════════════════════════════════════════════════════════════════════════
  *
- * TYPE SCALE
- *   Ratio: 1.25 (Major Third) — chosen for Bengali script legibility
- *   Base:  16px
- *   Scale: 12.8 → 14 → 16 → 18 → 20 → 25 → 31 → 39 → 49px
- *   Fluid headings use CSS clamp() with viewport-relative scaling
- *
- * SPACING
- *   Unit: 8px (0.5rem)
- *   Scale: 4px → 8px → 12px → 16px → 24px → 32px → 48px → 64px → 96px
+ * TYPOGRAPHY SYSTEM (centralized design tokens)
+ *   Headlines:  Noto Serif Bengali  —  authoritative newspaper serif (≥16px only)
+ *   Body / UI:  Noto Sans Bengali   —  clean readable sans for all non-headline text
+ *   Weights loaded: 400, 500, 600, 700 — no synthetic bold anywhere
+ *   All sizes use clamp() for fluid mobile→desktop scaling (360px–1920px)
+ *   Min body text: 15px  |  Min meta/caption: 12px
  *
  * COLOR NAMING
  *   --color-[purpose][-variant]
@@ -19,11 +16,10 @@
  *   Dark mode suffix: .dark selector with --color-[purpose] overrides
  *
  * FONTS (loaded via next/font/google — CSS vars on <html>)
- *   --font-sans     → Hind Siliguri     (body/UI sans, 300–700)
- *   --font-display  → Noto Sans Bengali (headlines, 400–900)
- *   --font-serif    → Tiro Bangla     (serif accent, 400)
- *   --font-body     → alias for --font-sans
- *   --font-heading  → alias for --font-display
+ *   --font-serif    → Noto Serif Bengali  (editorial headlines, 400–700)
+ *   --font-sans     → Noto Sans Bengali   (body/UI, 400–700)
+ *   --font-headline → alias → --font-serif  (never below 16px)
+ *   --font-body     → alias → --font-sans
  *
  * BREAKPOINTS
  *   Desktop:  ≥1024px
@@ -40,20 +36,22 @@
 /* ─── Tailwind v4 Design Token Integration ─────────────────────────────── */
 @theme inline {
   /* ── Font families ── */
-  /* Next/font sets --font-sans, --font-display, --font-serif on <html>.
-     We intentionally do NOT redefine them here to avoid circular refs. */
+  /* Next/font sets --font-sans, --font-serif on <html>.
+     We map --font-display to serif so existing `font-display` Tailwind class
+     resolves to Noto Serif Bengali for editorial headlines. */
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --font-display: var(--font-serif);
 
-  /* ── Text size scale (Major Third 1.25) ── */
-  --text-caption: 0.8rem;
-  --text-small: 0.875rem;
-  --text-base: 1rem;
-  --text-body-lg: 1.125rem;
-  --text-h4: 1.25rem;
-  --text-h3: clamp(1.25rem, 1rem + 1.2vw, 1.5625rem);
-  --text-h2: clamp(1.5rem, 1.1rem + 1.8vw, 1.953rem);
-  --text-h1: clamp(1.75rem, 1.2rem + 2.5vw, 2.441rem);
-  --text-display: clamp(2rem, 1.4rem + 3vw, 3.052rem);
+  /* ── Text size scale (fluid clamp) ── */
+  --text-caption: clamp(12px, 0.4vw + 11px, 14px);
+  --text-small: clamp(13px, 0.5vw + 12px, 15px);
+  --text-base: clamp(15px, 0.6vw + 14px, 17.5px);
+  --text-body-lg: clamp(15.5px, 0.6vw + 14px, 17.5px);
+  --text-h4: clamp(16px, 1.1vw + 11px, 19px);
+  --text-h3: clamp(18px, 1.8vw + 10px, 22px);
+  --text-h2: clamp(22px, 2.8vw + 12px, 32px);
+  --text-h1: clamp(24px, 3.2vw + 12px, 36px);
+  --text-display: clamp(28px, 3.5vw + 14px, 42px);
 
   /* ── Spacing scale (8px base) ── */
   --space-1: 0.25rem;   /* 4px */
@@ -140,15 +138,41 @@
 :root {
   --radius: 0.625rem;
 
-  /* ── Font aliases (resolve from next/font CSS vars on <html>) ── */
+  /* ── Font families (resolve from next/font CSS vars on <html>) ── */
   --font-body: var(--font-sans);
-  --font-heading: var(--font-display);
+  --font-heading: var(--font-serif);
 
-  /* ── Text colors ── */
-  --text-primary: #111111;
-  --text-secondary: #444444;
-  --text-muted: #777777;
+  /* ── Font weights ── */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* ── Text colors — three-tier contrast system ── */
+  --text-primary: #101010;
+  --text-secondary: #2b2b2b;
+  --text-muted: #616161;
   --text-inverse: #F5F5F5;
+
+  /* ── Headline/link colors ── */
+  --color-headline: #101010;
+  --color-meta: #616161;
+  --color-link-hover: #a3122e;
+
+  /* ── Letter spacing ── */
+  --tracking-headline: -0.01em;
+  --tracking-body: 0;
+  --tracking-caps: 0.04em;
+
+  /* ── Line height ── */
+  --leading-tight: 1.35;
+  --leading-snug: 1.45;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.8;
+
+  /* ── Spacing rhythm ── */
+  --space-paragraph: 1.2em;
+  --space-section: clamp(32px, 5vw, 64px);
 
   /* ── Surface colors ── */
   --surface: #FFFFFF;
@@ -225,6 +249,11 @@
   --text-muted: #888888;         /* on #1A1A1A → 5.2:1 ✓ */
   --text-inverse: #111111;
 
+  /* ── Headline/link colors ── */
+  --color-headline: #E8E8E8;
+  --color-meta: #999999;
+  --color-link-hover: #FF6B6B;
+
   /* ── Surface colors ── */
   --surface: #1A1A1A;
   --surface-elevated: #222222;
@@ -300,59 +329,57 @@
 
   /* ── html root ── */
   html {
-    /* Enable browser to synthesize bold from single-weight Tiro Bangla */
-    font-synthesis: weight;
     scroll-behavior: smooth;
     scroll-padding-top: 60px;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
-  }
-
-  /* ── body ── */
-  body {
-    @apply bg-page-bg text-foreground;
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-    font-weight: 400;
-    line-height: 1.75;
-    letter-spacing: 0.008em;
-    word-spacing: 0.015em;
-    font-feature-settings: "kern" 1, "liga" 1;
-    text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
-  /* ── Headlines: Noto Sans Bengali (display font, weight 400–900) ── */
+  /* ── body — Noto Sans Bengali (all body/UI text) ── */
+  body {
+    @apply bg-page-bg text-foreground;
+    font-family: var(--font-body), sans-serif;
+    font-weight: var(--weight-regular);
+    font-size: clamp(15px, 0.6vw + 14px, 17.5px);
+    line-height: var(--leading-relaxed);
+    letter-spacing: var(--tracking-body);
+    word-spacing: 0.015em;
+    font-feature-settings: "kern" 1, "liga" 1;
+  }
+
+  /* ── Headlines: Noto Serif Bengali (editorial gravitas) ── */
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
-    font-weight: 400;
-    line-height: 1.28;
-    letter-spacing: -0.01em;
+    font-family: var(--font-headline), serif;
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-headline);
     word-spacing: 0;
     text-wrap: balance;
     text-rendering: optimizeLegibility;
+    color: var(--color-headline);
   }
 
-  /* Larger headings get tighter tracking */
+  /* Larger headings get tighter leading */
   h1, h2 {
-    letter-spacing: -0.02em;
-    line-height: 1.25;
+    line-height: 1.35;
   }
 
   h3 {
-    line-height: 1.28;
-    letter-spacing: -0.015em;
+    line-height: var(--leading-snug);
   }
 
   h4, h5, h6 {
-    line-height: 1.35;
-    letter-spacing: -0.01em;
+    line-height: var(--leading-normal);
   }
 
   /* ── Paragraph text ── */
   p {
     text-wrap: pretty;
-    line-height: 1.8;
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-paragraph);
   }
 
   /* ── Links ── */
@@ -382,9 +409,10 @@
   time,
   figcaption,
   .meta-text {
+    font-family: var(--font-body), sans-serif;
     font-size: var(--text-caption);
-    color: var(--text-muted);
-    line-height: 1.5;
+    color: var(--color-meta);
+    line-height: var(--leading-normal);
   }
 
   /* ── Focus-visible for accessibility ── */
@@ -399,57 +427,39 @@
     background-color: var(--brand);
     color: var(--brand-foreground);
   }
-
-  /* ── Mobile: ensure body text never below 15px ── */
-  @media (max-width: 767px) {
-    body {
-      font-size: 0.9375rem; /* 15px */
-      line-height: 1.85;
-    }
-
-    p {
-      line-height: 1.85;
-    }
-  }
-
-  /* ── Small mobile ── */
-  @media (max-width: 375px) {
-    body {
-      line-height: 1.9;
-    }
-  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
  * @layer utilities — Component Typography Classes
+ * Centralized typography system — single source of truth for all elements.
  * ═══════════════════════════════════════════════════════════════════════════ */
 @layer utilities {
-  /* ─── a) Masthead Wordmark ───────────────────────────────────────── */
+  /* ─── 1. Masthead Wordmark ──────────────────────────────────────── */
   .masthead-wordmark {
-    font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-headline), serif;
     font-size: var(--text-display);
-    font-weight: 400;
+    font-weight: var(--weight-bold);
     line-height: 1.15;
     letter-spacing: -0.025em;
     color: var(--brand);
     text-wrap: balance;
   }
 
-  /* ─── b) Utility Bar (date, settings) ────────────────────────────── */
+  /* ─── 2. Utility Bar (date, settings) ───────────────────────────── */
   .utility-bar {
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-body), sans-serif;
     font-size: var(--text-caption);
-    font-weight: 400;
-    color: var(--text-muted);
+    font-weight: var(--weight-regular);
+    color: var(--color-meta);
     line-height: 1.4;
     letter-spacing: 0.01em;
   }
 
-  /* ─── c) Nav Link ────────────────────────────────────────────────── */
+  /* ─── 3. Nav Link ────────────────────────────────────────────────── */
   .nav-link {
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-body), sans-serif;
     font-size: var(--text-small);
-    font-weight: 500;
+    font-weight: var(--weight-medium);
     letter-spacing: 0.02em;
     color: var(--text-primary);
     position: relative;
@@ -471,94 +481,113 @@
     left: 10%;
   }
 
-  /* ─── d) Ticker Badge ─────────────────────────────────────────────── */
-  .ticker-badge {
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-    font-size: var(--text-caption);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--breaking);
-    line-height: 1.3;
+  /* ─── 4. Breaking News Ticker ────────────────────────────────────── */
+  .ticker-label {
+    font-family: var(--font-body), sans-serif;
+    font-weight: var(--weight-bold);
+    font-size: 13px;
+    letter-spacing: var(--tracking-caps);
+    color: #fff;
+    background: var(--color-link-hover);
   }
 
-  /* ─── e) Ticker Text ─────────────────────────────────────────────── */
   .ticker-text {
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-    font-size: var(--text-small);
-    font-weight: 500;
-    color: var(--text-primary);
-    line-height: 1.5;
+    font-family: var(--font-body), sans-serif;
+    font-weight: var(--weight-medium);
+    font-size: clamp(13px, 0.5vw + 12px, 15px);
+    color: var(--color-headline);
   }
 
-  /* ─── f) Hero Headline ────────────────────────────────────────────── */
+  /* ─── 5. Hero Headline (homepage lead story) ────────────────────── */
   .hero-headline {
-    font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
-    font-size: var(--text-display);
-    font-weight: 400;
-    line-height: 1.22;
-    letter-spacing: -0.015em;
-    color: var(--text-primary);
+    font-family: var(--font-headline), serif;
+    font-weight: var(--weight-bold);
+    font-size: clamp(24px, 3.2vw + 12px, 36px);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-headline);
+    color: var(--color-headline);
     text-wrap: balance;
     word-spacing: 0;
   }
 
-  /* ─── g) Hero Sub-Headline ───────────────────────────────────────── */
+  /* ─── 6. Hero Sub-Headline ───────────────────────────────────────── */
   .hero-sub-headline {
-    font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-headline), serif;
     font-size: var(--text-h2);
-    font-weight: 400;
-    line-height: 1.3;
-    letter-spacing: -0.015em;
+    font-weight: var(--weight-regular);
+    line-height: 1.4;
+    letter-spacing: var(--tracking-headline);
     color: var(--text-secondary);
     text-wrap: balance;
   }
 
-  /* ─── h) Category Eyebrow ───────────────────────────────────────── */
+  /* ─── 7. Category Eyebrow / Badge ───────────────────────────────── */
   .category-eyebrow {
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-body), sans-serif;
     font-size: var(--text-caption);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-caps);
     color: var(--accent-color);
     line-height: 1.4;
   }
 
-  /* ─── i) Byline ──────────────────────────────────────────────────── */
+  .category-badge {
+    font-family: var(--font-body), sans-serif;
+    font-weight: var(--weight-semibold);
+    font-size: 12px;
+    letter-spacing: var(--tracking-caps);
+    color: #fff;
+    background: var(--color-link-hover);
+    padding: 3px 10px;
+    border-radius: 3px;
+  }
+
+  /* ─── 8. Byline & Meta Row ──────────────────────────────────────── */
   .byline {
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-body), sans-serif;
     font-size: var(--text-caption);
-    font-weight: 400;
-    color: var(--text-muted);
+    font-weight: var(--weight-regular);
+    color: var(--color-meta);
     line-height: 1.5;
     letter-spacing: 0.01em;
   }
 
-  /* ─── i-b) Byline Author Name ──────────────────────────────────── */
   .byline-author {
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-body), sans-serif;
     font-size: var(--text-small);
-    font-weight: 600;
-    color: var(--text-primary);
+    font-weight: var(--weight-semibold);
+    color: var(--color-headline);
     line-height: 1.4;
     letter-spacing: 0;
     text-decoration: none;
   }
 
-  /* ─── j) Card Headline ──────────────────────────────────────────── */
+  .meta-text {
+    font-family: var(--font-body), sans-serif;
+    font-weight: var(--weight-medium);
+    font-size: clamp(12.5px, 0.4vw + 11px, 14px);
+    line-height: var(--leading-normal);
+    color: var(--color-meta);
+  }
+
+  /* ─── 9. Card Headline (homepage grid/list cards) ───────────────── */
   .card-headline {
-    font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
-    font-size: var(--text-h3);
-    font-weight: 400;
-    line-height: 1.3;
-    letter-spacing: -0.012em;
-    color: var(--text-primary);
+    font-family: var(--font-headline), serif;
+    font-weight: var(--weight-semibold);
+    font-size: clamp(16px, 1.1vw + 11px, 19px);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-headline);
+    color: var(--color-headline);
     text-wrap: balance;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    transition: color 150ms ease;
+  }
+
+  .card-headline:hover {
+    color: var(--color-link-hover);
   }
 
   @media (min-width: 768px) {
@@ -567,11 +596,11 @@
     }
   }
 
-  /* ─── k) Card Dek (summary text) ────────────────────────────────── */
+  /* ─── 10. Card Dek (summary text) ────────────────────────────────── */
   .card-dek {
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-body), sans-serif;
     font-size: var(--text-small);
-    font-weight: 400;
+    font-weight: var(--weight-regular);
     line-height: 1.6;
     color: var(--text-secondary);
     display: -webkit-box;
@@ -580,14 +609,13 @@
     overflow: hidden;
   }
 
-  /* ─── l) Section Heading ─────────────────────────────────────────── */
+  /* ─── 11. Section Header (রাজনীতি, খেলা, আন্তর্জাতিক) ────────────── */
   .section-heading {
-    font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
-    font-size: var(--text-h4);
-    font-weight: 400;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-    color: var(--text-primary);
+    font-family: var(--font-headline), serif;
+    font-weight: var(--weight-semibold);
+    font-size: clamp(18px, 1.8vw + 10px, 22px);
+    line-height: var(--leading-snug);
+    color: var(--color-headline);
     border-bottom: 1px solid var(--border-custom);
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
@@ -597,9 +625,9 @@
   }
 
   .section-heading .read-more {
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-body), sans-serif;
     font-size: var(--text-caption);
-    font-weight: 600;
+    font-weight: var(--weight-semibold);
     color: var(--brand);
     text-decoration: none;
     white-space: nowrap;
@@ -611,23 +639,23 @@
     opacity: 0.8;
   }
 
-  /* ─── m) Video Title (white on overlay) ─────────────────────────── */
+  /* ─── 12. Video Title (white on overlay) ─────────────────────────── */
   .video-title {
-    font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-headline), serif;
     font-size: var(--text-h3);
-    font-weight: 400;
-    line-height: 1.3;
-    letter-spacing: -0.012em;
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-headline);
     color: #FFFFFF;
     text-wrap: balance;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
   }
 
-  /* ─── n) Video Duration Badge ────────────────────────────────────── */
+  /* ─── 13. Video Duration Badge ────────────────────────────────────── */
   .video-duration {
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-body), sans-serif;
     font-size: var(--text-caption);
-    font-weight: 600;
+    font-weight: var(--weight-semibold);
     color: #FFFFFF;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(4px);
@@ -639,92 +667,90 @@
     right: 8px;
   }
 
-  /* ─── o) Opinion Author ────────────────────────────────────────── */
+  /* ─── 14. Opinion Author ────────────────────────────────────────── */
   .opinion-author {
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-body), sans-serif;
     font-size: var(--text-base);
-    font-weight: 700;
-    color: var(--text-primary);
+    font-weight: var(--weight-bold);
+    color: var(--color-headline);
     line-height: 1.4;
   }
 
-  /* ─── p) Opinion Role ────────────────────────────────────────────── */
+  /* ─── 15. Opinion Role ────────────────────────────────────────────── */
   .opinion-role {
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-body), sans-serif;
     font-size: var(--text-caption);
-    font-weight: 400;
-    color: var(--text-muted);
+    font-weight: var(--weight-regular);
+    color: var(--color-meta);
     line-height: 1.4;
   }
 
-  /* ─── q) Opinion Headline (italic) ────────────────────────────────── */
+  /* ─── 16. Opinion Headline (italic) ────────────────────────────────── */
   .opinion-headline {
-    font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-headline), serif;
     font-size: var(--text-h3);
-    font-weight: 400;
+    font-weight: var(--weight-regular);
     font-style: italic;
-    line-height: 1.3;
-    letter-spacing: -0.012em;
-    color: var(--text-primary);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-headline);
+    color: var(--color-headline);
     text-wrap: balance;
   }
 
-  /* ─── r) Poll Question ───────────────────────────────────────────── */
+  /* ─── 17. Poll Question ───────────────────────────────────────────── */
   .poll-question {
-    font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-headline), serif;
     font-size: var(--text-h2);
-    font-weight: 400;
+    font-weight: var(--weight-regular);
     line-height: 1.3;
-    letter-spacing: -0.015em;
-    color: var(--text-primary);
+    letter-spacing: var(--tracking-headline);
+    color: var(--color-headline);
     text-wrap: balance;
   }
 
-  /* ─── s) Poll Option ─────────────────────────────────────────────── */
+  /* ─── 18. Poll Option ─────────────────────────────────────────────── */
   .poll-option {
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-body), sans-serif;
     font-size: var(--text-base);
-    font-weight: 400;
-    color: var(--text-primary);
+    font-weight: var(--weight-regular);
+    color: var(--color-headline);
     line-height: 1.5;
   }
 
-  /* ─── t) Newsletter Headline ────────────────────────────────────── */
+  /* ─── 19. Newsletter Headline ────────────────────────────────────── */
   .newsletter-headline {
-    font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-headline), serif;
     font-size: var(--text-h2);
-    font-weight: 400;
+    font-weight: var(--weight-regular);
     line-height: 1.3;
-    letter-spacing: -0.015em;
-    color: var(--text-primary);
+    letter-spacing: var(--tracking-headline);
+    color: var(--color-headline);
     text-wrap: balance;
   }
 
-  /* ─── u) Newsletter Body ────────────────────────────────────────── */
+  /* ─── 20. Newsletter Body ────────────────────────────────────────── */
   .newsletter-body {
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-body), sans-serif;
     font-size: var(--text-base);
-    font-weight: 400;
+    font-weight: var(--weight-regular);
     color: var(--text-secondary);
     line-height: 1.7;
   }
 
-  /* ─── v) Footer Heading ─────────────────────────────────────────── */
+  /* ─── 21. Footer Typography ──────────────────────────────────────── */
   .footer-heading {
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-body), sans-serif;
     font-size: var(--text-small);
-    font-weight: 700;
-    text-transform: uppercase;
+    font-weight: var(--weight-bold);
     letter-spacing: 0.03em;
     color: var(--footer-heading);
     line-height: 1.4;
   }
 
-  /* ─── w) Footer Link ────────────────────────────────────────────── */
   .footer-link {
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-body), sans-serif;
     font-size: var(--text-caption);
-    font-weight: 400;
+    font-weight: var(--weight-regular);
     color: var(--footer-text);
     line-height: 1.6;
     transition: color 150ms ease;
@@ -734,24 +760,70 @@
     color: var(--footer-heading);
   }
 
-  /* ─── x) Footer Copyright ───────────────────────────────────────── */
   .footer-copyright {
-    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-body), sans-serif;
     font-size: var(--text-caption);
-    font-weight: 400;
-    color: var(--text-muted);
+    font-weight: var(--weight-regular);
+    color: var(--color-meta);
     line-height: 1.5;
   }
 
-  /* ═══════════════════════════════════════════════════════════════════
-   * Existing Utility Classes — Updated for new font system
-   * ═══════════════════════════════════════════════════════════════════ */
+  /* ─── 22. Breadcrumb ─────────────────────────────────────────────── */
+  .breadcrumb {
+    font-family: var(--font-body), sans-serif;
+    font-weight: var(--weight-regular);
+    font-size: 13px;
+    color: var(--color-meta);
+  }
 
-  /* Display font class — now uses --font-heading via next/font */
+  .breadcrumb a:hover {
+    color: var(--color-link-hover);
+  }
+
+  .breadcrumb-separator {
+    margin: 0 6px;
+    color: #c4c4c4;
+  }
+
+  /* ─── 23. Image Caption ─────────────────────────────────────────── */
+  .image-caption {
+    font-family: var(--font-body), sans-serif;
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--color-meta);
+    padding-top: 6px;
+  }
+
+  /* ─── 24. Author Box ─────────────────────────────────────────────── */
+  .author-name {
+    font-family: var(--font-body), sans-serif;
+    font-weight: var(--weight-semibold);
+    font-size: 16px;
+    color: var(--color-headline);
+  }
+
+  .author-title {
+    font-family: var(--font-body), sans-serif;
+    font-weight: var(--weight-regular);
+    font-size: 13px;
+    color: var(--color-meta);
+  }
+
+  .author-bio {
+    font-family: var(--font-body), sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+   * Font utility class — maps to Noto Serif Bengali via --font-display
+   * ═══════════════════════════════════════════════════════════════════ */
   .font-display {
-    font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
-    font-weight: 400;
-    letter-spacing: -0.015em;
+    font-family: var(--font-headline), serif;
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-headline);
   }
 
   /* Marquee ticker animation */
@@ -799,7 +871,7 @@
   /* Thin scrollbar */
   .scrollbar-thin {
     scrollbar-width: thin;
-    scrollbar-color: var(--text-muted) transparent;
+    scrollbar-color: var(--color-meta) transparent;
   }
 
   .scrollbar-thin::-webkit-scrollbar {
@@ -808,7 +880,7 @@
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background-color: var(--text-muted);
+    background-color: var(--color-meta);
     border-radius: 9999px;
   }
 
@@ -861,11 +933,11 @@
 
 /* Match final typography line-heights to prevent CLS during skeleton → content swap */
 .skeleton-heading {
-  line-height: 1.25;
+  line-height: var(--leading-tight);
 }
 
 .skeleton-body {
-  line-height: 1.8;
+  line-height: var(--leading-relaxed);
 }
 
 .skeleton-caption {
@@ -934,18 +1006,18 @@
 }
 
 .section-header h2 {
-  font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
-  font-size: var(--text-body-lg);
-  font-weight: 400;
-  color: var(--text-primary);
+  font-family: var(--font-headline), serif;
+  font-size: clamp(18px, 1.8vw + 10px, 22px);
+  font-weight: var(--weight-semibold);
+  color: var(--color-headline);
   line-height: 1.15;
-  letter-spacing: -0.005em;
+  letter-spacing: var(--tracking-headline);
 }
 
 .section-header .read-more {
   font-size: var(--text-caption);
   color: var(--brand);
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
   text-decoration: none;
   transition: opacity 200ms ease;
   white-space: nowrap;
@@ -958,7 +1030,7 @@
 /* Nav link hover underline animation */
 .nav-link-hover {
   position: relative;
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
   letter-spacing: 0;
   word-spacing: 0;
 }
@@ -985,26 +1057,27 @@
  * Single-column, clean white surface, no card wrapper.
  * ═══════════════════════════════════════════════════════════════════════════════════════ */
 
-/* ─── Article Headline — bold, high-impact ─── */
+/* ─── Article Title (H1) ─── */
 .article-headline {
-  font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
-  font-size: 1.75rem;
-  font-weight: 800;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  color: var(--text-primary);
+  font-family: var(--font-headline), serif;
+  font-size: clamp(22px, 2.8vw + 12px, 32px);
+  font-weight: var(--weight-bold);
+  line-height: 1.4;
+  letter-spacing: var(--tracking-headline);
+  color: var(--color-headline);
   text-wrap: balance;
   word-spacing: 0;
+  margin-bottom: 0.5em;
 }
 
-/* ─── Article Dek (subheadline) ─── */
+/* ─── Article Subtitle / Excerpt ─── */
 .article-dek {
-  font-family: var(--font-body), "Hind Siliguri", sans-serif;
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(15px, 1.5vw + 10px, 18px);
+  font-weight: var(--weight-regular);
   line-height: 1.6;
-  letter-spacing: -0.005em;
-  color: var(--text-secondary);
+  color: var(--color-meta);
+  margin-bottom: 1em;
   text-wrap: pretty;
 }
 
@@ -1020,21 +1093,20 @@
   border-bottom-color: transparent;
 }
 
-/* ─── Byline Block — refined with better visual hierarchy ─── */
+/* ─── Byline Block ─── */
 .article-byline-block {
   padding-bottom: 0;
   border-bottom: none;
 }
 
-/* ─── Dateline — location + date before body (Prothom Alo / NYT style) ─── */
+/* ─── Dateline — location + date before body ─── */
 .article-dateline {
-  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  font-size: 0.875rem; /* 14px */
-  font-weight: 600;
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(12.5px, 0.4vw + 11px, 14px);
+  font-weight: var(--weight-semibold);
   color: var(--text-secondary);
   letter-spacing: 0.01em;
   line-height: 1.5;
-  text-transform: uppercase;
 }
 
 .article-dateline .dateline-separator {
@@ -1042,18 +1114,18 @@
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: var(--text-muted);
+  background: var(--color-meta);
   margin: 0 0.65em;
   vertical-align: middle;
 }
 
-/* ─── Article End Marker — ornamental diamond at body close ─── */
+/* ─── Article End Marker ─── */
 .article-end-marker {
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 2.5em 0 0.5em;
-  color: var(--text-muted);
+  color: var(--color-meta);
   opacity: 0.5;
 }
 
@@ -1067,29 +1139,30 @@
   border-radius: 1px;
 }
 
-/* ─── Hero Figure — clean, no card styling ─── */
+/* ─── Hero Figure ─── */
 .article-hero-figure {
   margin: 0;
 }
 
 .article-hero-caption {
-  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  font-size: 0.8125rem; /* 13px */
+  font-family: var(--font-body), sans-serif;
+  font-size: 13px;
   line-height: 1.5;
-  color: var(--text-muted);
+  color: var(--color-meta);
+  font-style: italic;
 }
 
-/* ─── Article Highlight Box ("মূল কথা") ─── */
+/* ─── Highlight Box ─── */
 .article-highlight-box {
- background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 4%, transparent) 0%, transparent 60%);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 4%, transparent) 0%, transparent 60%);
 }
 
-/* ─── Ad Break — subtle, well-separated ─── */
+/* ─── Ad Break ─── */
 .ad-break {
   opacity: 0.85;
 }
 
-/* ─── Editorial Section Divider — thick rule with centered label ─── */
+/* ─── Editorial Section Divider ─── */
 .editorial-rule {
   display: flex;
   align-items: center;
@@ -1106,16 +1179,15 @@
 }
 
 .editorial-rule-label {
-  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  font-size: 0.6875rem; /* 11px */
-  font-weight: 700;
-  text-transform: uppercase;
+  font-family: var(--font-body), sans-serif;
+  font-size: 11px;
+  font-weight: var(--weight-bold);
   letter-spacing: 0.15em;
-  color: var(--text-muted);
+  color: var(--color-meta);
   white-space: nowrap;
 }
 
-/* ─── Thick editorial accent rule (brand color) ─── */
+/* ─── Thick editorial accent rule ─── */
 .editorial-rule--accent::before,
 .editorial-rule--accent::after {
   height: 2px;
@@ -1123,7 +1195,7 @@
   opacity: 0.3;
 }
 
-/* ─── Highlight Box (Key Takeaway / মূল কথা) ─── */
+/* ─── Key Takeaway / মূল কথা ─── */
 .article-key-takeaway {
   position: relative;
   margin: 0;
@@ -1135,10 +1207,9 @@
 }
 
 .article-key-takeaway .takeaway-label {
-  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  font-size: 0.6875rem; /* 11px */
-  font-weight: 700;
-  text-transform: uppercase;
+  font-family: var(--font-body), sans-serif;
+  font-size: 11px;
+  font-weight: var(--weight-bold);
   letter-spacing: 0.12em;
   color: var(--brand);
   margin-bottom: 0.5rem;
@@ -1146,23 +1217,23 @@
 }
 
 .article-key-takeaway .takeaway-text {
-  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  font-size: 1rem; /* 16px */
-  font-weight: 500;
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
   line-height: 1.7;
   color: var(--text-secondary);
 }
 
-/* ─── Inline share bar — refined professional style ─── */
+/* ─── Inline share bar ─── */
 .article-inline-share {
   border-color: var(--border-custom) !important;
 }
 
 /* ─── Professional meta stats row ─── */
 .article-meta-stats {
-  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  font-size: 0.75rem; /* 12px */
-  color: var(--text-muted);
+  font-family: var(--font-body), sans-serif;
+  font-size: 12px;
+  color: var(--color-meta);
   letter-spacing: 0.01em;
 }
 
@@ -1171,26 +1242,27 @@
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: var(--text-muted);
+  background: var(--color-meta);
   opacity: 0.5;
   margin: 0 0.5em;
   vertical-align: middle;
 }
 
-/* ─── Article Body ─── */
+/* ─── Article Body (long-form reading) ─── */
 .article-body {
-  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  font-size: 1.125rem; /* 18px desktop */
-  font-weight: 400;
-  line-height: 1.85;
-  letter-spacing: 0.008em;
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(15.5px, 0.6vw + 14px, 17.5px);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-relaxed);
+  letter-spacing: var(--tracking-body);
   word-spacing: 0.015em;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   text-rendering: optimizeLegibility;
+  max-width: 68ch;
 }
 
 .article-body p {
-  margin-bottom: 1.75em;
+  margin-bottom: var(--space-paragraph);
   text-align: justify;
   text-justify: inter-word;
   text-wrap: pretty;
@@ -1202,21 +1274,21 @@
 
 /* Lead paragraph — slight size bump, classic newspaper convention */
 .article-body .lead-paragraph {
-  font-size: 1.1875rem; /* 19px — +1px bump */
+  font-size: clamp(16px, 0.7vw + 14px, 18.5px);
   line-height: 1.8;
   color: var(--text-secondary);
 }
 
 /* Drop cap — 4-line height, serif, elegant */
 .article-body .drop-cap::first-letter {
-  font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-family: var(--font-headline), serif;
   float: left;
   font-size: 4em;
   line-height: 0.78;
   padding-right: 0.1em;
   padding-top: 0.04em;
-  font-weight: 400;
-  color: var(--text-primary);
+  font-weight: var(--weight-regular);
+  color: var(--color-headline);
 }
 
 /* Blockquote / Pull-quote — left accent border, editorial feel */
@@ -1227,9 +1299,9 @@
   padding: 1.5em 1.5em;
   padding-left: 1.75em;
   border-left: 3px solid var(--accent-color);
-  font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-family: var(--font-headline), serif;
   font-size: 1.2em;
-  font-weight: 400;
+  font-weight: var(--weight-regular);
   font-style: italic;
   line-height: 1.55;
   color: var(--text-secondary);
@@ -1250,7 +1322,7 @@
   text-align: center;
   font-size: 1.35em;
   letter-spacing: -0.008em;
-  color: var(--text-primary);
+  color: var(--color-headline);
 }
 
 .article-body .pull-quote--centered::before {
@@ -1273,30 +1345,30 @@
   border-radius: 0 8px 8px 0;
   font-style: italic;
   font-size: 1.05em;
-  font-weight: 400;
+  font-weight: var(--weight-regular);
 }
 
-/* In-article subheadings */
+/* In-article subheadings — serif, editorial */
 .article-body h2 {
-  font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1.35;
-  letter-spacing: -0.01em;
-  color: var(--text-primary);
-  margin-top: 2.2em;
-  margin-bottom: 0.75em;
+  font-family: var(--font-headline), serif;
+  font-size: clamp(19px, 1.2vw + 14px, 22px);
+  font-weight: var(--weight-semibold);
+  line-height: 1.4;
+  letter-spacing: var(--tracking-headline);
+  color: var(--color-headline);
+  margin-top: 1.6em;
+  margin-bottom: 0.6em;
   text-wrap: balance;
 }
 
 .article-body h3 {
-  font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-family: var(--font-headline), serif;
+  font-size: clamp(17px, 0.8vw + 14px, 20px);
+  font-weight: var(--weight-semibold);
   line-height: 1.4;
-  letter-spacing: -0.005em;
-  color: var(--text-primary);
-  margin-top: 1.8em;
+  letter-spacing: var(--tracking-headline);
+  color: var(--color-headline);
+  margin-top: 1.4em;
   margin-bottom: 0.5em;
   text-wrap: balance;
 }
@@ -1363,15 +1435,15 @@
 .article-body figcaption,
 figcaption {
   margin-top: 0.5rem;
-  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  font-size: 0.8125rem; /* 13px */
+  font-family: var(--font-body), sans-serif;
+  font-size: 13px;
   line-height: 1.5;
-  color: var(--text-muted);
+  color: var(--color-meta);
   font-style: italic;
 }
 
 .credit {
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
   font-style: normal;
 }
 
@@ -1443,7 +1515,7 @@ figcaption {
   padding: 0.75rem 1.5rem;
   background: var(--brand);
   color: var(--brand-foreground);
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
   font-size: 0.875rem;
   border-radius: 0.5rem;
   text-decoration: none;
@@ -1451,7 +1523,7 @@ figcaption {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
- * Article Skeleton Loading (matches final typography to prevent CLS)
+ * Article Skeleton Loading
  * ═══════════════════════════════════════════════════════════════════════════ */
 .article-skeleton-eyebrow {
   width: 100px;
@@ -1461,14 +1533,14 @@ figcaption {
 
 .article-skeleton-headline {
   width: 100%;
-  height: calc(2.441rem * 1.28 * 3);
+  height: calc(2rem * 1.35 * 3);
   max-width: 100%;
   border-radius: 4px;
 }
 
 .article-skeleton-dek {
   width: 85%;
-  height: calc(1.125rem * 1.8 * 2);
+  height: calc(1rem * 1.6 * 2);
   border-radius: 4px;
 }
 
@@ -1486,7 +1558,7 @@ figcaption {
 
 .article-skeleton-body-line {
   width: 100%;
-  height: calc(1.125rem * 1.8);
+  height: calc(1rem * 1.8);
   border-radius: 4px;
   margin-bottom: 1.75em;
 }
@@ -1499,7 +1571,7 @@ figcaption {
  * Component Classes
  * ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Sticky share sidebar (kept for potential future use) */
+/* Sticky share sidebar */
 .article-share-sidebar {
   position: sticky;
   top: 80px;
@@ -1522,7 +1594,7 @@ figcaption {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Article card shadow (for homepage cards, not article page) */
+/* Article card shadow */
 .article-card {
   background: var(--card);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
@@ -1536,106 +1608,19 @@ figcaption {
 
 /* ═══════════════════════════════════════════════════════════════════════════
  * Responsive Overrides
+ * Minimal — most sizing handled by clamp() in the token system.
+ * Only layout/structural tweaks remain here.
  * ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Tablet: 768–1023px */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .hero-headline {
-    font-size: var(--text-h1);
-    line-height: 1.24;
-  }
-
-  .masthead-wordmark {
-    letter-spacing: -0.02em;
-  }
-}
-
-/* Mobile: ≤767px */
+/* Mobile: ≤767px — structural layout tweaks only */
 @media (max-width: 767px) {
-  .article-dateline {
-    font-size: 0.8125rem; /* 13px */
-  }
-
   .article-key-takeaway {
     padding: 1rem 1.125rem;
     padding-left: 1.25rem;
   }
 
-  .article-key-takeaway .takeaway-text {
-    font-size: 0.9375rem; /* 15px */
-  }
-
   .editorial-rule {
     margin: 2rem 0;
-  }
-
-  .masthead-wordmark {
-    font-size: var(--text-h1);
-    letter-spacing: -0.015em;
-  }
-
-  .hero-headline {
-    font-size: var(--text-h1);
-    line-height: 1.25;
-  }
-
-  .hero-sub-headline {
-    font-size: var(--text-h3);
-  }
-
-  .section-heading {
-    font-size: var(--text-body-lg);
-  }
-
-  .section-header h2 {
-    font-size: var(--text-base);
-  }
-
-  .video-title {
-    font-size: var(--text-h4);
-  }
-
-  .newsletter-headline {
-    font-size: var(--text-h3);
-  }
-
-  .article-headline {
-    font-size: 1.6rem;
-    line-height: 1.25;
-  }
-
-  .article-dek {
-    font-size: 1.0625rem;
-    line-height: 1.6;
-  }
-
-  .article-body {
-    font-size: 1.0625rem; /* 17px mobile */
-    line-height: 1.85;
-  }
-
-  .article-body .lead-paragraph {
-    font-size: 1.125rem; /* 18px mobile lead */
-  }
-
-  .article-body .drop-cap::first-letter {
-    font-size: 3.2em;
-    line-height: 0.82;
-  }
-
-  .article-body h2 {
-    font-size: 1.3125rem;
-  }
-
-  .article-body h3 {
-    font-size: 1.125rem;
-  }
-
-  .article-body blockquote,
-  .article-body .pull-quote {
-    font-size: 1.08em;
-    padding: 1.2em 1.25em;
-    padding-left: 1.5em;
   }
 
   .back-to-top-btn {
@@ -1654,27 +1639,10 @@ figcaption {
   }
 }
 
-/* Small mobile: ≤375px */
+/* Small mobile: ≤375px — only font that may need a floor */
 @media (max-width: 375px) {
-  .masthead-wordmark {
-    font-size: var(--text-h2);
-    letter-spacing: -0.01em;
-  }
-
-  .card-headline {
-    font-size: var(--text-h4);
-  }
-
   .ticker-text {
     font-size: var(--text-caption);
-  }
-
-  .article-body .drop-cap::first-letter {
-    font-size: 2.8em;
-  }
-
-  .article-headline {
-    font-size: 1.4rem;
   }
 }
 

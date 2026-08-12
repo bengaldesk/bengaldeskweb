@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { tiroBangla, hindSiliguri, notoSansBengali } from "@/lib/fonts";
+import { notoSerifBengali, notoSansBengali } from "@/lib/fonts";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -58,12 +58,8 @@ export default function RootLayout({
     <html
       lang="bn"
       suppressHydrationWarning
-      className={`${hindSiliguri.variable} ${notoSansBengali.variable} ${tiroBangla.variable}`}
+      className={`${notoSansBengali.variable} ${notoSerifBengali.variable}`}
     >
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
       <body className="antialiased bg-background text-foreground">
         <ThemeProvider
           attribute="class"

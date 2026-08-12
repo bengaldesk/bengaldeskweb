@@ -74,7 +74,7 @@ export function NewsCard({
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6">
           <CategoryBadge category={item.category} />
-          <h2 className="font-display mt-2.5 text-balance text-2xl leading-tight text-white sm:text-3xl md:text-4xl">
+          <h2 className="hero-headline mt-2.5 text-balance text-white">
             {item.title}
           </h2>
           <p className="mt-2 hidden max-w-3xl text-sm text-white/80 sm:line-clamp-2 sm:text-base">
@@ -115,7 +115,7 @@ export function NewsCard({
           </div>
         </div>
         <div className='mt-3'>
-          <h3 className="text-balance text-base font-bold leading-snug tracking-tight transition-colors group-hover:text-brand sm:text-lg">
+          <h3 className="card-headline text-base transition-colors group-hover:text-brand sm:text-lg">
             <span className="line-clamp-2">{item.title}</span>
           </h3>
           <p className="mt-1.5 line-clamp-2 text-sm text-muted-foreground">
@@ -149,7 +149,7 @@ export function NewsCard({
         </div>
         <div className="flex min-w-0 flex-col justify-center">
           <CategoryBadge category={item.category} size="xs" />
-          <h3 className="mt-1 line-clamp-2 text-sm font-semibold leading-snug transition-colors group-hover:text-brand sm:text-[15px]">
+          <h3 className="card-headline text-sm transition-colors group-hover:text-brand sm:text-[15px]">
             {item.title}
           </h3>
           <div className="mt-1">
@@ -180,7 +180,7 @@ export function NewsCard({
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">
           <CategoryBadge category={item.category} size="xs" />
-          <h3 className="mt-1.5 line-clamp-2 text-sm font-bold leading-snug text-white sm:text-base">
+          <h3 className="card-headline text-sm text-white sm:text-base">
             {item.title}
           </h3>
           <div className="mt-1.5 flex items-center gap-2 text-[11px] text-white/80">
@@ -207,7 +207,7 @@ export function NewsCard({
           {relativeTimeBn(new Date(item.publishedAt))}
         </span>
       </div>
-      <h3 className="text-balance text-[15px] font-semibold leading-snug transition-colors group-hover:text-brand">
+      <h3 className="card-headline text-[15px] transition-colors group-hover:text-brand">
         <span className="line-clamp-2">{item.title}</span>
       </h3>
     </Link>

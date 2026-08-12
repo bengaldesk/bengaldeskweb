@@ -42,7 +42,7 @@ export function AuthorBioCard({ author, avatarUrl, role, bio }: AuthorBioCardPro
           </span>
           <Link
             href={`/authors/${slug}`}
-            className='font-display mt-1 block text-lg text-foreground transition-colors hover:text-brand'
+            className='mt-1 block text-lg font-semibold text-foreground transition-colors hover:text-brand'
           >
             {author}
           </Link>
