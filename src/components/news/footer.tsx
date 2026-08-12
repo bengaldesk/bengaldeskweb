@@ -129,9 +129,9 @@ export function Footer() {
             <Link href='/cookies' className='transition-colors hover:text-white'>
               কুকিজ নীতি
             </Link>
-            <Link href='/admin/login' className='transition-colors hover:text-white'>
+            <a href='https://in.bengaldesk.com' target='_blank' rel='noopener noreferrer' className='transition-colors hover:text-white'>
               Admin
-            </Link>
+            </a>
           </div>
         </div>
       </div>
