@@ -18,7 +18,7 @@ export function VideoSection() {
         {/* Lead video */}
         <div className='lg:col-span-7'>
           <Link
-            href={`/category/entertainment`}
+            href={getCategorySlug(lead.category as NewsCategory)}
             className='group relative block overflow-hidden rounded-lg bg-black'
             id={`video-${lead.id}`}
           >
@@ -57,7 +57,7 @@ export function VideoSection() {
           {rest.map((v) => (
             <Link
               key={v.id}
-              href={`/category/entertainment`}
+              href={getCategorySlug(v.category as NewsCategory)}
               id={`video-${v.id}`}
               className='group flex gap-3 border-b border-border/40 py-3.5 first:pt-0 last:border-0'
             >
