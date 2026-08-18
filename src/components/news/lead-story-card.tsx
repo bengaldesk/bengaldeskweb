@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { Bookmark, Clock, ChevronRight } from 'lucide-react'
-import { type NewsItem, categoryColor } from '@/lib/news-data'
+import { type NewsItem, categoryColor } from '@/lib/posts'
 import { relativeTimeBn } from '@/lib/bn'
 import { NewsImage } from './news-image'
 import { cn } from '@/lib/utils'

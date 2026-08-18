@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getLatest, type NewsItem, categoryColor } from '@/lib/news-data'
+import { getLatest, type NewsItem, categoryColor } from '@/lib/posts'
 import { relativeTimeBn, toBn } from '@/lib/bn'
 import { cn } from '@/lib/utils'
 import { TrendingUp } from 'lucide-react'

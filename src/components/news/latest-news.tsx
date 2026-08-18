@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getLatest, getFeatured, categoryColor, type NewsCategory } from '@/lib/news-data'
+import { getLatest, getFeatured, categoryColor, type NewsCategory } from '@/lib/posts'
 import { relativeTimeBn } from '@/lib/bn'
 import { NewsImage } from './news-image'
 import { cn } from '@/lib/utils'

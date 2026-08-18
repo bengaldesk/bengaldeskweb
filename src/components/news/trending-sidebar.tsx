@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getTrending } from '@/lib/news-data'
+import { getTrending } from '@/lib/posts'
 import { relativeTimeBn, toBn } from '@/lib/bn'
 
 export function TrendingSidebar() {

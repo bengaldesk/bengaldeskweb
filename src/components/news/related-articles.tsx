@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { NewsImage } from '@/components/news/news-image'
-import { type NewsCategory, categoryColor } from '@/lib/news-data'
+import { type NewsCategory, categoryColor } from '@/lib/posts'
 import { relativeTimeBn } from '@/lib/bn'
 import { cn } from '@/lib/utils'
 

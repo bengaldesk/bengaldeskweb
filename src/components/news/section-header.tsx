@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { categoryColor, type NewsCategory } from '@/lib/news-data'
+import { categoryColor, type NewsCategory } from '@/lib/posts'
 
 interface SectionHeaderProps {
   title: string

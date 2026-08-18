@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { OPINIONS } from '@/lib/news-data'
+import { OPINIONS } from '@/lib/posts'
 import { relativeTimeBn } from '@/lib/bn'
 import Image from 'next/image'
 import { PenLine } from 'lucide-react'

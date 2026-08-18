@@ -3,7 +3,7 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { Search, X, Loader2 } from 'lucide-react';
-import { ALL_NEWS, categoryColor } from '@/lib/news-data';
+import { ALL_NEWS, categoryColor } from '@/lib/posts';
 import { relativeTimeBn } from '@/lib/bn';
 import { cn } from '@/lib/utils';
 import { NewsImage } from './news-image';

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { getByCategory, categoryColor, getCategorySlug, type NewsCategory } from '@/lib/news-data'
+import { getByCategory, categoryColor, getCategorySlug, type NewsCategory } from '@/lib/posts'
 import { relativeTimeBn } from '@/lib/bn'
 import { NewsImage } from './news-image'
 import { SectionHeader } from './section-header'

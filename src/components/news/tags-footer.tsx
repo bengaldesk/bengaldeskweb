@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { type NewsCategory, getCategorySlug, categoryColor } from '@/lib/news-data'
+import { type NewsCategory, getCategorySlug, categoryColor } from '@/lib/posts'
 import { cn } from '@/lib/utils'
 
 interface TagsFooterProps {

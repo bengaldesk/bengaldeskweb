@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { VIDEOS, categoryColor, getCategorySlug, type NewsCategory } from '@/lib/news-data'
+import { VIDEOS, categoryColor, getCategorySlug, type NewsCategory } from '@/lib/posts'
 import { relativeTimeBn, toBn } from '@/lib/bn'
 import { cn } from '@/lib/utils'
 import { Play } from 'lucide-react'

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ArrowLeft } from 'lucide-react'
-import { getAuthorSlug } from '@/lib/news-data'
+import { getAuthorSlug } from '@/lib/posts'
 
 interface AuthorBioCardProps {
   author: string

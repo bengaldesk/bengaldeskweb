@@ -6,7 +6,7 @@ import { Header } from '@/components/news/header'
 import { Footer } from '@/components/news/footer'
 import { NewsImage } from '@/components/news/news-image'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { getAuthorBySlug, getAuthors, getNewsByAuthorSlug } from '@/lib/news-data'
+import { getAuthorBySlug, getAuthors, getNewsByAuthorSlug } from '@/lib/posts'
 import { relativeTimeBn, toBn } from '@/lib/bn'
 
 const initials = (name: string) =>

@@ -17,6 +17,7 @@ import { TagsFooter } from '@/components/news/tags-footer'
 import { RelatedArticles } from '@/components/news/related-articles'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
+  incrementViewCount,
   getCategorySlug,
   getAuthorSlug,
   getAuthorBySlug,
@@ -25,8 +26,9 @@ import {
   getNewsBody,
   getNewsById,
   type NewsCategory,
-} from '@/lib/news-data'
+} from '@/lib/posts'
 import { formatBnDate, formatBnTime, toBn } from '@/lib/bn'
+import { SITE_NAME, SITE_URL, LOGO_URL } from '@/lib/brand'
 
 const getAuthorAvatar = (author: string) =>
   `https://picsum.photos/seed/author-${encodeURIComponent(author)}/200/200`
@@ -97,6 +99,7 @@ export default async function NewsDetailsPage({ params }: { params: Promise<{ id
   const { id } = await params
   const article = getNewsById(id)
   if (!article) notFound()
+  if (article) incrementViewCount(id) // fire-and-forget
 
   const body = getNewsBody(article.id)
   const publishedDate = new Date(article.publishedAt)
@@ -134,6 +137,20 @@ export default async function NewsDetailsPage({ params }: { params: Promise<{ id
 
           {/* ── Breadcrumb ── */}
           <Breadcrumb category={article.category} title={article.title} />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                  { '@type': 'ListItem', position: 1, name: 'হোম', item: SITE_URL },
+                  { '@type': 'ListItem', position: 2, name: article.category, item: `${SITE_URL}${getCategorySlug(article.category)}` },
+                  { '@type': 'ListItem', position: 3, name: article.title },
+                ],
+              }),
+            }}
+          />
 
           {/* ── Article Header Zone ── */}
           <header className='mb-0'>
@@ -326,6 +343,30 @@ export default async function NewsDetailsPage({ params }: { params: Promise<{ id
       </main>
 
       <Footer />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'NewsArticle',
+            headline: article.title,
+            description: article.excerpt,
+            image: article.image,
+            datePublished: article.publishedAt,
+            dateModified: article.publishedAt,
+            author: {
+              '@type': 'Person',
+              name: article.author,
+            },
+            publisher: {
+              '@type': 'Organization',
+              name: SITE_NAME,
+              logo: { '@type': 'ImageObject', url: LOGO_URL },
+            },
+          }),
+        }}
+      />
     </div>
   )
 }

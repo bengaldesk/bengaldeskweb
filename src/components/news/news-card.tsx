@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Clock, Eye } from "lucide-react";
-import type { NewsItem } from "@/lib/news-data";
+import type { NewsItem } from "@/lib/posts";
 import { relativeTimeBn, toBn } from "@/lib/bn";
 import { CategoryBadge } from "./category-badge";
 import { NewsImage } from "./news-image";

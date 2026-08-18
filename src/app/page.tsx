@@ -15,6 +15,7 @@ import { MostReadSidebar } from '@/components/news/most-read-sidebar'
 import { TrendingSection } from '@/components/news/trending-section'
 import { FadeInSection } from '@/components/news/fade-in-section'
 import { BackToTopButton } from '@/components/news/back-to-top-button'
+import { SITE_NAME, SITE_URL, LOGO_URL } from '@/lib/brand'
 
 export default function Home() {
   return (
@@ -108,6 +109,24 @@ export default function Home() {
 
       <Footer />
       <BackToTopButton />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: SITE_NAME,
+            url: SITE_URL,
+            publisher: {
+              '@type': 'Organization',
+              name: SITE_NAME,
+              url: SITE_URL,
+              logo: { '@type': 'ImageObject', url: LOGO_URL },
+            },
+          }),
+        }}
+      />
     </div>
   )
 }

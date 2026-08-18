@@ -9,7 +9,7 @@ import {
   categoryColor,
   getAreaByNewsId,
   getLatest,
-} from '@/lib/news-data'
+} from '@/lib/posts'
 import { relativeTimeBn } from '@/lib/bn'
 import { cn } from '@/lib/utils'
 import { SectionHeader } from './section-header'

@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Facebook, Twitter, Youtube, Instagram, MapPin, Phone, Mail } from 'lucide-react'
-import { NEWS_CATEGORIES, getCategorySlug } from '@/lib/news-data'
+import { NEWS_CATEGORIES, getCategorySlug } from '@/lib/posts'
 import { LOGO_URL, SITE_EMAIL } from '@/lib/brand'
 
 const QUICK_LINKS = [

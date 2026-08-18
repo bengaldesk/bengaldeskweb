@@ -11,7 +11,7 @@ import {
   SheetTrigger,
   SheetClose,
 } from '@/components/ui/sheet'
-import { NEWS_CATEGORIES, getCategorySlug } from '@/lib/news-data'
+import { NEWS_CATEGORIES, getCategorySlug } from '@/lib/posts'
 import { cn } from '@/lib/utils'
 import { LOGO_URL } from '@/lib/brand'
 import { usePathname } from 'next/navigation'

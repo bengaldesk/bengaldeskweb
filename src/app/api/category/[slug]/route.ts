@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server'
 import {
   getCategoryBySlug,
+  getCategorySlug,
   getByCategory,
   getTrending,
   NEWS_CATEGORIES,
   categoryColor,
-} from '@/lib/news-data'
+} from '@/lib/posts'
 
 export async function GET(
   _request: Request,
@@ -25,7 +26,7 @@ export async function GET(
   const allCategories = NEWS_CATEGORIES.map((c) => ({
     label: c.label,
     color: c.color,
-    slug: `/category/${slug === 'national' ? 'national' : c.label === category ? slug : ''}`,
+    slug: getCategorySlug(c.label),
   }))
 
   return NextResponse.json({

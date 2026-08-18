@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { Zap } from 'lucide-react'
-import { BREAKING_NEWS } from '@/lib/news-data'
+import { BREAKING_NEWS } from '@/lib/posts'
 
 export function BreakingNewsTicker() {
   const duration = Math.max(28, BREAKING_NEWS.length * 6)

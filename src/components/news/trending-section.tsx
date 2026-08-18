@@ -3,7 +3,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { TrendingUp, ChevronLeft, ChevronRight } from 'lucide-react'
-import { getTrending, categoryColor } from '@/lib/news-data'
+import { getTrending, categoryColor } from '@/lib/posts'
 import { relativeTimeBn } from '@/lib/bn'
 import { cn } from '@/lib/utils'
 import { NewsImage } from './news-image'

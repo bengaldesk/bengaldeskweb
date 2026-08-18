@@ -5,7 +5,8 @@ import {
   categoryColor,
   CATEGORY_SLUG_MAP,
   type NewsCategory,
-} from '@/lib/news-data'
+} from '@/lib/posts'
+import { SITE_URL } from '@/lib/brand'
 import { TopBar } from '@/components/news/top-bar'
 import { Header } from '@/components/news/header'
 import { BreakingNewsTicker } from '@/components/news/breaking-ticker'
@@ -46,6 +47,20 @@ export function CategoryPageContent({ category }: { category: NewsCategory }) {
           <li><span className='font-semibold text-foreground'>{category}</span></li>
         </ol>
       </nav>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'হোম', item: SITE_URL },
+              { '@type': 'ListItem', position: 2, name: category, item: `${SITE_URL}/category/${CATEGORY_SLUG_MAP[category]}` },
+            ],
+          }),
+        }}
+      />
 
       {/* Category tabs */}
       <div className='border-b border-border bg-card'>

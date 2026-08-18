@@ -1,6 +1,6 @@
 'use client'
 import { LeadStoryCard } from './lead-story-card'
-import { getFeatured, getLatest } from '@/lib/news-data'
+import { getFeatured, getLatest } from '@/lib/posts'
 
 export function HeroSection() {
   const latestAll = getLatest(20)

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { categoryColor, type NewsCategory } from "@/lib/news-data";
+import { categoryColor, type NewsCategory } from "@/lib/posts";
 
 export function CategoryBadge({
   category,
