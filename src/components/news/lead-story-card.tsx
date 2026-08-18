@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { Clock, ChevronRight } from 'lucide-react'
 import { type NewsItem, categoryColor } from '@/lib/posts'
@@ -86,10 +87,42 @@ export function LeadStoryCard({ item, subItems, showDesktopSidebars, leftItems }
   const mobileSubItems = subItems.slice(0, 3)
   const rightSidebarItems = showDesktopSidebars ? subItems.slice(0, 6) : []
 
+  // Mobile scroll auto-hide (collapse hero on scroll down)
+  const [heroCollapsed, setHeroCollapsed] = useState(false)
+  const heroRef = useRef<HTMLDivElement>(null)
+  const lastScrollY = useRef(0)
+  const ticking = useRef(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (ticking.current) return
+      ticking.current = true
+      requestAnimationFrame(() => {
+        const currentY = window.scrollY
+        if (currentY > 300 && currentY > lastScrollY.current) {
+          setHeroCollapsed(true)
+        } else {
+          setHeroCollapsed(false)
+        }
+        lastScrollY.current = currentY
+        ticking.current = false
+      })
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
     <>
-      {/* Mobile — full width hero */}
-      <div className='lg:hidden'>
+      {/* Mobile — full width hero with scroll auto-hide */}
+      <div
+        ref={heroRef}
+        className={cn(
+          'lg:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out',
+          heroCollapsed ? 'max-h-0 opacity-0' : 'max-h-[2000px] opacity-100'
+        )}
+        aria-hidden={heroCollapsed}
+      >
           <HeroImageSection item={item} />
           <div className='space-y-3 px-4 py-4'>
             {mobileSubItems.map((sub, i) => <SubItemRow key={sub.id} item={sub} isFirst={i === 0} />)}
