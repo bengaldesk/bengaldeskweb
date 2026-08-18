@@ -97,12 +97,10 @@ export function LeadStoryCard({ item, subItems, showDesktopSidebars, leftItems }
   return (
     <>
       <div className='lg:hidden'>
-        <div className='rounded-xl overflow-hidden bg-card news-shadow'>
           <HeroImageSection item={item} />
           <div className='space-y-3 px-4 py-4'>
             {mobileSubItems.map((sub, i) => <SubItemRow key={sub.id} item={sub} isFirst={i === 0} />)}
           </div>
-        </div>
       </div>
 
       {showDesktopSidebars && leftItems ? (
@@ -114,12 +112,10 @@ export function LeadStoryCard({ item, subItems, showDesktopSidebars, leftItems }
             </div>
           </aside>
           <div className='lg:col-span-6'>
-            <div className='rounded-xl overflow-hidden bg-card news-shadow news-card-hover'>
               <HeroImageSection item={item} />
               <div className='space-y-3 px-4 py-4'>
                 {mobileSubItems.map((sub, i) => <SubItemRow key={sub.id} item={sub} isFirst={i === 0} />)}
               </div>
-            </div>
           </div>
           <aside className='lg:col-span-3'>
             <SidebarHeading>সর্বশেষ</SidebarHeading>
@@ -134,11 +130,9 @@ export function LeadStoryCard({ item, subItems, showDesktopSidebars, leftItems }
         </div>
       ) : (
         <div className='hidden lg:block'>
-          <div className='rounded-xl overflow-hidden bg-card news-shadow news-card-hover'>
-            <HeroImageSection item={item} />
-            <div className='space-y-3 px-4 py-4'>
-              {mobileSubItems.map((sub, i) => <SubItemRow key={sub.id} item={sub} isFirst={i === 0} />)}
-            </div>
+          <HeroImageSection item={item} />
+          <div className='space-y-3 px-4 py-4'>
+            {mobileSubItems.map((sub, i) => <SubItemRow key={sub.id} item={sub} isFirst={i === 0} />)}
           </div>
         </div>
       )}
