@@ -19,10 +19,10 @@ export function VideoSection() {
         <div className='lg:col-span-7'>
           <Link
             href={getCategorySlug(lead.category as NewsCategory)}
-            className='group relative block overflow-hidden rounded-lg bg-black'
+            className='group block'
             id={`video-${lead.id}`}
           >
-            <div className='relative aspect-video w-full'>
+            <div className='relative aspect-video w-full overflow-hidden bg-black'>
               <Image
                 src={lead.thumbnail}
                 alt={lead.title}
@@ -30,25 +30,24 @@ export function VideoSection() {
                 sizes='(max-width: 1024px) 100vw, 60vw'
                 className='object-cover opacity-90 transition-opacity group-hover:opacity-100'
               />
-            </div>
-            <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent' />
-            <div className='absolute inset-0 flex items-center justify-center'>
-              <span className='flex h-12 w-12 items-center justify-center rounded-full bg-brand/90 text-white transition-transform group-hover:scale-110'>
-                <Play className='h-5 w-5 translate-x-0.5 fill-white' />
+              <span className='absolute inset-0 flex items-center justify-center'>
+                <span className='flex h-12 w-12 items-center justify-center rounded-full bg-brand/90 text-white transition-transform group-hover:scale-110'>
+                  <Play className='h-5 w-5 translate-x-0.5 fill-white' />
+                </span>
+              </span>
+              <span className='absolute right-3 top-3 rounded-md bg-black/70 px-1.5 py-0.5 text-[11px] font-semibold text-white'>
+                {lead.duration}
               </span>
             </div>
-            <div className='absolute inset-x-0 bottom-0 p-4 sm:p-5'>
-              <h3 className='line-clamp-2 text-lg font-bold leading-snug text-white sm:text-xl'>
+            <div className='mt-3'>
+              <h3 className='line-clamp-2 text-lg font-bold leading-snug text-foreground transition-colors group-hover:text-brand sm:text-xl'>
                 {lead.title}
               </h3>
-              <div className='mt-1.5 flex items-center gap-3 text-[11px] text-white/80'>
+              <div className='mt-1.5 flex items-center gap-3 text-[11px] text-muted-foreground'>
                 <span>{toBn(lead.views.toLocaleString('en-US'))} ভিউ</span>
                 <span>{relativeTimeBn(new Date(lead.publishedAt))}</span>
               </div>
             </div>
-            <span className='absolute right-3 top-3 rounded-md bg-black/70 px-1.5 py-0.5 text-[11px] font-semibold text-white'>
-              {lead.duration}
-            </span>
           </Link>
         </div>
 

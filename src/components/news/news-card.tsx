@@ -58,11 +58,11 @@ export function NewsCard({
       <Link
         href={href}
         className={cn(
-          "group relative block overflow-hidden rounded-none bg-muted",
+          "group block",
           className
         )}
       >
-        <div className="relative aspect-[16/10] w-full sm:aspect-[16/9]">
+        <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted sm:aspect-[16/9]">
           <NewsImage
             src={item.image}
             alt={item.title}
@@ -71,25 +71,16 @@ export function NewsCard({
             className="img-zoom"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6">
+        <div className="mt-3">
           <CategoryBadge category={item.category} />
-          <h2 className="hero-headline mt-2.5 text-balance text-white">
+          <h2 className="hero-headline mt-2.5 text-balance">
             {item.title}
           </h2>
-          <p className="mt-2 hidden max-w-3xl text-sm text-white/80 sm:line-clamp-2 sm:text-base">
+          <p className="mt-2 hidden max-w-3xl text-sm text-muted-foreground sm:line-clamp-2 sm:text-base">
             {item.excerpt}
           </p>
-          <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-white/80">
-            <span className="font-medium">{item.author}</span>
-            <span className="inline-flex items-center gap-1">
-              <Clock className="h-3 w-3" />
-              {relativeTimeBn(new Date(item.publishedAt))}
-            </span>
-            <span className="inline-flex items-center gap-1">
-              <Eye className="h-3 w-3" />
-              {toBn(item.views.toLocaleString("en-US"))}
-            </span>
+          <div className="mt-3">
+            <Meta item={item} showAuthor />
           </div>
         </div>
       </Link>
@@ -165,11 +156,11 @@ export function NewsCard({
       <Link
         href={href}
         className={cn(
-          "group relative block overflow-hidden rounded-none bg-muted",
+          "group block",
           className
         )}
       >
-        <div className="relative aspect-[16/10] w-full sm:aspect-[4/3]">
+        <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted sm:aspect-[4/3]">
           <NewsImage
             src={item.image}
             alt={item.title}
@@ -177,15 +168,13 @@ export function NewsCard({
             className="img-zoom"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">
+        <div className="p-3 sm:p-4">
           <CategoryBadge category={item.category} size="xs" />
-          <h3 className="card-headline text-sm text-white sm:text-base">
+          <h3 className="card-headline mt-1.5 text-sm sm:text-base">
             {item.title}
           </h3>
-          <div className="mt-1.5 flex items-center gap-2 text-[11px] text-white/80">
-            <Clock className="h-3 w-3" />
-            {relativeTimeBn(new Date(item.publishedAt))}
+          <div className="mt-1.5">
+            <Meta item={item} className="text-[11px]" />
           </div>
         </div>
       </Link>

@@ -2,24 +2,40 @@
  * The Bengal Desk — Design System & Global Styles
  * ═══════════════════════════════════════════════════════════════════════════
  *
- * TYPOGRAPHY SYSTEM (centralized design tokens)
- *   Headlines:  Noto Serif Bengali  —  authoritative newspaper serif (≥16px only)
- *   Body / UI:  Noto Sans Bengali   —  clean readable sans for all non-headline text
- *   Weights loaded: 400, 500, 600, 700 — no synthetic bold anywhere
- *   All sizes use clamp() for fluid mobile→desktop scaling (360px–1920px)
- *   Min body text: 15px  |  Min meta/caption: 12px
+ * ⚠️  TYPOGRAPHY CONTRACT — READ BEFORE EDITING
+ * ─────────────────────────────────────────────
+ * This file is the SINGLE SOURCE OF TRUTH for all typography.
+ * New components MUST reuse an existing token/class below.
+ * NEVER add a one-off font-family rule — use the token system.
+ *
+ * TOKEN QUICK-REFERENCE:
+ *   --font-headline  → Noto Serif Bengali  (H1–H6, hero, cards, section headers)
+ *   --font-body      → Noto Sans Bengali   (body text, UI chrome, badges, meta, ticker)
+ *
+ *   HEADLINE TEXT (serif) use:  .hero-headline | .card-headline | .section-heading |
+ *     .section-header h2 | .article-headline | .font-display | base h1–h6
+ *   BODY TEXT (sans) use:    body default | .byline | .meta-text | .card-dek |
+ *     .category-eyebrow | .nav-link | .footer-link | .ticker-text | .article-body
+ *   META/CAPTION (sans, small) use: .byline | .meta-text | .image-caption |
+ *     .breadcrumb | .video-duration | .author-title
+ *   EYEBROW (sans, caps) use: .category-eyebrow | .category-badge | .ticker-label
+ *
+ * FONT LOADING (next/font/google → CSS vars on <html>):
+ *   --font-serif  → Noto Serif Bengali  (400/500/600/700, bengali subset, display:swap)
+ *   --font-sans   → Noto Sans Bengali   (400/500/600/700, bengali subset, display:swap)
+ *
+ * RULES:
+ *   1. Only TWO font families. Never introduce a third.
+ *   2. Only weights 400/500/600/700. No synthetic bold — Bangla conjuncts distort.
+ *   3. No synthetic italic on Bangla text — conjuncts/matras break under faux italic.
+ *      Italic is ONLY acceptable on short Latin-only text (figcaption credits).
+ *   4. Use `scripts/check-tokens.sh` to verify no dangling var() references.
  *
  * COLOR NAMING
  *   --color-[purpose][-variant]
  *   Purposes: text, surface, border, accent, link, brand, page, footer
  *   Variants: primary, secondary, muted, inverse, elevated, strong, hover
  *   Dark mode suffix: .dark selector with --color-[purpose] overrides
- *
- * FONTS (loaded via next/font/google — CSS vars on <html>)
- *   --font-serif    → Noto Serif Bengali  (editorial headlines, 400–700)
- *   --font-sans     → Noto Sans Bengali   (body/UI, 400–700)
- *   --font-headline → alias → --font-serif  (never below 16px)
- *   --font-body     → alias → --font-sans
  *
  * BREAKPOINTS
  *   Desktop:  ≥1024px
@@ -140,7 +156,7 @@
 
   /* ── Font families (resolve from next/font CSS vars on <html>) ── */
   --font-body: var(--font-sans);
-  --font-heading: var(--font-serif);
+  --font-headline: var(--font-serif);
 
   /* ── Font weights ── */
   --weight-regular: 400;
@@ -685,12 +701,11 @@
     line-height: 1.4;
   }
 
-  /* ─── 16. Opinion Headline (italic) ────────────────────────────────── */
+  /* ─── 16. Opinion Headline (serif, editorial) ───────────────────────── */
   .opinion-headline {
     font-family: var(--font-headline), serif;
     font-size: var(--text-h3);
     font-weight: var(--weight-regular);
-    font-style: italic;
     line-height: var(--leading-snug);
     letter-spacing: var(--tracking-headline);
     color: var(--color-headline);
@@ -1298,7 +1313,6 @@
   font-family: var(--font-headline), serif;
   font-size: 1.2em;
   font-weight: var(--weight-regular);
-  font-style: italic;
   line-height: 1.55;
   color: var(--text-secondary);
   background: transparent;
@@ -1339,7 +1353,6 @@
   border-left: 4px solid var(--brand);
   background: var(--muted);
   border-radius: 0 8px 8px 0;
-  font-style: italic;
   font-size: 1.05em;
   font-weight: var(--weight-regular);
 }
@@ -1812,7 +1825,6 @@ figcaption {
   }
 
   .article-dek {
-    font-style: italic;
     color: #333 !important;
   }
 

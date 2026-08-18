@@ -36,18 +36,16 @@ export function CategorySection({
               sizes='(max-width: 640px) 100vw, (max-width: 1280px) 60vw, 600px'
               className='img-zoom'
             />
-            {/* Gradient overlay — mobile only */}
-            <div className='absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent lg:hidden' />
           </div>
 
-          {/* Text — overlaps image bottom on mobile, below image on desktop */}
-          <div className='relative z-10 -mt-14 px-3 pb-3 sm:-mt-16 lg:mt-0 lg:px-4 lg:pb-4'>
-            <h3 className='line-clamp-2 text-sm font-bold leading-snug text-white sm:text-base
-              lg:mt-0 lg:text-xl lg:font-bold lg:text-foreground lg:leading-snug lg:tracking-tight
+          {/* Text — below image on all viewports */}
+          <div className='mt-3 px-1 sm:px-2 lg:mt-3 lg:px-4'>
+            <h3 className='line-clamp-2 text-sm font-bold leading-snug text-foreground sm:text-base
+              lg:text-xl lg:font-bold lg:leading-snug lg:tracking-tight
               lg:transition-colors group-hover:text-brand'>
               {lead.title}
             </h3>
-            <span className='mt-1 inline-block text-[10px] text-white/70 lg:hidden'>
+            <span className='mt-1 inline-block text-[10px] text-muted-foreground'>
               {relativeTimeBn(new Date(lead.publishedAt))}
             </span>
           </div>
