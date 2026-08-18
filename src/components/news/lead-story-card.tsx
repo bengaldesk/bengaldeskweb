@@ -32,10 +32,8 @@ function HeroImageSection({ item }: { item: NewsItem }) {
       <div className='px-4 py-4 sm:px-5 sm:py-5'>
         <CatLabel category={item.category} />
         <h2 className='hero-headline line-clamp-4 transition-colors group-hover:text-brand'>{item.title}</h2>
-        <div className='mt-2 flex items-center gap-3 meta-text'>
-          <span className='font-semibold text-foreground/80'>{item.author}</span>
-          <span className='h-1 w-1 rounded-full bg-border' />
-          <span className='inline-flex items-center gap-1'><Clock className='h-3 w-3' />{relativeTimeBn(new Date(item.publishedAt))}</span>
+        <div className='mt-2 inline-flex items-center gap-1 meta-text'>
+          <Clock className='h-3 w-3' />{relativeTimeBn(new Date(item.publishedAt))}
         </div>
       </div>
     </Link>
