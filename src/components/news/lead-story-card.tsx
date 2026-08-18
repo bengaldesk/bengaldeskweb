@@ -91,21 +91,23 @@ export function LeadStoryCard({ item, subItems, showDesktopSidebars, leftItems }
   const [heroCollapsed, setHeroCollapsed] = useState(false)
   const heroRef = useRef<HTMLDivElement>(null)
   const lastScrollY = useRef(0)
-  const ticking = useRef(false)
 
   useEffect(() => {
+    let ticking = false
     const handleScroll = () => {
-      if (ticking.current) return
-      ticking.current = true
+      if (ticking) return
+      ticking = true
       requestAnimationFrame(() => {
         const currentY = window.scrollY
-        if (currentY > 300 && currentY > lastScrollY.current) {
+        const delta = currentY - lastScrollY.current
+        // Only hide on mobile, when scrolled past hero, and scrolling down
+        if (window.innerWidth < 1024 && currentY > 300 && delta > 5) {
           setHeroCollapsed(true)
-        } else {
+        } else if (delta < -5) {
           setHeroCollapsed(false)
         }
         lastScrollY.current = currentY
-        ticking.current = false
+        ticking = false
       })
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
