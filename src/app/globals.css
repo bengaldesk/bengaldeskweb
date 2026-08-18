@@ -986,13 +986,9 @@
  * Image & Interaction Utilities
  * ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Image zoom on hover for news cards */
+/* Image zoom on hover — disabled (flat newspaper style) */
 .img-zoom {
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.group:hover .img-zoom {
-  transform: scale(1.05);
+  transition: none;
 }
 
 /* Section header — Prothom Alo style with brand bottom border */
