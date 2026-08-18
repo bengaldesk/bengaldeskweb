@@ -29,7 +29,7 @@ function HeroImageSection({ item }: { item: NewsItem }) {
       <div className='relative aspect-[16/10] w-full overflow-hidden bg-muted lg:aspect-[16/9]'>
         <NewsImage src={item.image} alt={item.title} priority sizes='(max-width: 1024px) 100vw, 640px' className='img-zoom' />
       </div>
-      <div className='px-4 py-4 sm:px-5 sm:py-5'>
+      <div className='py-4 sm:py-5'>
         <h2 className='hero-headline transition-colors group-hover:text-red-800' style={{ color: '#b91c1c', textWrap: 'pretty' }}>{item.title}</h2>
         <p className='mt-3 line-clamp-3 text-[15px] leading-relaxed text-foreground/80'>{item.excerpt}</p>
         <div className='mt-3 inline-flex items-center gap-1 meta-text'>
@@ -88,28 +88,24 @@ export function LeadStoryCard({ item, subItems, showDesktopSidebars, leftItems }
 
   return (
     <>
-      <div className='lg:hidden'>
-          <HeroImageSection item={item} />
-          <div className='space-y-3 px-4 py-4'>
-            {mobileSubItems.map((sub, i) => <SubItemRow key={sub.id} item={sub} isFirst={i === 0} />)}
-          </div>
+      {/* Hero — full width on all viewports */}
+      <HeroImageSection item={item} />
+
+      {/* Sub-items below hero */}
+      <div className='space-y-3 px-4 py-4'>
+        {mobileSubItems.map((sub, i) => <SubItemRow key={sub.id} item={sub} isFirst={i === 0} />)}
       </div>
 
-      {showDesktopSidebars && leftItems ? (
-        <div className='hidden lg:grid lg:grid-cols-12 lg:gap-6'>
-          <aside className='lg:col-span-3'>
+      {/* Desktop sidebars — below the hero block */}
+      {showDesktopSidebars && leftItems && (
+        <div className='hidden lg:grid lg:grid-cols-2 lg:gap-6 px-4 pb-4'>
+          <aside>
             <SidebarHeading>সদ্য পাওয়া</SidebarHeading>
             <div className='mt-4 flex flex-col'>
               {leftItems.map((li, i) => <SidebarItem key={li.id} item={li} isFirst={i === 0} large />)}
             </div>
           </aside>
-          <div className='lg:col-span-6'>
-              <HeroImageSection item={item} />
-              <div className='space-y-3 px-4 py-4'>
-                {mobileSubItems.map((sub, i) => <SubItemRow key={sub.id} item={sub} isFirst={i === 0} />)}
-              </div>
-          </div>
-          <aside className='lg:col-span-3'>
+          <aside>
             <SidebarHeading>সর্বশেষ</SidebarHeading>
             <div className='mt-4 flex flex-col'>
               {rightSidebarItems.map((ri, i) => <SidebarItem key={ri.id} item={ri} isFirst={i === 0} />)}
@@ -119,13 +115,6 @@ export function LeadStoryCard({ item, subItems, showDesktopSidebars, leftItems }
               <ChevronRight className='h-3.5 w-3.5' />
             </Link>
           </aside>
-        </div>
-      ) : (
-        <div className='hidden lg:block'>
-          <HeroImageSection item={item} />
-          <div className='space-y-3 px-4 py-4'>
-            {mobileSubItems.map((sub, i) => <SubItemRow key={sub.id} item={sub} isFirst={i === 0} />)}
-          </div>
         </div>
       )}
     </>
