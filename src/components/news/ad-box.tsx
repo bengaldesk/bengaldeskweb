@@ -7,7 +7,7 @@ interface AdBoxProps {
   format?: 'horizontal' | 'vertical' | 'rectangle'
 }
 
-const LOGO_URL = '/placeholder-ad.png'
+const LOGO_URL = '/logo.svg'
 
 export function AdBox({ className, slot, format = 'horizontal' }: AdBoxProps) {
   const sizeLabel = {

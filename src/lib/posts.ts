@@ -63,7 +63,7 @@ import {
   getAuthorBySlug as mockGetAuthorBySlug,
 } from './news-data'
 
-import type { NewsCategory as TNewsCat, NewsArea as TNewsArea, NewsItem as TNewsItem, AuthorProfile as TAuthorProfile } from './news-data'
+import type { NewsCategory as TNewsCat, NewsArea as TNewsArea, NewsItem as TNewsItem, VideoItem as TVideoItem, OpinionItem as TOpinionItem, AuthorProfile as TAuthorProfile } from './news-data'
 
 // ── Mode flag ──────────────────────────────────────────────────────────────
 
