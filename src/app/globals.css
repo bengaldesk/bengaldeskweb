@@ -517,7 +517,7 @@
   /* ─── 5. Hero Headline (homepage lead story) ────────────────────── */
   .hero-headline {
     font-family: var(--font-headline), serif;
-    font-weight: var(--weight-bold);
+    font-weight: 900;
     font-size: clamp(24px, 3.2vw + 12px, 36px);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-headline);

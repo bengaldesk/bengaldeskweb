@@ -21,7 +21,7 @@ import { Noto_Serif_Bengali, Noto_Sans_Bengali } from 'next/font/google'
  */
 export const notoSerifBengali = Noto_Serif_Bengali({
   subsets: ['bengali'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700', '900'],
   variable: '--font-serif',
   display: 'swap',
 })
