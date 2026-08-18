@@ -39,7 +39,7 @@ export function HeroSection() {
       style={heroHidden ? { transform: 'translateY(-100%)', opacity: 0, maxHeight: 0, overflow: 'hidden' } : undefined}
     >
       <div className='h-[3px] w-full bg-brand' />
-      <div className='mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:py-6'>
+      <div className='mx-auto max-w-7xl py-4 sm:px-6 lg:py-6 lg:px-4'>
         {hero && (
           <LeadStoryCard
             item={hero}
