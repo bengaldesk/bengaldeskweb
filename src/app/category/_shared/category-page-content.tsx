@@ -11,7 +11,6 @@ import { Header } from '@/components/news/header'
 import { BreakingNewsTicker } from '@/components/news/breaking-ticker'
 import { Newsletter } from '@/components/news/newsletter'
 import { Footer } from '@/components/news/footer'
-import { BottomNav } from '@/components/news/bottom-nav'
 import { LeadStoryCard } from '@/components/news/lead-story-card'
 import { Home, ChevronRight, Clock } from 'lucide-react'
 import { relativeTimeBn, toBn } from '@/lib/bn'
@@ -73,7 +72,7 @@ export function CategoryPageContent({ category }: { category: NewsCategory }) {
         </div>
       </div>
 
-      <main className='flex-1 pb-safe'>
+      <main className='flex-1 '>
         <h1 className='sr-only'>{category} — The Bengal Desk</h1>
 
         <div className='mx-auto max-w-7xl px-4 pt-6 sm:px-6'>
@@ -162,7 +161,6 @@ export function CategoryPageContent({ category }: { category: NewsCategory }) {
       </main>
 
       <Footer />
-      <BottomNav />
     </div>
   )
 }

@@ -5,7 +5,6 @@ import { Clock, Eye, Calendar, RefreshCw, Share2, MapPin } from 'lucide-react'
 import { TopBar } from '@/components/news/top-bar'
 import { Header } from '@/components/news/header'
 import { Footer } from '@/components/news/footer'
-import { BottomNav } from '@/components/news/bottom-nav'
 import { NewsImage } from '@/components/news/news-image'
 import { CommentsSection } from '@/components/news/comments-section'
 import { ShareButtons } from '@/components/news/share-buttons'
@@ -129,7 +128,7 @@ export default async function NewsDetailsPage({ params }: { params: Promise<{ id
       <ReadingProgressBar />
       <BackToTopButton />
 
-      <main className='flex-1 pb-safe'>
+      <main className='flex-1 '>
         {/* ═══ ARTICLE CONTAINER ═══ */}
         <div className='mx-auto max-w-3xl px-4 pt-5 sm:px-6 sm:pt-8 lg:px-0'>
 
@@ -327,7 +326,6 @@ export default async function NewsDetailsPage({ params }: { params: Promise<{ id
       </main>
 
       <Footer />
-      <BottomNav />
     </div>
   )
 }

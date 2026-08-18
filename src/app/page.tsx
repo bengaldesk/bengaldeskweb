@@ -12,7 +12,6 @@ import { PollSection } from '@/components/news/poll-section'
 import { Footer } from '@/components/news/footer'
 import { AdBox } from '@/components/news/ad-box'
 import { MostReadSidebar } from '@/components/news/most-read-sidebar'
-import { BottomNav } from '@/components/news/bottom-nav'
 import { TrendingSection } from '@/components/news/trending-section'
 import { FadeInSection } from '@/components/news/fade-in-section'
 import { BackToTopButton } from '@/components/news/back-to-top-button'
@@ -24,7 +23,7 @@ export default function Home() {
       <Header />
       <BreakingNewsTicker />
 
-      <main className='flex-1 pb-safe'>
+      <main className='flex-1'>
         <h1 className='sr-only'>The Bengal Desk — বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদ</h1>
         <HeroSection />
         {/* Trending — full width, outside grid */}
@@ -108,7 +107,6 @@ export default function Home() {
       </main>
 
       <Footer />
-      <BottomNav />
       <BackToTopButton />
     </div>
   )
