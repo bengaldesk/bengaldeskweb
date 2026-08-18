@@ -30,9 +30,9 @@ function HeroImageSection({ item }: { item: NewsItem }) {
         <NewsImage src={item.image} alt={item.title} priority sizes='(max-width: 1024px) 100vw, 640px' className='img-zoom' />
       </div>
       <div className='px-4 py-4 sm:px-5 sm:py-5'>
-        <CatLabel category={item.category} />
-        <h2 className='hero-headline line-clamp-4 transition-colors group-hover:text-brand'>{item.title}</h2>
-        <div className='mt-2 inline-flex items-center gap-1 meta-text'>
+        <h2 className='hero-headline line-clamp-3 transition-colors group-hover:text-red-800' style={{ color: '#b91c1c' }}>{item.title}</h2>
+        <p className='mt-3 line-clamp-3 text-[15px] leading-relaxed text-foreground/80'>{item.excerpt}</p>
+        <div className='mt-3 inline-flex items-center gap-1 meta-text'>
           <Clock className='h-3 w-3' />{relativeTimeBn(new Date(item.publishedAt))}
         </div>
       </div>
