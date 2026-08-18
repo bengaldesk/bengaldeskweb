@@ -88,24 +88,30 @@ export function LeadStoryCard({ item, subItems, showDesktopSidebars, leftItems }
 
   return (
     <>
-      {/* Hero — full width on all viewports */}
-      <HeroImageSection item={item} />
-
-      {/* Sub-items below hero */}
-      <div className='space-y-3 px-4 py-4'>
-        {mobileSubItems.map((sub, i) => <SubItemRow key={sub.id} item={sub} isFirst={i === 0} />)}
+      {/* Mobile — full width hero */}
+      <div className='lg:hidden'>
+          <HeroImageSection item={item} />
+          <div className='space-y-3 px-4 py-4'>
+            {mobileSubItems.map((sub, i) => <SubItemRow key={sub.id} item={sub} isFirst={i === 0} />)}
+          </div>
       </div>
 
-      {/* Desktop sidebars — below the hero block */}
-      {showDesktopSidebars && leftItems && (
-        <div className='hidden lg:grid lg:grid-cols-2 lg:gap-6 px-4 pb-4'>
-          <aside>
+      {/* Desktop — 3-column grid with sidebars */}
+      {showDesktopSidebars && leftItems ? (
+        <div className='hidden lg:grid lg:grid-cols-12 lg:gap-6'>
+          <aside className='lg:col-span-3'>
             <SidebarHeading>সদ্য পাওয়া</SidebarHeading>
             <div className='mt-4 flex flex-col'>
               {leftItems.map((li, i) => <SidebarItem key={li.id} item={li} isFirst={i === 0} large />)}
             </div>
           </aside>
-          <aside>
+          <div className='lg:col-span-6'>
+              <HeroImageSection item={item} />
+              <div className='space-y-3 px-4 py-4'>
+                {mobileSubItems.map((sub, i) => <SubItemRow key={sub.id} item={sub} isFirst={i === 0} />)}
+              </div>
+          </div>
+          <aside className='lg:col-span-3'>
             <SidebarHeading>সর্বশেষ</SidebarHeading>
             <div className='mt-4 flex flex-col'>
               {rightSidebarItems.map((ri, i) => <SidebarItem key={ri.id} item={ri} isFirst={i === 0} />)}
@@ -115,6 +121,13 @@ export function LeadStoryCard({ item, subItems, showDesktopSidebars, leftItems }
               <ChevronRight className='h-3.5 w-3.5' />
             </Link>
           </aside>
+        </div>
+      ) : (
+        <div className='hidden lg:block'>
+          <HeroImageSection item={item} />
+          <div className='space-y-3 px-4 py-4'>
+            {mobileSubItems.map((sub, i) => <SubItemRow key={sub.id} item={sub} isFirst={i === 0} />)}
+          </div>
         </div>
       )}
     </>
