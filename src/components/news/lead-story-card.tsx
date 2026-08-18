@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Bookmark, Clock, ChevronRight } from 'lucide-react'
+import { Clock, ChevronRight } from 'lucide-react'
 import { type NewsItem, categoryColor } from '@/lib/posts'
 import { relativeTimeBn } from '@/lib/bn'
 import { NewsImage } from './news-image'
@@ -28,12 +28,6 @@ function HeroImageSection({ item }: { item: NewsItem }) {
     <Link href={`/news/${item.id}`} className='group block'>
       <div className='relative aspect-[16/10] w-full overflow-hidden bg-muted lg:aspect-[16/9]'>
         <NewsImage src={item.image} alt={item.title} priority sizes='(max-width: 1024px) 100vw, 640px' className='img-zoom' />
-        <span className={cn('absolute left-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white', categoryColor(item.category))}>
-          {item.category}
-        </span>
-        <button type='button' onClick={(e) => { e.preventDefault(); e.stopPropagation() }} className='absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full border border-white/40 bg-white/60 backdrop-blur-sm transition-colors hover:text-brand' aria-label='বুকমার্ক'>
-          <Bookmark className='h-4 w-4 text-muted-foreground' />
-        </button>
       </div>
       <div className='px-4 py-4 sm:px-5 sm:py-5'>
         <CatLabel category={item.category} />
