@@ -66,7 +66,7 @@ export function TrendingSection() {
           <Link
             key={item.id}
             href={`/news/${item.id}`}
-            className='group flex w-[260px] shrink-0 flex-col overflow-hidden rounded-xl bg-card news-card-hover sm:w-[280px]'
+            className='group flex w-[260px] shrink-0 flex-col overflow-hidden sm:w-[280px]'
           >
             <div className='relative aspect-[16/10] w-full overflow-hidden bg-muted'>
               <NewsImage

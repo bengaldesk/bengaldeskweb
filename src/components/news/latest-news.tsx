@@ -23,7 +23,7 @@ export function LatestNews() {
             href={`/news/${item.id}`}
             className={cn(
               'group flex gap-3 border-b border-border/40 py-3.5 first:pt-0',
-              'lg:block lg:rounded-lg lg:overflow-hidden lg:bg-card lg:news-card-hover lg:border-0 lg:py-0'
+              'lg:block lg:py-0'
             )}
           >
             {/* Thumbnail */}

@@ -103,7 +103,7 @@ export function CategoryPageContent({ category }: { category: NewsCategory }) {
                 <Link
                   key={item.id}
                   href={`/news/${item.id}`}
-                  className='group block rounded-lg overflow-hidden bg-card news-card-hover'
+                  className='group block'
                 >
                   <div className='relative aspect-[16/10] w-full overflow-hidden bg-muted'>
                     <NewsImage

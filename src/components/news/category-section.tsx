@@ -26,7 +26,7 @@ export function CategorySection({
         {/* ═══ Lead story — single DOM, responsive layout ═══ */}
         <Link
           href={`/news/${lead.id}`}
-          className='group col-span-2 block rounded-lg overflow-hidden bg-card news-card-hover lg:col-span-7'
+          className='group col-span-2 block lg:col-span-7'
         >
           {/* Image area */}
           <div className='relative aspect-[16/10] w-full overflow-hidden bg-muted'>
@@ -70,7 +70,7 @@ export function CategorySection({
               key={item.id}
               href={`/news/${item.id}`}
               className={cn(
-                'group flex flex-col rounded-lg overflow-hidden bg-card news-card-hover',
+                'group flex flex-col',
                 'lg:flex-row lg:items-center lg:gap-3.5 lg:rounded-none lg:overflow-visible lg:bg-transparent',
                 'lg:border-b lg:border-border/40 lg:py-3.5 first:lg:pt-0 last:lg:border-0'
               )}

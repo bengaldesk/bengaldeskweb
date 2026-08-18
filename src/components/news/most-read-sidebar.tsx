@@ -11,7 +11,7 @@ export function MostReadSidebar() {
   const maxViews = sorted[0]?.views ?? 1
 
   return (
-    <div className='rounded-lg bg-card p-4 news-shadow'>
+    <div className='p-4'>
       <SectionHeader icon={<TrendingUp className='h-4 w-4 text-brand' />} title='সবচেয়ে পঠিত' className='mb-2' />
 
       <div className='mt-3 max-h-[420px] overflow-y-auto scrollbar-thin'>
