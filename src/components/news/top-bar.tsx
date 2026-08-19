@@ -26,7 +26,15 @@ export function TopBar() {
         {/* Left — date & location */}
         <div className='flex min-w-0 items-center gap-2.5 text-muted-foreground'>
           {now && (
-            <span className='truncate font-medium'>
+            <span 
+              className='truncate'
+              style={{
+                fontFamily: 'var(--font-headline), serif',
+                fontWeight: '700',
+                fontSize: '12px',
+                letterSpacing: '0.02em'
+              }}
+            >
               {formatBnDate(now, { withWeekday: true })}
             </span>
           )}

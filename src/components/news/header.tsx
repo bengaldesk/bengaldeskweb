@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Menu, Search, Radio } from 'lucide-react'
@@ -39,10 +40,63 @@ export function Header() {
   const [open, setOpen] = React.useState(false)
   const [searchOpen, setSearchOpen] = React.useState(false)
   const pathname = usePathname()
+  
+  // Mobile scroll detection - hide category bar on scroll
+  const [scrolled, setScrolled] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+  const lastScrollY = useRef(0)
+
+  useEffect(() => {
+    // Check if mobile on mount and resize
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024)
+    }
+    
+    checkMobile()
+    
+    const handleScroll = () => {
+      const currentY = window.scrollY
+      
+      // Hide category bar on mobile when scrolled past threshold
+      if (window.innerWidth < 1024) {
+        if (currentY > 50) {
+          setScrolled(true)
+        } else {
+          setScrolled(false)
+        }
+      }
+      
+      lastScrollY.current = currentY
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', checkMobile)
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', checkMobile)
+    }
+  }, [])
 
   return (
-    <header className='sticky top-0 z-40 bg-background/95 backdrop-blur-md'>
-      <div className='border-b border-border/50'>
+    <header 
+      className={cn(
+        'sticky top-0 z-40 bg-background/95 backdrop-blur-md',
+        // On desktop, always show border; on mobile, show subtle red border when scrolled
+        !isMobile && 'border-b border-border/50'
+      )}
+      style={{
+        // Subtle red border on mobile scroll (0.5px, 40% opacity red)
+        borderBottom: (isMobile && scrolled) ? '0.5px solid rgba(185, 28, 28, 0.4)' : undefined,
+        // Prevent layout shift - only transition opacity/color, not height/size
+        transition: 'border-color 0.3s ease, background-color 0.3s ease'
+      }}
+    >
+      <div className={cn(
+        'border-b border-border/50 transition-colors duration-300',
+        // Hide inner border on mobile scroll to avoid double border
+        (isMobile && scrolled) && 'border-transparent'
+      )}>
         <div className='mx-auto flex h-13 max-w-7xl items-center gap-2 px-4 sm:h-14 sm:px-6'>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
@@ -123,7 +177,13 @@ export function Header() {
         </div>
       </div>
 
-      <nav className='border-b border-border/40 bg-background/90 backdrop-blur-sm' aria-label='ক্যাটাগরি নেভিগেশন'>
+      <nav 
+        className={cn(
+          'border-b border-border/40 bg-background/90 backdrop-blur-sm transition-all duration-300 lg:block',
+          scrolled ? 'hidden lg:block' : 'block'
+        )} 
+        aria-label='ক্যাটাগরি নেভিগেশন'
+      >
         <div className='mx-auto flex max-w-7xl items-center gap-0 overflow-x-auto px-4 sm:px-6 scrollbar-hide'>
           {NEWS_CATEGORIES.map((c) => {
             const href = getCategorySlug(c.label)
@@ -132,11 +192,17 @@ export function Header() {
                 key={c.label}
                 href={href}
                 className={cn(
-                  'shrink-0 whitespace-nowrap border-b-2 px-3 py-2.5 text-[12px] font-semibold tracking-wide transition-colors sm:px-4 sm:text-[13px]',
+                  'category-nav-link shrink-0 whitespace-nowrap border-b-2 px-3 py-2.5 transition-colors sm:px-4',
                   pathname === href
                     ? 'border-brand text-brand'
                     : 'border-transparent text-foreground/70 hover:text-foreground'
                 )}
+                style={{
+                  fontFamily: 'var(--font-headline), serif',
+                  fontSize: '13px',
+                  fontWeight: '700',
+                  letterSpacing: '0.02em'
+                }}
               >
                 {c.label}
               </Link>

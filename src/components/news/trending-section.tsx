@@ -61,6 +61,7 @@ export function TrendingSection() {
       <div
         ref={scrollRef}
         className='-mx-4 flex gap-4 overflow-x-auto px-4 pb-2 scrollbar-hide sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0'
+        style={{ touchAction: 'pan-y' }}
       >
         {items.map((item, i) => (
           <Link
