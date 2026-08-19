@@ -81,22 +81,10 @@ export function Header() {
   return (
     <header 
       className={cn(
-        'sticky top-0 z-40 bg-background/95 backdrop-blur-md',
-        // On desktop, always show border; on mobile, show subtle red border when scrolled
-        !isMobile && 'border-b border-border/50'
+        'sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border/50'
       )}
-      style={{
-        // Subtle red border on mobile scroll (0.5px, 40% opacity red)
-        borderBottom: (isMobile && scrolled) ? '0.5px solid rgba(185, 28, 28, 0.4)' : undefined,
-        // Prevent layout shift - only transition opacity/color, not height/size
-        transition: 'border-color 0.3s ease, background-color 0.3s ease'
-      }}
     >
-      <div className={cn(
-        'border-b border-border/50 transition-colors duration-300',
-        // Hide inner border on mobile scroll to avoid double border
-        (isMobile && scrolled) && 'border-transparent'
-      )}>
+      <div className='border-b border-border/50'>
         <div className='mx-auto flex h-13 max-w-7xl items-center gap-2 px-4 sm:h-14 sm:px-6'>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
