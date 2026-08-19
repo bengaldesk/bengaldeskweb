@@ -13,7 +13,7 @@ const SOCIALS = [
 
 export function TopBar() {
   return (
-    <div className='border-b border-border/60 bg-card'>
+    <div className='hidden border-b border-border/60 bg-card sm:block'>
       <div className='mx-auto flex h-8 max-w-7xl items-center justify-between gap-3 px-4 text-[11px] sm:h-9 sm:px-6 sm:text-xs'>
         {/* Left — location & weather */}
         <div className='flex min-w-0 items-center gap-2.5 text-muted-foreground'>
